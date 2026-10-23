@@ -31,7 +31,7 @@ export const profile = {
   name: 'Jonathan Cattelain',
   title: 'Staff Engineer Data',
   summary:
-    'Architecte et ingénieur data depuis plus de 15 ans : bases de données, data engineering et plateformes data cloud (GCP, AWS, Azure, Databricks, Snowflake). Du conseil à la mise en place de data stacks de bout en bout, en passant par la gouvernance, le tech lead et la formation : Google Cloud Certified Trainer, j’enseigne aussi la data à IMT Atlantique (Nantes). J’écris des articles techniques et je suis speaker en conférences tech.',
+    'Staff Engineer Data chez SFEIR, je conçois et mets en place des data platforms de A à Z : architecture médaillon, orchestration, DataOps, qualité, gouvernance et observabilité, prêtes pour l’IA agentique, sur GCP, AWS, Azure et Scaleway. 15 ans d’expérience, des bases de données au data engineering. Google Cloud Certified Trainer, j’enseigne à IMT Atlantique, j’écris des articles techniques et je suis speaker en conférences.',
   links: {
     linkedin: 'https://www.linkedin.com/in/jonathan-cattelain',
     linkedinLabel: 'linkedin.com/in/jonathan-cattelain',
