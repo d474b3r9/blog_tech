@@ -33,7 +33,7 @@ export const profile = {
   name: 'Jonathan Cattelain',
   title: 'Staff Engineer Data',
   summary:
-    'Staff Engineer Data chez SFEIR, plus de 15 ans d’expérience. Je conçois et mets en place des data platforms de bout en bout sur GCP, AWS, Azure et Scaleway, en intégrant l’IA agentique pour accélérer les cas d’usage. Google Cloud Certified Trainer, j’enseigne à IMT Atlantique, j’écris et je parle en conférences.',
+    'Staff Engineer Data chez SFEIR, plus de 15 ans d’expérience. Je conçois et mets en place des data platforms de bout en bout sur GCP, AWS, Azure et Scaleway, prêtes pour les LLM (gouvernance, observabilité, data as code), en intégrant l’IA agentique et MCP pour accélérer les cas d’usage. Google Cloud Certified Trainer, j’enseigne à IMT Atlantique, j’écris et je parle en conférences.',
   links: {
     linkedin: 'https://www.linkedin.com/in/jonathan-cattelain',
     linkedinLabel: 'linkedin.com/in/jonathan-cattelain',
@@ -73,9 +73,22 @@ export const skills = [
   { label: 'Langages', items: ['Python', 'SQL'] },
   {
     label: 'Architecture & pratiques',
-    items: ['Architecture médaillon', 'Observabilité', 'Gouvernance', 'Data as code', 'FinOps'],
+    items: [
+      'FinOps',
+      'Observabilité',
+      'Gouvernance',
+      'Architecte data',
+      'Data platform / lakehouse',
+      'Architecture médaillon',
+      'Data as code',
+    ],
   },
-  { label: 'IA', items: ['IA agentique', 'MCP'] },
+  {
+    label: 'IA',
+    items: ['IA générative / LLM', 'IA agentique', 'Multi-agents', 'MCP', 'Skills et tools', 'RAG', 'Prompt engineering'],
+  },
+  { label: 'Assistants et modèles', items: ['Claude Code', 'Copilot', 'Gemini', 'ChatGPT', 'LLMs open weight'] },
+  { label: 'Frameworks et plateformes IA', items: ['Strands Agents', 'Amazon Bedrock'] },
   { label: 'Orchestration', items: ['Airflow', 'Dagster'] },
   { label: 'Qualité & catalogue', items: ['Elementary', 'OpenMetadata', 'SQLFluff'] },
   { label: 'Data warehouse', items: ['Snowflake', 'BigQuery', 'Databricks', 'Redshift', 'ClickHouse'] },
@@ -85,7 +98,7 @@ export const skills = [
   { label: 'CI/CD', items: ['Docker', 'Kubernetes', 'CircleCI', 'GitLab CI', 'GitHub Actions'] },
   { label: 'Infra as code', items: ['Terraform', 'Terragrunt', 'YAML', 'Jinja', 'Helm'] },
   { label: 'BI', items: ['Power BI', 'Metabase'] },
-  { label: 'IDE', items: ['PyCharm', 'VS Code'] },
+  { label: 'IDE', items: ['PyCharm', 'VS Code', 'Orca (IDE agentique)'] },
   { label: 'OS', items: ['macOS', 'Windows', 'Linux'] },
   { label: 'Méthodologie', items: ['Scrum', 'Agile'] },
 ];
@@ -113,7 +126,7 @@ export const employers: Employer[] = [
           'Conseil dans les phases d’idéation et de structuration des process et de l’équipe data.',
           'Création et amélioration continue de la data gouvernance.',
           'Mise en place d’une stack data as code, LLM ready.',
-          'Conception de skills, d’outils et d’un workflow agentiques pour accélérer les cas d’usage et améliorer la qualité, l’observabilité, la gouvernance et la documentation.',
+          'Conception de skills, d’outils MCP et d’un workflow agentiques pour accélérer les cas d’usage et améliorer la qualité, l’observabilité, la gouvernance et la documentation.',
           'Migration d’Airflow 2 vers Airflow 3.',
           'Architecture médaillon (bronze, silver, gold) sur Databricks.',
           'Observabilité data avec Elementary : monitoring des tests dbt, anomalies et fraîcheur.',
