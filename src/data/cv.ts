@@ -31,7 +31,7 @@ export const profile = {
   name: 'Jonathan Cattelain',
   title: 'Staff Engineer Data',
   summary:
-    'Staff Engineer Data chez SFEIR, j’apporte plus que de la technique : des solutions concrètes aux problématiques des entreprises, fortes de plus de 15 ans d’expérience. Je conçois et mets en place des data platforms de A à Z (architecture médaillon, orchestration, DataOps, qualité, gouvernance, observabilité), prêtes pour l’IA agentique, sur GCP, AWS, Azure et Scaleway. Google Cloud Certified Trainer, j’enseigne à IMT Atlantique, j’écris des articles techniques et je suis speaker en conférences.',
+    'Staff Engineer Data chez SFEIR, j’apporte plus que de la technique : des solutions concrètes aux problématiques des entreprises, fortes de plus de 15 ans d’expérience. Je conçois et mets en place des data platforms de A à Z (architecture médaillon, orchestration, DataOps, qualité, gouvernance, observabilité), sur GCP, AWS, Azure et Scaleway, en intégrant l’IA agentique pour accélérer les déploiements. Je me forme activement à l’agentique. Google Cloud Certified Trainer, j’enseigne à IMT Atlantique, j’écris des articles techniques et je suis speaker en conférences.',
   links: {
     linkedin: 'https://www.linkedin.com/in/jonathan-cattelain',
     linkedinLabel: 'linkedin.com/in/jonathan-cattelain',
@@ -108,6 +108,7 @@ export const employers: Employer[] = [
           'Conseil dans les phases d’idéation et de structuration des process et de l’équipe data.',
           'Création et amélioration continue de la data gouvernance.',
           'Mise en place d’une stack data as code, LLM ready.',
+          'Conception de skills, d’outils et d’un workflow agentiques pour accélérer les déploiements de la data stack (adoption par l’équipe en cours).',
           'Migration d’Airflow 2 vers Airflow 3.',
           'Architecture médaillon (bronze, silver, gold) sur Databricks.',
           'Observabilité data avec Elementary : monitoring des tests dbt, anomalies et fraîcheur.',
