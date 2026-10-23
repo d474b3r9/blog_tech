@@ -41,7 +41,10 @@ const metadata = {
             employers.map((emp) => (
               <div class:list={['cv-emp', { 'cv-emp--current': emp.current }]}>
                 <div class="cv-emp-top">
-                  <p class="cv-emp-name">{emp.name}</p>
+                  <p class="cv-emp-name">
+                    {emp.name}
+                    {emp.role && <span class="cv-emp-role">{emp.role}</span>}
+                  </p>
                   <p class="cv-xp-period">{emp.period}</p>
                 </div>
                 {emp.summary && <p class="cv-emp-summary">{emp.summary}</p>}
@@ -295,7 +298,7 @@ const metadata = {
   .cv-emp-top {
     display: flex;
     justify-content: space-between;
-    gap: 3mm;
+    gap: 6mm;
     align-items: baseline;
     padding-bottom: 0.8mm;
     border-bottom: 1px solid var(--cv-line);
@@ -305,6 +308,14 @@ const metadata = {
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.04em;
+  }
+  .cv-emp-role {
+    margin-left: 3mm;
+    font-size: 9.5pt;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--cv-muted);
   }
   .cv-emp--current .cv-emp-name {
     color: var(--cv-accent);
@@ -328,7 +339,7 @@ const metadata = {
   .cv-xp-top {
     display: flex;
     justify-content: space-between;
-    gap: 3mm;
+    gap: 6mm;
     align-items: baseline;
   }
   .cv-xp-summary::before {

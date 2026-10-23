@@ -20,6 +20,8 @@ export interface Mission {
 export interface Employer {
   name: string;
   period: string;
+  /** Poste occupé chez l'employeur. */
+  role?: string;
   summary?: string;
   current?: boolean;
   missions: Mission[];
@@ -88,6 +90,7 @@ export const skills = [
 export const employers: Employer[] = [
   {
     name: 'SFEIR',
+    role: 'Staff Engineer Data',
     period: 'Fév. 2023 – aujourd’hui',
     current: true,
     summary: 'Conseil data auprès de clients grands comptes.',
@@ -130,10 +133,11 @@ export const employers: Employer[] = [
         current: true,
       },
       {
+        client: 'POC Scaleway',
         role: 'Staff Engineer Data',
         period: '2026',
         project:
-          'POC interne. Conception et mise en place d’une stack data as code, LLM ready, souveraine sur Scaleway, 100 % européenne et open source.',
+          'POC interne SFEIR. Conception et mise en place d’une stack data as code, LLM ready, souveraine sur Scaleway, 100 % européenne et open source.',
         achievements: [
           'Infrastructure as code avec Terraform et Helm.',
           'Kubernetes sur Scaleway Kapsule.',
