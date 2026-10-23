@@ -1,0 +1,17 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
+
+const metadata = {
+  title: 'Accueil',
+};
+---
+
+<Layout metadata={metadata}>
+  <HeroText
+    title="DataStart"
+    subtitle="Articles et retours d'expérience techniques."
+  />
+  <BlogLatestPosts title="Derniers articles" linkText="Tous les articles" count={6} />
+</Layout>

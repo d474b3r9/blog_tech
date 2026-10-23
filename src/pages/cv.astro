@@ -1,0 +1,382 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import ContactLinks from '~/components/common/ContactLinks.astro';
+import { profile, education, teaching, certifications, skills, experiences } from '~/data/cv';
+
+const metadata = {
+  title: `CV — ${profile.name}`,
+  ignoreTitleTemplate: true,
+  description: `${profile.name}, ${profile.title}. Parcours, compétences et expériences.`,
+};
+---
+
+<Layout metadata={metadata}>
+  <Fragment slot="announcement"></Fragment>
+
+  <div class="cv-page">
+    <div class="cv-toolbar">
+      <button type="button" class="btn-primary cv-print" onclick="window.print()">Imprimer / enregistrer en PDF</button>
+      <ContactLinks />
+    </div>
+
+    <article class="cv-sheet">
+      <div class="cv-head">
+        <div>
+          <h1 class="cv-name">{profile.name}</h1>
+          <p class="cv-title">{profile.title}</p>
+        </div>
+        <ul class="cv-links">
+          <li><a href={profile.links.linkedin}>{profile.links.linkedinLabel}</a></li>
+          <li><a href={profile.links.github}>{profile.links.githubLabel}</a></li>
+          <li><a href={profile.links.credly}>{profile.links.credlyLabel}</a></li>
+        </ul>
+      </div>
+
+      <p class="cv-summary">{profile.summary}</p>
+
+      <div class="cv-grid">
+        <section class="cv-main" aria-label="Expériences professionnelles">
+          <h2 class="cv-h2">Expériences professionnelles</h2>
+          {
+            experiences.map((xp) => (
+              <div class:list={['cv-xp', { 'cv-xp--current': xp.current }]}>
+                <div class="cv-xp-top">
+                  <p class="cv-xp-company">
+                    {xp.company}
+                    {xp.via && <span class="cv-xp-via">via {xp.via}</span>}
+                  </p>
+                  <p class="cv-xp-period">{xp.period}</p>
+                </div>
+                <p class="cv-xp-role">{xp.role}</p>
+                <p class="cv-xp-project">{xp.project}</p>
+                <ul class="cv-list">
+                  {xp.achievements.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+                <p class="cv-stack">{xp.stack.join(' · ')}</p>
+                {xp.link && (
+                  <p class="cv-xp-link">
+                    <a href={xp.link.href}>{xp.link.label}</a>
+                  </p>
+                )}
+              </div>
+            ))
+          }
+        </section>
+
+        <aside class="cv-side">
+          <section class="cv-skills">
+            <h2 class="cv-h2">Compétences</h2>
+            <div class="cv-skills-body">
+              {
+                skills.map((group) => (
+                  <div class="cv-skill">
+                    <p class="cv-skill-label">{group.label}</p>
+                    <p>{group.items.join(', ')}</p>
+                  </div>
+                ))
+              }
+            </div>
+          </section>
+
+          <section>
+            <h2 class="cv-h2">Certifications et formations</h2>
+            <ul class="cv-dated">
+              {
+                certifications.map((c) => (
+                  <li>
+                    <span>{c.year}</span>
+                    {c.label}
+                  </li>
+                ))
+              }
+            </ul>
+            <p class="cv-credly">
+              <a href={profile.links.credly}>Voir mes badges sur Credly</a>
+            </p>
+          </section>
+
+          <section>
+            <h2 class="cv-h2">Enseignement</h2>
+            {
+              teaching.map((t) => (
+                <div class="cv-teach">
+                  <p class="cv-skill-label">{t.label}</p>
+                  <p>{t.detail}</p>
+                  <p>
+                    <a href={t.href}>{t.hrefLabel}</a>
+                  </p>
+                </div>
+              ))
+            }
+          </section>
+
+          <section>
+            <h2 class="cv-h2">Formation</h2>
+            <ul class="cv-dated">
+              {
+                education.map((e) => (
+                  <li>
+                    <span>{e.year}</span>
+                    {e.label}
+                  </li>
+                ))
+              }
+            </ul>
+          </section>
+        </aside>
+      </div>
+    </article>
+  </div>
+</Layout>
+
+<style is:global>
+  /* Feuille de CV : toujours claire (papier), même si le site est en mode sombre. */
+  .cv-page {
+    --cv-ink: #1f2937;
+    --cv-muted: #6b7280;
+    --cv-accent: #2563eb;
+    --cv-line: #e5e7eb;
+    --cv-soft: #f3f6fd;
+    padding: 2rem 1rem 4rem;
+  }
+  .cv-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem 2rem;
+    max-width: 210mm;
+    margin: 0 auto 1.5rem;
+  }
+  .cv-sheet {
+    box-sizing: border-box;
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 14mm 14mm 12mm;
+    background: #fff;
+    color: var(--cv-ink);
+    border-radius: 6px;
+    box-shadow: 0 10px 40px rgb(0 0 0 / 0.15);
+    font-size: 9.5pt;
+    line-height: 1.45;
+    letter-spacing: 0;
+  }
+  .cv-sheet p,
+  .cv-sheet ul {
+    margin: 0;
+  }
+  .cv-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.75rem 2rem;
+    padding-bottom: 5mm;
+    border-bottom: 2px solid var(--cv-accent);
+  }
+  .cv-name {
+    margin: 0;
+    font-size: 24pt;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--cv-ink);
+  }
+  .cv-title {
+    margin-top: 1mm;
+    font-size: 12pt;
+    font-weight: 600;
+    color: var(--cv-accent);
+  }
+  .cv-links {
+    list-style: none;
+    padding: 0;
+    text-align: right;
+    font-size: 8.5pt;
+    color: var(--cv-muted);
+  }
+  .cv-summary {
+    margin: 4mm 0 5mm !important;
+    color: var(--cv-ink);
+  }
+  .cv-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 55mm;
+    gap: 8mm;
+    align-items: start;
+  }
+  .cv-h2 {
+    margin: 0 0 3mm;
+    padding-bottom: 1mm;
+    border-bottom: 1px solid var(--cv-line);
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cv-accent);
+  }
+  .cv-side {
+    display: flex;
+    flex-direction: column;
+    gap: 6mm;
+    padding: 4mm;
+    background: var(--cv-soft);
+    border-radius: 4px;
+    font-size: 8.5pt;
+    line-height: 1.4;
+  }
+  .cv-skill {
+    margin-bottom: 2.2mm;
+  }
+  .cv-skill-label {
+    font-weight: 700;
+  }
+  .cv-dated {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5mm;
+  }
+  .cv-dated li {
+    display: grid;
+    grid-template-columns: 10mm minmax(0, 1fr);
+  }
+  .cv-dated span {
+    font-weight: 700;
+    color: var(--cv-accent);
+  }
+  .cv-skill {
+    break-inside: avoid;
+  }
+  .cv-sheet a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .cv-credly {
+    margin-top: 2.5mm !important;
+    font-weight: 600;
+  }
+  .cv-credly a,
+  .cv-xp-link a,
+  .cv-teach a {
+    color: var(--cv-accent);
+    text-decoration: underline;
+  }
+  .cv-xp-link {
+    margin-top: 1mm !important;
+    font-size: 8.5pt;
+  }
+  .cv-xp {
+    margin-bottom: 4.5mm;
+    padding-left: 3.5mm;
+    border-left: 2px solid var(--cv-line);
+    break-inside: avoid;
+  }
+  .cv-xp--current {
+    border-left-color: var(--cv-accent);
+  }
+  .cv-xp-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 3mm;
+    align-items: baseline;
+  }
+  .cv-xp-company {
+    font-size: 10.5pt;
+    font-weight: 700;
+  }
+  .cv-xp-via {
+    margin-left: 1.5mm;
+    font-size: 8pt;
+    font-weight: 500;
+    color: var(--cv-muted);
+  }
+  .cv-xp-period {
+    flex: none;
+    font-size: 8.5pt;
+    color: var(--cv-muted);
+    white-space: nowrap;
+  }
+  .cv-xp-role {
+    font-weight: 600;
+    color: var(--cv-accent);
+  }
+  .cv-xp-project {
+    margin: 1mm 0 1.5mm !important;
+    font-style: italic;
+    color: var(--cv-muted);
+  }
+  .cv-list {
+    padding-left: 4mm;
+    list-style: disc;
+  }
+  .cv-list li {
+    margin-bottom: 0.4mm;
+  }
+  .cv-stack {
+    margin-top: 1.5mm !important;
+    font-size: 8pt;
+    color: var(--cv-muted);
+  }
+
+  @media (max-width: 720px) {
+    .cv-sheet {
+      padding: 6mm 5mm;
+    }
+    .cv-grid {
+      grid-template-columns: 1fr;
+    }
+    .cv-links {
+      text-align: left;
+    }
+  }
+
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+  @media print {
+    html,
+    body {
+      background: #fff !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    aw-header,
+    body > footer,
+    .cv-toolbar {
+      display: none !important;
+    }
+    .cv-page {
+      padding: 0;
+    }
+    .cv-sheet {
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    /* Sur papier : bandeau compétences en haut, expériences pleine largeur sur toutes les pages. */
+    .cv-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 5mm;
+    }
+    .cv-side {
+      order: -1;
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 3mm 8mm;
+    }
+    .cv-skills {
+      grid-row: span 3;
+    }
+    .cv-skills-body {
+      columns: 2;
+      column-gap: 6mm;
+    }
+  }
+</style>
