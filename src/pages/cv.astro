@@ -58,11 +58,13 @@ const metadata = {
                       {xp.client && <span class="cv-xp-role">{xp.role}</span>}
                       <span class="cv-xp-project">{xp.project}</span>
                     </summary>
-                    <ul class="cv-list">
-                      {xp.achievements.map((item) => (
-                        <li>{item}</li>
-                      ))}
-                    </ul>
+                    {xp.achievements.length > 0 && (
+                      <ul class="cv-list">
+                        {xp.achievements.map((item) => (
+                          <li>{item}</li>
+                        ))}
+                      </ul>
+                    )}
                     <p class="cv-stack">{xp.stack.join(' · ')}</p>
                     {xp.link && (
                       <p class="cv-xp-link">
