@@ -112,7 +112,7 @@ export const employers: Employer[] = [
           'Conseil dans les phases d’idéation et de structuration des process et de l’équipe data.',
           'Création et amélioration continue de la data gouvernance.',
           'Mise en place d’une stack data as code, LLM ready.',
-          'Conception de skills, d’outils et d’un workflow agentiques pour accélérer les déploiements de la data stack.',
+          'Conception de skills, d’outils et d’un workflow agentiques pour accélérer les cas d’usage et améliorer la qualité, l’observabilité, la gouvernance et la documentation.',
           'Migration d’Airflow 2 vers Airflow 3.',
           'Architecture médaillon (bronze, silver, gold) sur Databricks.',
           'Observabilité data avec Elementary : monitoring des tests dbt, anomalies et fraîcheur.',
