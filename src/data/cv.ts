@@ -83,10 +83,8 @@ export const skills = [
       'Data as code',
     ],
   },
-  {
-    label: 'IA',
-    items: ['IA générative', 'IA agentique', 'Multi-agents', 'MCP', 'Skills et tools', 'RAG', 'Prompt engineering'],
-  },
+  { label: 'IA générative', items: ['RAG', 'Prompt engineering'] },
+  { label: 'IA agentique', items: ['Multi-agents', 'MCP', 'Skills et tools'] },
   { label: 'Assistants et modèles', items: ['Claude Code', 'Copilot', 'Gemini', 'ChatGPT', 'LLMs open weight'] },
   { label: 'Frameworks et plateformes IA', items: ['Strands Agents', 'Amazon Bedrock'] },
   { label: 'Orchestration', items: ['Airflow', 'Dagster'] },
