@@ -33,7 +33,7 @@ export const profile = {
   name: 'Jonathan Cattelain',
   title: 'Staff Engineer Data',
   summary:
-    'Staff Engineer Data chez SFEIR, plus de 15 ans d’expérience. Je conçois et mets en place des data platforms de A à Z sur GCP, AWS, Azure et Scaleway, en intégrant l’IA agentique pour accélérer les cas d’usage. Google Cloud Certified Trainer, j’enseigne à IMT Atlantique, j’écris et je parle en conférences.',
+    'Staff Engineer Data chez SFEIR, plus de 15 ans d’expérience. Je conçois et mets en place des data platforms de bout en bout sur GCP, AWS, Azure et Scaleway, en intégrant l’IA agentique pour accélérer les cas d’usage. Google Cloud Certified Trainer, j’enseigne à IMT Atlantique, j’écris et je parle en conférences.',
   links: {
     linkedin: 'https://www.linkedin.com/in/jonathan-cattelain',
     linkedinLabel: 'linkedin.com/in/jonathan-cattelain',
