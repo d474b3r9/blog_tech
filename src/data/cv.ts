@@ -98,7 +98,7 @@ export const employers: Employer[] = [
     period: 'Janv. 2023 – aujourd’hui',
     current: true,
     summary:
-      'Architecte et référent data de SFEIR Ouest. Consultant auprès de grands comptes, avant-vente, recrutement, formation, articles techniques et conférences.',
+      'Architecte et référent data de SFEIR Ouest. Consultant, avant-vente, recrutement, formation, articles techniques et conférences.',
     missions: [
       {
         client: 'AS24',
