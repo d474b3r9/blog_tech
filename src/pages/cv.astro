@@ -52,7 +52,10 @@ const metadata = {
                   <details class:list={['cv-xp', { 'cv-xp--current': xp.current }]} open={xp.open ?? emp.expanded}>
                     <summary class="cv-xp-summary">
                       <span class="cv-xp-top">
-                        <span class="cv-xp-company">{xp.client ?? xp.role}</span>
+                        <span class="cv-xp-company">
+                          {xp.client ?? xp.role}
+                          {xp.current && <span class="cv-badge">En cours</span>}
+                        </span>
                         <span class="cv-xp-period">{xp.period}</span>
                       </span>
                       {xp.client && <span class="cv-xp-role">{xp.role}</span>}
@@ -293,6 +296,18 @@ const metadata = {
   .cv-xp-company {
     font-size: 10.5pt;
     font-weight: 700;
+  }
+  .cv-badge {
+    margin-left: 2mm;
+    padding: 0.3mm 2mm;
+    border-radius: 99px;
+    background: var(--cv-accent);
+    color: #fff;
+    font-size: 7pt;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    vertical-align: 1px;
   }
   .cv-emp {
     margin-bottom: 5mm;

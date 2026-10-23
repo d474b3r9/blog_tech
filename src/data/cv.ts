@@ -97,7 +97,8 @@ export const employers: Employer[] = [
     role: 'Staff Engineer Data',
     period: 'Janv. 2023 – aujourd’hui',
     current: true,
-    summary: 'Conseil data auprès de clients grands comptes.',
+    summary:
+      'Architecte et référent data de SFEIR Ouest. Consultant auprès de grands comptes, avant-vente, recrutement, formation, articles techniques et conférences.',
     missions: [
       {
         client: 'AS24',
