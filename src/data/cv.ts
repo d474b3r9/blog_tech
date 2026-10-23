@@ -85,7 +85,7 @@ export const skills = [
   },
   {
     label: 'IA',
-    items: ['IA générative / LLM', 'IA agentique', 'Multi-agents', 'MCP', 'Skills et tools', 'RAG', 'Prompt engineering'],
+    items: ['IA générative', 'IA agentique', 'Multi-agents', 'MCP', 'Skills et tools', 'RAG', 'Prompt engineering'],
   },
   { label: 'Assistants et modèles', items: ['Claude Code', 'Copilot', 'Gemini', 'ChatGPT', 'LLMs open weight'] },
   { label: 'Frameworks et plateformes IA', items: ['Strands Agents', 'Amazon Bedrock'] },
