@@ -98,7 +98,7 @@ export const skills = [
   { label: 'CI/CD', items: ['Docker', 'Kubernetes', 'CircleCI', 'GitLab CI', 'GitHub Actions'] },
   { label: 'Infra as code', items: ['Terraform', 'Terragrunt', 'YAML', 'Jinja', 'Helm'] },
   { label: 'BI', items: ['Power BI', 'Metabase'] },
-  { label: 'IDE', items: ['Orca (IDE agentique)', 'PyCharm', 'VS Code'] },
+  { label: 'IDE', items: ['Orca', 'PyCharm', 'VS Code'] },
   { label: 'OS', items: ['macOS', 'Windows', 'Linux'] },
   { label: 'Méthodologie', items: ['Scrum', 'Agile'] },
 ];
