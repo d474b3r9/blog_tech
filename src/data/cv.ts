@@ -91,7 +91,7 @@ export const employers: Employer[] = [
   {
     name: 'SFEIR',
     role: 'Staff Engineer Data',
-    period: 'Fév. 2023 – aujourd’hui',
+    period: 'Janv. 2023 – aujourd’hui',
     current: true,
     summary: 'Conseil data auprès de clients grands comptes.',
     missions: [
@@ -437,7 +437,7 @@ export const employers: Employer[] = [
       },
       {
         role: 'Tech Lead SQL Server',
-        period: 'Juin 2014 – Fév. 2019',
+        period: 'Juin 2014 – Janv. 2019',
         project:
           'Avant-vente, audits, conseil, industrialisation et architecture. Référent technique SQL Server et support niveau 3. Montée en compétence Big Data (autoformation et projets). Migrations cloud « lift and shift » et intégration dans des services PaaS. Manager / tech lead DBA. Support et accompagnement des équipes mauriciennes (N2) et vietnamiennes (N1).',
         achievements: [
