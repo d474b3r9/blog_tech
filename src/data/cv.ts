@@ -24,6 +24,8 @@ export interface Employer {
   role?: string;
   summary?: string;
   current?: boolean;
+  /** Missions dépliées par défaut (sauf si `open` est défini sur la mission). */
+  expanded?: boolean;
   missions: Mission[];
 }
 
@@ -91,6 +93,7 @@ export const skills = [
 export const employers: Employer[] = [
   {
     name: 'SFEIR',
+    expanded: true,
     role: 'Staff Engineer Data',
     period: 'Janv. 2023 – aujourd’hui',
     current: true,
@@ -236,6 +239,7 @@ export const employers: Employer[] = [
   },
   {
     name: 'Akeneo',
+    expanded: true,
     period: 'Août 2022 – Déc. 2022',
     missions: [
       {
@@ -268,6 +272,7 @@ export const employers: Employer[] = [
   },
   {
     name: 'Ippon',
+    expanded: true,
     period: 'Août 2019 – Juil. 2022',
     summary: 'Consultant data auprès de clients, de la startup à la multinationale.',
     missions: [
@@ -402,51 +407,38 @@ export const employers: Employer[] = [
   {
     name: 'Linkbynet',
     period: 'Juin 2014 – Juil. 2019',
+    summary: 'ESN spécialisée cloud et infogérance.',
+    expanded: true,
     missions: [
       {
         client: 'Groupe Rocher',
         role: 'Data Engineer',
         period: 'Mai 2019 – Juil. 2019',
-        project: 'Formation et mise en place d’un dashboard FinOps GCP.',
-        achievements: [
-          'Formation d’un datalab à l’utilisation de BigQuery.',
-          'FinOps : mise en place d’un dashboard pour surveiller les coûts de leur plateforme GCP.',
-        ],
-        stack: ['GCP (BigQuery, VM, Data Studio)', 'Python'],
+        project: 'Formation d’un datalab à BigQuery et dashboard FinOps des coûts GCP.',
+        achievements: [],
+        stack: ['GCP', 'BigQuery', 'Python'],
       },
       {
         client: 'Sodexo',
         role: 'Data Engineer',
         period: 'Mars 2019 – Avr. 2019',
-        project: 'Mise en production de scripts R sur une nouvelle plateforme Azure.',
-        achievements: [
-          'Industrialisation d’un script R dans le cloud.',
-          'Mise en place des flux sécurisés pour accéder aux données.',
-          'Documentation.',
-        ],
-        stack: ['Azure', 'VM', 'R'],
+        project: 'Industrialisation de scripts R sur une nouvelle plateforme Azure.',
+        achievements: [],
+        stack: ['Azure', 'R'],
       },
       {
         role: 'Data Engineer',
         period: 'Fév. 2019 – Juil. 2019',
-        project:
-          'Avant-vente, audits, conseil, industrialisation et architecture. Création de solutions Big Data serverless.',
-        achievements: [
-          'Unification, tagging, rationalisation et dataviz des factures AWS, GCP et Azure pour le suivi de refacturation.',
-        ],
+        project: 'Avant-vente, conseil et architecture de solutions Big Data serverless.',
+        achievements: ['Dataviz et rationalisation des factures AWS, GCP et Azure pour la refacturation.'],
         stack: ['AWS', 'GCP', 'Azure', 'Power BI', 'Python'],
-        open: true,
       },
       {
         role: 'Tech Lead SQL Server',
         period: 'Juin 2014 – Janv. 2019',
-        project:
-          'Référent technique SQL Server (N3), audits, conseil et migrations cloud. Encadrement d’équipes DBA (Maurice, Vietnam).',
-        achievements: [
-          'Industrialisation des audits de performance en Python.',
-          'Outils d’automatisation des migrations vers Azure, AWS et GCP.',
-        ],
-        stack: ['SQL Server', 'Python', 'Azure', 'AWS', 'GCP', 'PowerShell'],
+        project: 'Référent technique SQL Server (N3), audits, conseil et migrations cloud. Encadrement d’équipes DBA.',
+        achievements: ['Industrialisation des audits de performance et des migrations en Python.'],
+        stack: ['SQL Server', 'Python', 'Azure', 'AWS', 'GCP'],
       },
     ],
   },

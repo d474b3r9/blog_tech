@@ -49,7 +49,7 @@ const metadata = {
                 </div>
                 {emp.summary && <p class="cv-emp-summary">{emp.summary}</p>}
                 {emp.missions.map((xp) => (
-                  <details class:list={['cv-xp', { 'cv-xp--current': xp.current }]} open={xp.open}>
+                  <details class:list={['cv-xp', { 'cv-xp--current': xp.current }]} open={xp.open ?? emp.expanded}>
                     <summary class="cv-xp-summary">
                       <span class="cv-xp-top">
                         <span class="cv-xp-company">{xp.client ?? xp.role}</span>
