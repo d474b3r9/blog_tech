@@ -7,6 +7,15 @@ export const headerData = {
     { text: 'À propos', href: getPermalink('/about') },
   ],
   actions: [],
+  socials: [
+    { ariaLabel: 'Credly', icon: 'simple-icons:credly', href: 'https://www.credly.com/users/jonathan-cattelain' },
+    { ariaLabel: 'GitHub', icon: 'simple-icons:github', href: 'https://github.com/d474b3r9' },
+  ],
+  contact: {
+    text: 'Me contacter',
+    icon: 'simple-icons:linkedin',
+    href: 'https://www.linkedin.com/in/jonathan-cattelain',
+  },
 };
 
 export const footerData = {

@@ -46,6 +46,34 @@ export default defineConfig({
       subsets: ['latin'],
       fallbacks: ['sans-serif'],
     },
+    // Polices du CV (injectées par CvSheet.astro uniquement).
+    {
+      provider: fontProviders.fontsource(),
+      name: 'Cormorant Garamond',
+      cssVariable: '--font-cormorant',
+      weights: ['500', '600'],
+      styles: ['normal'],
+      subsets: ['latin'],
+      fallbacks: ['serif'],
+    },
+    {
+      provider: fontProviders.fontsource(),
+      name: 'Montserrat',
+      cssVariable: '--font-montserrat',
+      weights: ['600', '700'],
+      styles: ['normal'],
+      subsets: ['latin'],
+      fallbacks: ['sans-serif'],
+    },
+    {
+      provider: fontProviders.fontsource(),
+      name: 'Open Sans',
+      cssVariable: '--font-open-sans',
+      weights: ['400', '600'],
+      styles: ['normal', 'italic'],
+      subsets: ['latin'],
+      fallbacks: ['sans-serif'],
+    },
   ],
 
   integrations: [

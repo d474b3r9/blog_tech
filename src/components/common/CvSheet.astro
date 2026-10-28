@@ -1,4 +1,6 @@
 ---
+import { Font } from 'astro:assets';
+import QRCode from 'qrcode';
 import type {
   profile as Profile,
   education as Education,
@@ -18,7 +20,28 @@ export interface Props {
 }
 
 const { profile, education, teaching, certifications, skills, employers } = Astro.props;
+
+const initials = profile.name
+  .split(/\s+/)
+  .map((part) => part[0])
+  .join('')
+  .slice(0, 2)
+  .toUpperCase();
+
+// QR code LinkedIn : modules clairs sur fond transparent, pour se fondre dans le bandeau marine.
+const qrSvg = profile.links.linkedin
+  ? await QRCode.toString(profile.links.linkedin, {
+      type: 'svg',
+      margin: 0,
+      errorCorrectionLevel: 'M',
+      color: { dark: '#c5cde0', light: '#0000' },
+    })
+  : '';
 ---
+
+<Font cssVariable="--font-cormorant" />
+<Font cssVariable="--font-montserrat" />
+<Font cssVariable="--font-open-sans" />
 
 <div class="cv-page">
   <div class="cv-toolbar">
@@ -26,33 +49,117 @@ const { profile, education, teaching, certifications, skills, employers } = Astr
   </div>
 
   <article class="cv-sheet">
-    <div class="cv-head">
-      <div>
-        <h1 class="cv-name">{profile.name}</h1>
-        <p class="cv-title">{profile.title}</p>
-      </div>
+    <header class="cv-head">
+      <h1 class="cv-name">{profile.name}</h1>
+      <p class="cv-title">{profile.title}</p>
       {
-        profile.links.linkedin && (
-          <ul class="cv-links">
-            <li>
-              <a href={profile.links.linkedin}>{profile.links.linkedinLabel}</a>
-            </li>
-            <li>
-              <a href={profile.links.github}>{profile.links.githubLabel}</a>
-            </li>
-            <li>
-              <a href={profile.links.credly}>{profile.links.credlyLabel}</a>
-            </li>
-          </ul>
+        qrSvg && (
+          <a class="cv-qr" href={profile.links.linkedin} aria-label="Mon profil LinkedIn (QR code)">
+            <span class="cv-qr-code" set:html={qrSvg} />
+            <span class="cv-qr-label">LinkedIn</span>
+          </a>
         )
       }
-    </div>
+    </header>
 
-    <p class="cv-summary">{profile.summary}</p>
+    <section class="cv-bio">
+      <div class="cv-avatar" aria-hidden="true">{initials}</div>
+      <div>
+        <h2 class="cv-h2">Biographie</h2>
+        <p class="cv-summary">{profile.summary}</p>
+      </div>
+    </section>
 
     <div class="cv-grid">
-      <section class="cv-main" aria-label="Expériences professionnelles">
-        <h2 class="cv-h2">Expériences professionnelles</h2>
+      <aside class="cv-side">
+        {
+          profile.links.github && (
+            <section>
+              <h2 class="cv-h2">Références</h2>
+              <ul class="cv-links">
+                <li>
+                  <a href={profile.links.linkedin}>{profile.links.linkedinLabel}</a>
+                </li>
+                <li>
+                  <a href={profile.links.github}>{profile.links.githubLabel}</a>
+                </li>
+                <li>
+                  <a href={profile.links.credly}>{profile.links.credlyLabel}</a>
+                </li>
+              </ul>
+            </section>
+          )
+        }
+
+        <section class="cv-skills">
+          <h2 class="cv-h2">Compétences</h2>
+          <div class="cv-skills-body">
+            {
+              skills.map((group) => (
+                <div class="cv-skill">
+                  <p class="cv-label">{group.label}</p>
+                  <p>{group.items.join(', ')}</p>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+
+        <section>
+          <h2 class="cv-h2">Certifications</h2>
+          <ul class="cv-dated">
+            {
+              certifications.map((c) => (
+                <li>
+                  <span class="cv-label">{c.label}</span>
+                  <span>{c.year}</span>
+                </li>
+              ))
+            }
+          </ul>
+          {
+            profile.links.credly && (
+              <p class="cv-credly">
+                <a href={profile.links.credly}>Voir mes badges sur Credly</a>
+              </p>
+            )
+          }
+        </section>
+
+        <section>
+          <h2 class="cv-h2">Enseignement</h2>
+          {
+            teaching.map((t) => (
+              <div class="cv-teach">
+                <p class="cv-label">{t.label}</p>
+                <p>{t.detail}</p>
+                {t.href && (
+                  <p>
+                    <a href={t.href}>{t.hrefLabel}</a>
+                  </p>
+                )}
+              </div>
+            ))
+          }
+        </section>
+
+        <section>
+          <h2 class="cv-h2">Formation</h2>
+          <ul class="cv-dated">
+            {
+              education.map((e) => (
+                <li>
+                  <span class="cv-label">{e.label}</span>
+                  <span>{e.year}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      </aside>
+
+      <section class="cv-main" aria-label="Expérience professionnelle">
+        <h2 class="cv-h2">Expérience professionnelle</h2>
         {
           employers.map((emp) => (
             <div class:list={['cv-emp', { 'cv-emp--current': emp.current }]}>
@@ -61,7 +168,7 @@ const { profile, education, teaching, certifications, skills, employers } = Astr
                   {emp.name}
                   {emp.role && <span class="cv-emp-role">{emp.role}</span>}
                 </p>
-                <p class="cv-xp-period">{emp.period}</p>
+                <p class="cv-period">{emp.period}</p>
               </div>
               {emp.summary && <p class="cv-emp-summary">{emp.summary}</p>}
               {emp.missions.map((xp) => (
@@ -72,7 +179,7 @@ const { profile, education, teaching, certifications, skills, employers } = Astr
                         {xp.client ?? xp.role}
                         {xp.current && <span class="cv-badge">En cours</span>}
                       </span>
-                      <span class="cv-xp-period">{xp.period}</span>
+                      <span class="cv-period">{xp.period}</span>
                     </span>
                     {xp.client && <span class="cv-xp-role">{xp.role}</span>}
                     <span class="cv-xp-project">{xp.project}</span>
@@ -96,86 +203,25 @@ const { profile, education, teaching, certifications, skills, employers } = Astr
           ))
         }
       </section>
-
-      <aside class="cv-side">
-        <section class="cv-skills">
-          <h2 class="cv-h2">Compétences</h2>
-          <div class="cv-skills-body">
-            {
-              skills.map((group) => (
-                <div class="cv-skill">
-                  <p class="cv-skill-label">{group.label}</p>
-                  <p>{group.items.join(', ')}</p>
-                </div>
-              ))
-            }
-          </div>
-        </section>
-
-        <section>
-          <h2 class="cv-h2">Certifications et formations</h2>
-          <ul class="cv-dated">
-            {
-              certifications.map((c) => (
-                <li>
-                  <span>{c.year}</span>
-                  {c.label}
-                </li>
-              ))
-            }
-          </ul>
-          {
-            profile.links.credly && (
-              <p class="cv-credly">
-                <a href={profile.links.credly}>Voir mes badges sur Credly</a>
-              </p>
-            )
-          }
-        </section>
-
-        <section>
-          <h2 class="cv-h2">Enseignement</h2>
-          {
-            teaching.map((t) => (
-              <div class="cv-teach">
-                <p class="cv-skill-label">{t.label}</p>
-                <p>{t.detail}</p>
-                {t.href && (
-                  <p>
-                    <a href={t.href}>{t.hrefLabel}</a>
-                  </p>
-                )}
-              </div>
-            ))
-          }
-        </section>
-
-        <section>
-          <h2 class="cv-h2">Formation</h2>
-          <ul class="cv-dated">
-            {
-              education.map((e) => (
-                <li>
-                  <span>{e.year}</span>
-                  {e.label}
-                </li>
-              ))
-            }
-          </ul>
-        </section>
-      </aside>
     </div>
+
+    <div class="cv-foot" aria-hidden="true"></div>
   </article>
 </div>
 
 <style is:global>
   /* Feuille de CV : toujours claire (papier), même si le site est en mode sombre. */
   .cv-page {
-    --cv-ink: #1f2937;
-    --cv-muted: #6b7280;
-    --cv-accent: #2563eb;
-    --cv-line: #e5e7eb;
-    --cv-soft: #f3f6fd;
+    --cv-ink: #3a3f4a;
+    --cv-muted: #5b6270;
+    --cv-navy: #2a3f6c;
+    --cv-copper: #8a5f2e;
+    --cv-rule: #c09a6b;
+    --cv-paper: #f5f6f8;
+    --cv-band: #cbd2de;
+    --cv-serif: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+    --cv-caps: var(--font-montserrat), Montserrat, system-ui, sans-serif;
+    --cv-body: var(--font-open-sans), 'Open Sans', system-ui, sans-serif;
     padding: 2rem 1rem 4rem;
   }
   .cv-toolbar {
@@ -189,179 +235,230 @@ const { profile, education, teaching, certifications, skills, employers } = Astr
   }
   .cv-sheet {
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
     max-width: 210mm;
+    min-height: 297mm;
     margin: 0 auto;
-    padding: 14mm 14mm 12mm;
-    background: #fff;
+    overflow: hidden;
+    background: var(--cv-paper);
     color: var(--cv-ink);
     border-radius: 6px;
     box-shadow: 0 10px 40px rgb(0 0 0 / 0.15);
-    font-size: 9.5pt;
-    line-height: 1.45;
+    font-family: var(--cv-body);
+    font-size: 8.5pt;
+    line-height: 1.55;
     letter-spacing: 0;
   }
   .cv-sheet p,
   .cv-sheet ul {
     margin: 0;
   }
+  .cv-sheet a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Bandeau marine */
   .cv-head {
+    position: relative;
+    padding: 13mm 10mm 11mm;
+    background: var(--cv-navy);
+    text-align: center;
+  }
+  .cv-qr {
+    position: absolute;
+    top: 50%;
+    right: 12mm;
     display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 0.75rem 2rem;
-    padding-bottom: 5mm;
-    border-bottom: 2px solid var(--cv-accent);
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5mm;
+    transform: translateY(-50%);
+  }
+  .cv-qr-code {
+    display: block;
+    width: 19mm;
+    height: 19mm;
+  }
+  .cv-qr-code svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .cv-qr-label {
+    font-family: var(--cv-caps);
+    font-size: 5pt;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #c5cde0;
   }
   .cv-name {
     margin: 0;
-    font-size: 24pt;
-    font-weight: 800;
-    line-height: 1.1;
-    color: var(--cv-ink);
+    font-family: var(--cv-serif);
+    font-size: 30pt;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
   }
   .cv-title {
-    margin-top: 1mm;
-    font-size: 12pt;
+    margin-top: 3.5mm !important;
+    font-size: 7.5pt;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #c5cde0;
+  }
+
+  /* Biographie */
+  .cv-bio {
+    display: flex;
+    align-items: center;
+    gap: 9mm;
+    padding: 8mm 14mm 8mm 14mm;
+    border-bottom: 1px solid var(--cv-rule);
+  }
+  .cv-avatar {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28mm;
+    height: 28mm;
+    border-radius: 50%;
+    background: #dde2ec;
+    font-family: var(--cv-serif);
+    font-size: 26pt;
     font-weight: 600;
-    color: var(--cv-accent);
+    color: var(--cv-navy);
+  }
+  .cv-summary {
+    line-height: 1.65;
+  }
+
+  .cv-h2 {
+    margin: 0 0 4mm;
+    font-family: var(--cv-caps);
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--cv-navy);
+  }
+
+  /* Deux colonnes séparées par un filet cuivré */
+  .cv-grid {
+    display: flex;
+    flex: 1;
+    align-items: stretch;
+  }
+  .cv-side {
+    flex: none;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 8mm;
+    width: 62mm;
+    padding: 8mm 6mm 8mm 14mm;
+    border-right: 1px solid var(--cv-rule);
+    font-size: 8pt;
+    line-height: 1.5;
+  }
+  .cv-main {
+    flex: 1;
+    min-width: 0;
+    padding: 8mm 14mm 8mm 8mm;
+  }
+  .cv-label {
+    font-family: var(--cv-caps);
+    font-size: 6.5pt;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cv-navy);
   }
   .cv-links {
     list-style: none;
     padding: 0;
-    text-align: right;
-    font-size: 8.5pt;
-    color: var(--cv-muted);
-  }
-  .cv-summary {
-    margin: 4mm 0 5mm !important;
-    color: var(--cv-ink);
-  }
-  .cv-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 55mm;
-    gap: 8mm;
-    align-items: start;
-  }
-  .cv-h2 {
-    margin: 0 0 3mm;
-    padding-bottom: 1mm;
-    border-bottom: 1px solid var(--cv-line);
-    font-size: 9pt;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--cv-accent);
-  }
-  .cv-side {
     display: flex;
     flex-direction: column;
-    gap: 6mm;
-    padding: 4mm;
-    background: var(--cv-soft);
-    border-radius: 4px;
-    font-size: 8.5pt;
-    line-height: 1.4;
+    gap: 1.2mm;
+    word-break: break-word;
   }
   .cv-skill {
-    margin-bottom: 2.2mm;
-  }
-  .cv-skill-label {
-    font-weight: 700;
+    margin-bottom: 2.4mm;
+    break-inside: avoid;
   }
   .cv-dated {
     list-style: none;
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 1.5mm;
+    gap: 2.6mm;
   }
   .cv-dated li {
-    display: grid;
-    grid-template-columns: 10mm minmax(0, 1fr);
-  }
-  .cv-dated span {
-    font-weight: 700;
-    color: var(--cv-accent);
-  }
-  .cv-skill {
+    display: flex;
+    flex-direction: column;
     break-inside: avoid;
   }
-  .cv-sheet a {
-    color: inherit;
-    text-decoration: none;
-  }
   .cv-credly {
-    margin-top: 2.5mm !important;
-    font-weight: 600;
+    margin-top: 3mm !important;
   }
   .cv-credly a,
   .cv-xp-link a,
   .cv-teach a {
-    color: var(--cv-accent);
+    color: var(--cv-copper);
     text-decoration: underline;
   }
-  .cv-xp-link {
-    margin-top: 1mm !important;
-    font-size: 8.5pt;
-  }
-  .cv-xp {
-    margin: 2.5mm 0 0;
-    padding-left: 3.5mm;
-    border-left: 2px solid var(--cv-line);
+  .cv-teach {
     break-inside: avoid;
   }
-  .cv-xp--current {
-    border-left-color: var(--cv-accent);
-  }
-  .cv-xp-company {
-    font-size: 10.5pt;
-    font-weight: 700;
-  }
-  .cv-badge {
-    margin-left: 2mm;
-    padding: 0.3mm 2mm;
-    border-radius: 99px;
-    background: var(--cv-accent);
-    color: #fff;
-    font-size: 7pt;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    vertical-align: 1px;
-  }
+
+  /* Expérience */
   .cv-emp {
-    margin-bottom: 5mm;
+    margin-bottom: 7mm;
   }
   .cv-emp-top {
     display: flex;
     justify-content: space-between;
-    gap: 6mm;
     align-items: baseline;
-    padding-bottom: 0.8mm;
-    border-bottom: 1px solid var(--cv-line);
+    gap: 6mm;
+    padding-bottom: 1.2mm;
+    border-bottom: 1px solid var(--cv-rule);
   }
   .cv-emp-name {
-    font-size: 11.5pt;
-    font-weight: 800;
+    font-family: var(--cv-caps);
+    font-size: 8.5pt;
+    font-weight: 700;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    color: var(--cv-navy);
   }
   .cv-emp-role {
     margin-left: 3mm;
-    font-size: 9.5pt;
-    font-weight: 600;
+    font-family: var(--cv-body);
+    font-size: 8pt;
+    font-style: italic;
+    font-weight: 400;
     letter-spacing: 0;
     text-transform: none;
-    color: var(--cv-muted);
-  }
-  .cv-emp--current .cv-emp-name {
-    color: var(--cv-accent);
+    color: var(--cv-copper);
   }
   .cv-emp-summary {
-    margin: 1mm 0 !important;
-    font-size: 8.5pt;
+    margin: 1.5mm 0 0 !important;
     color: var(--cv-muted);
+  }
+  .cv-period {
+    flex: none;
+    font-size: 7.5pt;
+    font-style: italic;
+    color: var(--cv-copper);
+    white-space: nowrap;
+  }
+  .cv-xp {
+    margin: 4.5mm 0 0;
+    break-inside: avoid;
   }
   .cv-xp-summary {
     display: block;
@@ -371,6 +468,16 @@ const { profile, education, teaching, certifications, skills, employers } = Astr
   .cv-xp-summary::-webkit-details-marker {
     display: none;
   }
+  .cv-xp-summary::before {
+    content: '▸';
+    float: left;
+    margin-right: 1.5mm;
+    color: var(--cv-muted);
+    font-size: 7pt;
+  }
+  details[open] > .cv-xp-summary::before {
+    content: '▾';
+  }
   .cv-xp-summary > .cv-xp-role,
   .cv-xp-summary > .cv-xp-project {
     display: block;
@@ -378,67 +485,95 @@ const { profile, education, teaching, certifications, skills, employers } = Astr
   .cv-xp-top {
     display: flex;
     justify-content: space-between;
-    gap: 6mm;
     align-items: baseline;
+    gap: 6mm;
   }
-  .cv-xp-summary::before {
-    content: '▸';
-    float: left;
-    margin-left: -3mm;
-    color: var(--cv-muted);
-    font-size: 8pt;
+  .cv-xp-company {
+    font-family: var(--cv-caps);
+    font-size: 7.5pt;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cv-navy);
   }
-  details[open] > .cv-xp-summary::before {
-    content: '▾';
-  }
-  .cv-xp-period {
-    flex: none;
-    font-size: 8.5pt;
-    color: var(--cv-muted);
-    white-space: nowrap;
+  .cv-badge {
+    margin-left: 2mm;
+    padding: 0.3mm 2mm;
+    border: 1px solid var(--cv-copper);
+    border-radius: 99px;
+    font-family: var(--cv-caps);
+    font-size: 5.5pt;
+    letter-spacing: 0.08em;
+    color: var(--cv-copper);
+    vertical-align: 1px;
   }
   .cv-xp-role {
-    font-weight: 600;
-    color: var(--cv-accent);
+    font-style: italic;
+    color: var(--cv-copper);
   }
   .cv-xp-project {
-    margin: 1mm 0 1.5mm !important;
-    font-style: italic;
+    margin: 0.8mm 0 1.8mm !important;
     color: var(--cv-muted);
   }
   .cv-list {
-    padding-left: 4mm;
+    padding-left: 4.5mm;
     list-style: disc;
   }
   .cv-list li {
-    margin-bottom: 0.4mm;
+    margin-bottom: 0.6mm;
   }
   .cv-stack {
-    margin-top: 1.5mm !important;
-    font-size: 8pt;
+    margin-top: 1.8mm !important;
+    font-size: 7.5pt;
     color: var(--cv-muted);
+  }
+  .cv-xp-link {
+    margin-top: 1mm !important;
+    font-size: 7.5pt;
+  }
+
+  /* Bande de pied */
+  .cv-foot {
+    flex: none;
+    height: 9mm;
+    background: var(--cv-band);
   }
 
   @media (max-width: 720px) {
-    .cv-sheet {
+    .cv-qr {
+      position: static;
+      margin: 5mm auto 0;
+      transform: none;
+    }
+    .cv-bio {
+      flex-direction: column;
+      align-items: flex-start;
       padding: 6mm 5mm;
     }
     .cv-grid {
-      grid-template-columns: 1fr;
+      flex-direction: column;
     }
-    .cv-links {
-      text-align: left;
+    .cv-side {
+      width: auto;
+      padding: 6mm 5mm;
+      border-right: 0;
+      border-bottom: 1px solid var(--cv-rule);
+    }
+    .cv-main {
+      padding: 6mm 5mm;
     }
   }
 
+  /* Marge 0 : Chrome n'imprime alors ni date, ni titre, ni URL en haut et en bas de page.
+     Les marges papier sont portées par les colonnes (répétées à chaque page via box-decoration-break). */
   @page {
     size: A4;
-    margin: 10mm;
+    margin: 0;
   }
   @media print {
     html,
     body {
-      background: #fff !important;
+      background: var(--cv-paper, #f5f6f8) !important;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
@@ -451,30 +586,24 @@ const { profile, education, teaching, certifications, skills, employers } = Astr
       padding: 0;
     }
     .cv-sheet {
+      display: block;
       max-width: none;
+      min-height: 0;
       margin: 0;
-      padding: 0;
+      overflow: visible;
       border-radius: 0;
       box-shadow: none;
     }
-    /* Sur papier : bandeau compétences en haut, expériences pleine largeur sur toutes les pages. */
     .cv-grid {
       display: flex;
-      flex-direction: column;
-      gap: 5mm;
     }
-    .cv-side {
-      order: -1;
-      display: grid;
-      grid-template-columns: 1.6fr 1fr;
-      gap: 3mm 8mm;
+    .cv-side,
+    .cv-main {
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
     }
-    .cv-skills {
-      grid-row: span 3;
-    }
-    .cv-skills-body {
-      columns: 2;
-      column-gap: 6mm;
+    .cv-xp-summary::before {
+      content: none !important;
     }
   }
 </style>
