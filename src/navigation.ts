@@ -7,6 +7,11 @@ export const headerData = {
     { text: 'À propos', href: getPermalink('/about') },
   ],
   actions: [],
+  contact: {
+    text: 'Me contacter',
+    icon: 'tabler:brand-linkedin',
+    href: 'https://www.linkedin.com/in/jonathan-cattelain',
+  },
 };
 
 export const footerData = {

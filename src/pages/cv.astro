@@ -1,6 +1,5 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import ContactLinks from '~/components/common/ContactLinks.astro';
 import CvSheet from '~/components/common/CvSheet.astro';
 import { profile, education, teaching, certifications, skills, employers } from '~/data/cv';
 
@@ -17,7 +16,6 @@ const metadata = {
   <CvSheet {profile} {education} {teaching} {certifications} {skills} {employers}>
     <Fragment slot="toolbar">
       <button type="button" class="btn-primary cv-print" onclick="window.print()">Imprimer / enregistrer en PDF</button>
-      <ContactLinks />
     </Fragment>
   </CvSheet>
 </Layout>
