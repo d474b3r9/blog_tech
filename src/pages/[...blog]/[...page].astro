@@ -36,7 +36,7 @@ const breadcrumbs = [
 const metadata = {
   title: `Blog${currentPage > 1 ? ` — Page ${currentPage}` : ''}`,
   description:
-    'Articles about Astro, Tailwind CSS and the AstroWind template: tutorials, customisation guides and web development notes.',
+    "Retours d'expériences et veille technique sur la data, le cloud et les agents IA.",
   robots: {
     index: blogListRobots?.index && currentPage === 1,
     follow: blogListRobots?.follow,
@@ -55,9 +55,9 @@ const metadata = {
   <Breadcrumbs bar items={breadcrumbs} />
   <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
     <Headline
-      subtitle="A statically generated blog example with news, tutorials, resources and other interesting content related to AstroWind"
+      subtitle="Retours d'expériences et veille technique sur la data, le cloud et les agents IA"
     >
-      The Blog
+      Tous les articles
     </Headline>
     <BlogList posts={page.data} />
     <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
