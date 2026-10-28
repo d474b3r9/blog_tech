@@ -46,6 +46,16 @@ export default defineConfig({
       subsets: ['latin'],
       fallbacks: ['sans-serif'],
     },
+    // Police de lecture des articles (injectée par SinglePost.astro uniquement).
+    {
+      provider: fontProviders.fontsource(),
+      name: 'Newsreader',
+      cssVariable: '--font-newsreader',
+      weights: ['400', '700'],
+      styles: ['normal', 'italic'],
+      subsets: ['latin'],
+      fallbacks: ['serif'],
+    },
     // Polices du CV (injectées par CvSheet.astro uniquement).
     {
       provider: fontProviders.fontsource(),

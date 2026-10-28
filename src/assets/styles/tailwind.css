@@ -142,6 +142,10 @@
 .prose :where(code):not(:where(pre *))::after {
   content: none;
 }
+.prose :where(img) {
+  display: block;
+  margin-inline: auto;
+}
 .prose :where(pre.astro-code) {
   border: 1px solid color-mix(in oklab, var(--aw-color-text-default) 12%, transparent);
 }
