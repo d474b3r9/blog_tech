@@ -3,7 +3,7 @@ publishDate: 2026-10-28T18:00:00Z
 title: 'Orca, mon précieux ! Pourquoi je migre de PyCharm'
 excerpt: 'Savoir quel agent fait quoi et ce qu''il coûte à la machine, des kanbans, un crayon dans le navigateur, une course entre trois agents : les killer features qui me font migrer vers Orca.'
 image: ~/assets/images/orca-cover-site.png
-imageAlt: 'Page d''accueil d''Orca : « Ship 100x with the agent IDE ». Visuel : onorca.dev'
+imageAlt: 'Page d''accueil d''Orca sur fond noir : le slogan « Ship 100x with the agent IDE » et une phrase expliquant qu''on y lance des agents de code en parallèle, chacun dans son propre worktree. Visuel : onorca.dev'
 category: Outils
 tags:
   - orca
@@ -12,17 +12,25 @@ tags:
   - pycharm
 ---
 
+<div class="tldr">
+
 ⚡ **TL;DR : l'article en 3 points**
 
 - **Pourquoi je migre** : Orca range chaque tâche dans son propre git worktree, avec son terminal, son navigateur et l'état de son agent. Les agents arrêtent de se marcher dessus.
 - **Les killer features** : voir quel agent fait quoi et ce qu'il consomme sur ma machine, deux kanbans (worktrees et agents), sélectionner, annoter ou dessiner dans le navigateur ce que je veux modifier, et faire courir trois agents sur la même tâche (pas encore testé).
 - **Ce qu'il fait moins bien** : la dictée vocale (Wispr Flow fait mieux), pas de vraie sandbox, pas de modèle intégré. PyCharm garde ses atouts.
 
+</div>
+
 Un agent de code seul dans un dépôt, c'est confortable. Trois agents dans le même dossier, c'est un open space sans cloisons : chacun écrit dans les fichiers des autres, et personne ne sait quelle branche est la bonne. Orca installe les cloisons.
 
 Je cherchais un moyen efficace d'organiser mon travail. Passer d'une tâche longue, menée par une équipe d'agents, à une autre sur le même dépôt, sans que mes essaims d'agents se prennent les pieds dans le tapis d'une tâche à l'autre. Jusque-là, j'attendais la fin de la tâche, ou je basculais sur un autre dépôt le temps qu'elle se termine.
 
 Je suis en train de migrer de PyCharm vers Orca. Pas contre PyCharm, qui reste un excellent IDE : parce que ma façon de travailler a changé. Voici ce qui m'a fait basculer.
+
+![Capture de l'interface d'Orca : quatre terminaux d'agents côte à côte au centre, la liste des espaces de travail classés en Todo, In progress et Done à gauche, l'arborescence des fichiers du dépôt à droite.](../../assets/images/orca-interface.png)
+
+l'interface d'Orca : les worktrees par statut, quatre agents en parallèle, l'arborescence du dépôt
 
 ## Killer feature 1 : un worktree par tâche, et les agents arrêtent de se marcher dessus
 
@@ -54,7 +62,7 @@ Côté CLI, `orca diagnostics memory` produit un instantané mémoire d'Orca et 
 
 Voici ce que donne le Resource Manager (« Gestionnaire de ressources » dans l'interface française) sur ma machine, avec un espace de travail actif : un onglet Ressources et un onglet PTY, une ligne par worktree puis par terminal, et en bas Orca lui-même.
 
-![Gestionnaire de ressources d'Orca : 2,5 % de processeur et 3,34 Go de mémoire au total, détaillés par worktree et par terminal](../../assets/images/orca-ressources.png)
+![Panneau « Gestionnaire de ressources » d'Orca : 2,5 % de processeur et 3,34 Go de mémoire au total. Le worktree « articles orca » occupe 2,44 Go sur quatre terminaux, dont un à 1,44 Go. Orca lui-même occupe 912 Mo.](../../assets/images/orca-ressources.png)
 
 le gestionnaire de ressources : processeur et mémoire par worktree, par terminal, et pour Orca lui-même
 
@@ -74,7 +82,11 @@ passer le worktree courant en revue
 
 Une ligne de commentaire, modifiable avec `--comment`, s'affiche sur la carte. Le raccourci « Toggle Workspace Board » n'est lié à aucune touche par défaut : à assigner dans Settings → Shortcuts. Pour quelqu'un qui jongle avec cinq tâches, c'est plus lisible qu'une pile de terminaux.
 
-Chez moi, le tableau s'ouvre par-dessus le terminal. Je clique sur une carte, je la glisse d'une colonne à l'autre (dans l'interface : Todo, In progress, In review, Done), et la zone « Épinglés » en haut permet de garder une carte à portée sans changer son statut. Je commence tout juste à m'en servir : pour l'instant, mes trois worktrees tiennent sur un coup d'œil.
+Chez moi, je glisse un worktree sur le côté, par-dessus mon terminal, et le kanban apparaît, comme sur cette capture. Je clique sur une carte, je la glisse d'une colonne à l'autre (Todo, In progress, In review, Done), et la zone « Épinglés » en haut permet de garder une carte à portée sans changer son statut. Je commence tout juste à m'en servir : pour l'instant, mes trois worktrees tiennent sur un coup d'œil.
+
+![Tableau des espaces de travail d'Orca : quatre colonnes Todo, In progress, In review et Done. Le worktree « articles orca » est en cours de déplacement, avec ses quatre agents listés dans sa carte, et la zone « Épinglés » apparaît en haut.](../../assets/images/orca-kanban.png)
+
+le kanban des worktrees ouvert par-dessus le terminal : une carte glissée entre deux colonnes
 
 ## Killer feature 4 : le navigateur où l'on montre à l'agent ce qu'on veut
 
@@ -84,7 +96,7 @@ Orca embarque un navigateur Chromium par worktree. Il sert à voir ce que l'agen
 - **L'annoter.** Un plateau d'annotations permet de garder plusieurs notes sur la page, chacune avec son commentaire, avant de les envoyer à l'agent.
 - **Dessiner sur la capture.** Le bouton « Dessiner sur la capture d'écran » ouvre une barre d'outils : crayon, surligneur, flèche, rectangle, cercle, texte, gomme, couleur, taille, annuler et rétablir. Vous entourez la zone, vous flèchez l'élément, vous écrivez à côté ce que vous voulez, puis « Copier le markup » et vous le collez dans votre agent.
 
-![Capture du blog DataStart avec le titre entouré en rouge et une flèche dessinés dans le navigateur d'Orca](../../assets/images/orca-dessin-capture.png)
+![Page d'accueil du blog DataStart dans le navigateur d'Orca : le titre « DataStart » est entouré en rouge et une flèche rouge part vers la droite, pour demander à l'agent de déplacer ce titre.](../../assets/images/orca-dessin-capture.png)
 
 dessin sur la capture : le titre entouré et une flèche, prêts à être copiés vers l'agent
 
