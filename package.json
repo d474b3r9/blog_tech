@@ -42,6 +42,7 @@
     "@astrojs/partytown": "^2.1.8",
     "@eslint/js": "^10.0.1",
     "@iconify-json/flat-color-icons": "^1.2.3",
+    "@iconify-json/simple-icons": "^1.2.101",
     "@iconify-json/tabler": "^1.2.38",
     "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.3",

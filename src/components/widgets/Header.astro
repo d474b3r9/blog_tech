@@ -25,6 +25,7 @@ export interface Props {
   links?: Array<MenuLink>;
   actions?: Array<CallToAction>;
   contact?: { text: string; href: string; icon?: string };
+  socials?: Array<{ ariaLabel: string; href: string; icon: string }>;
   isSticky?: boolean;
   isDark?: boolean;
   isFullWidth?: boolean;
@@ -38,6 +39,7 @@ const {
   links = [],
   actions = [],
   contact,
+  socials = [],
   isSticky = false,
   isDark = false,
   isFullWidth = false,
@@ -59,7 +61,7 @@ const isActive = (href?: string) => typeof href === 'string' && `/${trimSlash(hr
 // with its own menu (the demo homes, the landing pages) would keep showing the
 // header of the page the visitor came from. Hash the props that shape the markup.
 const persistKey = `header-${Array.from(
-  JSON.stringify({ links, actions, contact, isSticky, isDark, isFullWidth, showToggleTheme, showRssFeed, position })
+  JSON.stringify({ links, actions, contact, socials, isSticky, isDark, isFullWidth, showToggleTheme, showRssFeed, position })
 )
   .reduce((hash, char) => (hash * 31 + char.charCodeAt(0)) >>> 0, 7)
   .toString(36)}`;
@@ -159,6 +161,19 @@ const persistKey = `header-${Array.from(
       >
         <div class="items-center flex justify-between w-full lg:w-auto">
           <div class="flex items-center">
+            {
+              socials.map(({ ariaLabel, href, icon }) => (
+                <a
+                  class="text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
+                  aria-label={ariaLabel}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Icon name={icon} class="w-5 h-5" />
+                </a>
+              ))
+            }
             {
               contact && (
                 <a
