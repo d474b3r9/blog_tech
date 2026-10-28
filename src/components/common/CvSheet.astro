@@ -250,6 +250,18 @@ const qrSvg = profile.links.linkedin
     line-height: 1.55;
     letter-spacing: 0;
   }
+  .cv-sheet {
+    position: relative;
+  }
+  /* Liseré doré fin, même doré que les filets du CV */
+  .cv-sheet::after {
+    content: '';
+    position: absolute;
+    inset: 4mm;
+    border: 0.3mm solid var(--cv-rule);
+    pointer-events: none;
+    z-index: 1;
+  }
   .cv-sheet p,
   .cv-sheet ul {
     margin: 0;
@@ -593,6 +605,9 @@ const qrSvg = profile.links.linkedin
       overflow: visible;
       border-radius: 0;
       box-shadow: none;
+    }
+    .cv-sheet::after {
+      position: fixed;
     }
     .cv-grid {
       display: flex;
