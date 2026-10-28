@@ -10,7 +10,7 @@ metadata:
   title:
     default: DataStart
     template: '%s — DataStart'
-  description: "Articles et retours d'expérience techniques."
+  description: "Articles, retours d'expériences et veille technique."
   robots:
     index: true
     follow: true

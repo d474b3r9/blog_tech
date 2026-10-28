@@ -21,7 +21,7 @@ Je suis aussi Google Cloud Certified Trainer, j'enseigne à IMT Atlantique, j'é
 
 ## Ce que vous y trouverez
 
-Des retours d'expérience techniques sur la data, le cloud et les agents IA. Des projets réels, avec ce qui a marché, ce qui a cassé et ce que ça a coûté.
+Des retours d'expériences et de la veille technique sur la data, le cloud et les agents IA. Des projets réels, avec ce qui a marché, ce qui a cassé et ce que ça a coûté.
 
 Le format sera celui de mes articles précédents : un récit à la première personne, du code qui tourne, des chiffres constatés, et une section sur les limites.
 
