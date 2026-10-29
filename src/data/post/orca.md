@@ -202,4 +202,4 @@ Sous Windows et Linux, passez par les releases GitHub (exe, AppImage, deb, rpm).
 
 Pour l'instant, je teste Orca sur mon PC personnel, en même temps que je donne une formation. Vendredi 30 octobre, je le migre sur mon poste professionnel. Ce que j'en attends : enchaîner des tâches longues sur un même dépôt sans qu'elles se gênent, et voir d'un coup d'œil qui fait quoi. Je referai le point après quelques semaines d'usage réel.
 
-Un conseil : essayez Orca sur un petit dépôt, avec deux tâches indépendantes, avant de lui confier un vrai projet. Si deux agents avancent sans se gêner, vous aurez vu ce qu'il promet. Gollum, lui, n'a jamais su s'arrêter à un seul essai.
+Un conseil : essayez Orca sur un petit dépôt, avec deux tâches indépendantes, avant de lui confier un vrai projet. Si deux agents avancent sans se gêner, vous aurez vu ce qu'il promet. Essayez-le un vendredi après-midi : au pire, vos agents se seront occupés pendant que vous prenez un café.
