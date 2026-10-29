@@ -69,7 +69,7 @@ analytics:
     # To enable: create a website on cloud.umami.is (or your self-hosted instance) and paste its ID in websiteId.
     # Self-hosted: set scriptUrl to your instance script. domains (optional): "example.com" to ignore other hosts.
     umami:
-      websiteId: null # or "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+      websiteId: 'd17d255a-d1f9-4200-9011-afeb35106fd9' # or "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
       scriptUrl: 'https://cloud.umami.is/script.js'
       domains: 'datastart.fr'
 
