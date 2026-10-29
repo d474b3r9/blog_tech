@@ -48,8 +48,6 @@ export const teaching = [
   {
     label: 'Enseignant, IMT Atlantique (ex-École des Mines Télécom Nantes)',
     detail: 'Cours de data et de cloud. Google Cloud Certified Trainer.',
-    href: 'https://www.imt-atlantique.fr/fr/campus/sites/nantes',
-    hrefLabel: 'Campus de Nantes',
   },
 ];
 

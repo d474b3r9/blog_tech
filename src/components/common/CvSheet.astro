@@ -34,7 +34,7 @@ const qrSvg = profile.links.linkedin
       type: 'svg',
       margin: 0,
       errorCorrectionLevel: 'M',
-      color: { dark: '#c5cde0', light: '#0000' },
+      color: { dark: '#c09a6b', light: '#0000' },
     })
   : '';
 ---
@@ -117,13 +117,6 @@ const qrSvg = profile.links.linkedin
               ))
             }
           </ul>
-          {
-            profile.links.credly && (
-              <p class="cv-credly">
-                <a href={profile.links.credly}>Voir mes badges sur Credly</a>
-              </p>
-            )
-          }
         </section>
 
         <section>
@@ -133,11 +126,6 @@ const qrSvg = profile.links.linkedin
               <div class="cv-teach">
                 <p class="cv-label">{t.label}</p>
                 <p>{t.detail}</p>
-                {t.href && (
-                  <p>
-                    <a href={t.href}>{t.hrefLabel}</a>
-                  </p>
-                )}
               </div>
             ))
           }
@@ -252,15 +240,6 @@ const qrSvg = profile.links.linkedin
   }
   .cv-sheet {
     position: relative;
-  }
-  /* Liseré doré fin, même doré que les filets du CV */
-  .cv-sheet::after {
-    content: '';
-    position: absolute;
-    inset: 4mm;
-    border: 0.3mm solid var(--cv-rule);
-    pointer-events: none;
-    z-index: 1;
   }
   .cv-sheet p,
   .cv-sheet ul {
@@ -414,10 +393,6 @@ const qrSvg = profile.links.linkedin
     flex-direction: column;
     break-inside: avoid;
   }
-  .cv-credly {
-    margin-top: 3mm !important;
-  }
-  .cv-credly a,
   .cv-xp-link a,
   .cv-teach a {
     color: var(--cv-copper);
@@ -605,9 +580,6 @@ const qrSvg = profile.links.linkedin
       overflow: visible;
       border-radius: 0;
       box-shadow: none;
-    }
-    .cv-sheet::after {
-      position: fixed;
     }
     .cv-grid {
       display: flex;
