@@ -75,6 +75,11 @@ export interface AnalyticsConfig {
       id?: string;
       partytown?: boolean;
     };
+    umami?: {
+      websiteId?: string | null;
+      scriptUrl?: string;
+      domains?: string | null;
+    };
   };
 }
 
@@ -186,6 +191,11 @@ const getAnalytics = (config: Config) => {
       googleAnalytics: {
         id: undefined,
         partytown: true,
+      },
+      umami: {
+        websiteId: null,
+        scriptUrl: 'https://cloud.umami.is/script.js',
+        domains: null,
       },
     },
   };
