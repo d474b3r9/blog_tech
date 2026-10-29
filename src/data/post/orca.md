@@ -26,7 +26,7 @@ Un agent de code seul dans un dépôt, c'est confortable. Trois agents dans le m
 
 Je cherchais un moyen efficace d'organiser mon travail : passer d'une tâche longue, menée par une équipe d'agents, à une autre sur le même dépôt, sans que les agents se prennent les pieds dans le tapis. Jusque-là, j'attendais la fin de la tâche, ou je basculais sur un autre dépôt le temps qu'elle se termine.
 
-Je suis en train de migrer de PyCharm vers Orca. Pas contre PyCharm, qui reste un excellent IDE : parce que ma façon de travailler a changé. Voici ce qui m'a fait basculer.
+Je suis en train de migrer de PyCharm vers Orca. Ce n'est pas une rupture avec PyCharm, qui reste un excellent IDE : c'est ma façon de travailler qui a changé. Voici ce qui m'a fait basculer.
 
 ![Capture de l'interface d'Orca : quatre terminaux d'agents côte à côte au centre, la liste des espaces de travail classés en Todo, In progress et Done à gauche, l'arborescence des fichiers du dépôt à droite.](../../assets/images/orca-interface.png)
 
@@ -58,6 +58,12 @@ C'est la fonction qui change le plus mon quotidien. Avec plusieurs agents en par
 - **Le Resource Manager** : un indicateur de la barre d'état qui affiche la consommation du processeur et de la mémoire, les sessions, les contrôles du daemon et des analyses d'espace disque par workspace. C'est lui qui répond à « combien ils consomment sur ma machine ».
 - **L'hibernation** : quand vous gardez des dizaines de worktrees ouverts, chaque agent inactif est un terminal vivant qui garde une session en mémoire. Orca peut mettre en pause ceux qui ont fini depuis un certain temps (30 minutes par défaut, réglable de 1 minute à 24 heures) et reprendre la même session à la réouverture. Elle est expérimentale et désactivée par défaut, et ne concerne que les agents capables de reprendre une session.
 
+- **La barre d'utilisation, en bas à gauche** : elle suit la consommation de chacun de vos abonnements d'agents (quota utilisé, limites de débit). C'est très pratique quand on jongle avec plusieurs abonnements : on voit d'un coup d'œil lequel est presque épuisé avant de lancer une tâche longue dessus.
+
+![Barre d'utilisation d'Orca : en bas, la consommation de Claude (0 % sur la session de 5 h, 7 % sur la semaine, 0 % sur Fable) et d'Antigravity (3 % sur Gemini, 0 % sur Claude/GPT). Deux panneaux détaillés au-dessus, avec les délais de remise à zéro.](../../assets/images/orca-usage.png)
+
+_La barre d'utilisation : un coup d'œil sur tous les abonnements, et le détail par fournisseur au survol_
+
 Côté CLI, `orca diagnostics memory` produit un instantané mémoire d'Orca et de ses terminaux.
 
 Voici ce que donne le Resource Manager (« Gestionnaire de ressources » dans l'interface française) sur ma machine, avec un espace de travail actif : un onglet Ressources et un onglet PTY, une ligne par worktree puis par terminal, et en bas Orca lui-même.
@@ -68,7 +74,7 @@ _Le gestionnaire de ressources : processeur et mémoire par worktree, par termi
 
 Dans cet exemple : 3,34 Go de mémoire au total, dont 2,44 Go pour le worktree sur lequel j'écris cet article, répartis sur quatre terminaux (de 301 Mo à 1,44 Go : un seul terminal pèse plus que les trois autres réunis). Orca lui-même pèse 912 Mo, dont 331 Mo pour l'affichage. Un seul espace, donc rien d'inquiétant, mais l'écart entre terminaux montre à quoi sert ce panneau : repérer lequel gonfle. Avec dix agents en parallèle, il prendra tout son sens. Un bouton « Nettoyer les espaces de travail » et une analyse de l'espace disque (en bêta) complètent le tout.
 
-Précision utile : il s'agit de la consommation de **votre système**, pas de la facture en tokens d'une exécution. Orca suit l'usage de certains abonnements d'agents et leurs limites de débit, et la vue chat de certains agents affiche un anneau de remplissage de la fenêtre de contexte. Il ne chiffre pas le coût d'une exécution.
+Précision utile sur le Resource Manager : il s'agit de la consommation de **votre système**, pas de la facture en tokens d'une exécution. Pour les abonnements, c'est la barre d'utilisation du bas à gauche qui prend le relais, avec les limites de débit. La vue chat de certains agents affiche un anneau de remplissage de la fenêtre de contexte. Il ne chiffre pas le coût d'une exécution.
 
 ## Killer feature 3 : les worktrees en kanban
 
@@ -160,7 +166,7 @@ Certaines descriptions en ligne lui prêtent des fonctions qu'il n'a pas. Dans l
 - **Pas de vraie sandbox** : l'isolation est celle du worktree, fichiers et branches, pas celle d'un conteneur. Et par défaut, Orca lance chaque agent avec son drapeau de pleine autonomie, donc sans demandes de validation : l'idée de la documentation est que le worktree fait office de bac à sable. Un agent garde donc les droits de votre compte. Ce comportement se règle agent par agent dans Settings → Agents.
 - **Pas de boutons d'approbation propres** : Orca montre quand un agent attend après vous (la colonne « Needs You »), mais les validations restent celles de l'agent.
 - **Pas d'inspecteur de raisonnement** : pour comprendre ce qu'un agent a fait, vous lisez son terminal et ses diffs, ou vous cherchez dans l'historique des sessions.
-- **Pas de modèle intégré** : Orca lance des agents qui apportent le leur, avec votre propre abonnement. Le site en nomme 27 (le README GitHub en cite davantage), dont Codex, Gemini, Cursor, Copilot et OpenCode. Ce n'est pas un IDE avec une IA dedans, c'est un poste de pilotage pour agents externes.
+- **Pas de modèle intégré** : Orca lance des agents qui apportent le leur, avec votre propre abonnement. Le site en nomme 27 (le README GitHub en cite davantage), dont Claude, Codex, Gemini, Cursor, Copilot, OpenCode et Grok (xAI). Inutile de tous les lister : si votre agent a une CLI, il y a de bonnes chances qu'il se branche, et chaque compte garde son propre abonnement. Ce n'est pas un IDE avec une IA dedans, c'est un poste de pilotage pour agents externes.
 
 ## Et PyCharm dans tout ça
 
