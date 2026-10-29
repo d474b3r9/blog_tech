@@ -37,7 +37,7 @@ const { language, textDirection } = I18N;
     <CustomStyles />
     <ApplyColorMode />
     <Metadata {...metadata} />
-    <link rel="alternate" type="application/rss+xml" title={SITE.name} href={getAsset('/rss.xml')} />
+    <link rel="alternate" type="application/rss+xml" title={SITE.name} href={new URL(getAsset('/rss.xml'), Astro.site).toString()} />
     <SiteVerification />
     <Analytics />
 

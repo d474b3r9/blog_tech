@@ -14,7 +14,7 @@ import {
   isBlogListRouteEnabled,
   isBlogCategoryRouteEnabled,
 } from '~/utils/blog';
-import { findImage } from '~/utils/images';
+import { findImage, adaptOpenGraphImages } from '~/utils/images';
 import { truncateAtWord } from '~/utils/utils';
 import type { MetaData } from '~/types';
 import RelatedPosts from '~/components/blog/RelatedPosts.astro';
@@ -66,7 +66,8 @@ const metadata = merge(
   { ...(post?.metadata ? { ...post.metadata, canonical: post.metadata?.canonical || url } : {}) }
 ) as MetaData;
 
-const imageUrl = typeof image === 'string' ? image : image?.src;
+// Same optimized 1200x626 JPG as og:image, so LinkedIn and search engines see one cover.
+const imageUrl = (await adaptOpenGraphImages({ images: image ? [{ url: image as string }] : [] }, Astro.site)).images?.[0]?.url;
 
 // Article structured data. The breadcrumb trail below carries its own BreadcrumbList.
 const articleSchema = {
@@ -79,7 +80,7 @@ const articleSchema = {
   inLanguage: I18N?.language,
   author: { '@type': 'Person', name: authorName, url: String(getCanonical(getPermalink('/about'))), sameAs: authorSameAs },
   publisher: { '@type': 'Organization', name: SITE?.name },
-  ...(imageUrl ? { image: imageUrl.startsWith('http') ? imageUrl : new URL(imageUrl, Astro.site).toString() } : {}),
+  ...(imageUrl ? { image: imageUrl } : {}),
   ...(post.category ? { articleSection: post.category.title } : {}),
   ...(post.tags?.length ? { keywords: post.tags.map((tag) => tag.title).join(', ') } : {}),
   mainEntityOfPage: String(url),
