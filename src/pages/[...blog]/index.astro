@@ -97,6 +97,7 @@ const breadcrumbs = [
 ---
 
 <Layout metadata={metadata}>
+  <meta slot="head" name="author" content={authorName} />
   <StructuredData slot="head" schema={articleSchema} />
   <Breadcrumbs bar hideCurrent items={breadcrumbs} />
   <SinglePost post={{ ...post, image: image }} url={url}>
