@@ -20,7 +20,8 @@ import type { MetaData } from '~/types';
 import RelatedPosts from '~/components/blog/RelatedPosts.astro';
 import Breadcrumbs from '~/components/common/Breadcrumbs.astro';
 import StructuredData from '~/components/common/StructuredData.astro';
-import { SITE } from 'astrowind:config';
+import { SITE, I18N } from 'astrowind:config';
+import { headerData } from '~/navigation';
 
 export const prerender = true;
 
@@ -34,6 +35,10 @@ const { post } = Astro.props as Props;
 
 const url = getCanonical(getPermalink(post.permalink, 'post'));
 const image = (await findImage(post.image)) as ImageMetadata | string | undefined;
+
+// Single-author blog: posts without an explicit author fall back to the site owner.
+const authorName = post.author || 'Jonathan Cattelain';
+const authorSameAs = [headerData.contact.href, ...headerData.socials.filter((s) => s.ariaLabel === 'GitHub').map((s) => s.href)];
 
 const metadata = merge(
   {
@@ -49,7 +54,7 @@ const metadata = merge(
       article: {
         publishedTime: post.publishDate.toISOString(),
         modifiedTime: (post.updateDate ?? post.publishDate).toISOString(),
-        ...(post.author ? { authors: [post.author] } : {}),
+        authors: [String(getCanonical(getPermalink('/about')))],
         ...(post.category ? { section: post.category.title } : {}),
         ...(post.tags?.length ? { tags: post.tags.map((tag) => tag.title) } : {}),
       },
@@ -71,7 +76,8 @@ const articleSchema = {
   description: post.excerpt,
   datePublished: post.publishDate.toISOString(),
   dateModified: (post.updateDate ?? post.publishDate).toISOString(),
-  ...(post.author ? { author: { '@type': 'Person', name: post.author } } : {}),
+  inLanguage: I18N?.language,
+  author: { '@type': 'Person', name: authorName, url: String(getCanonical(getPermalink('/about'))), sameAs: authorSameAs },
   publisher: { '@type': 'Organization', name: SITE?.name },
   ...(imageUrl ? { image: imageUrl.startsWith('http') ? imageUrl : new URL(imageUrl, Astro.site).toString() } : {}),
   ...(post.category ? { articleSection: post.category.title } : {}),

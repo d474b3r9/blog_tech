@@ -87,7 +87,10 @@ export default defineConfig({
   ],
 
   integrations: [
-    sitemap(),
+    sitemap({
+      // Keep noindex pages (tag archives, anonymised CV) out of the sitemap.
+      filter: (page) => !/\/(tag\/|cv-anonyme$)/.test(new URL(page).pathname),
+    }),
     mdx(),
     icon({
       // Local SVG icons (used as <Icon name="file-name" />) live next to the other assets.

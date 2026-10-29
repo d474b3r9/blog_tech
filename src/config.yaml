@@ -16,6 +16,7 @@ metadata:
     follow: true
   openGraph:
     site_name: DataStart
+    locale: fr_FR
     images:
       - url: '~/assets/images/default.png'
         width: 1200
@@ -64,6 +65,13 @@ analytics:
   vendors:
     googleAnalytics:
       id: null # or "G-XXXXXXXXXX"
+    # Umami: cookieless, privacy-friendly, tracks UTM params by default.
+    # To enable: create a website on cloud.umami.is (or your self-hosted instance) and paste its ID in websiteId.
+    # Self-hosted: set scriptUrl to your instance script. domains (optional): "example.com" to ignore other hosts.
+    umami:
+      websiteId: null # or "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+      scriptUrl: 'https://cloud.umami.is/script.js'
+      domains: 'datastart.fr'
 
 ui:
   theme: 'system' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"
