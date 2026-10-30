@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1260 652" role="img" font-family="system-ui, 'Segoe UI', Arial, sans-serif">
+  <defs><pattern id="nm" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#f1f5f9"/><line x1="0" y1="0" x2="0" y2="8" stroke="#cbd5e1" stroke-width="3"/></pattern></defs>
+  <rect width="1260" height="652" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="20" y="34" font-size="20" font-weight="700" fill="#0f172a">Vitesse, justesse, contexte : treize modèles sur 12 Go de VRAM</text>
+  <text x="20" y="56" font-size="14" fill="#475569">Lignes classées par vitesse. Chaque barre porte sa valeur et son rang dans le critère.</text>
+  <rect x="205" y="80" width="12" height="12" fill="#2563eb"/>
+  <text x="223" y="91" font-size="14" font-weight="700" fill="#0f172a">Vitesse (4 096 de contexte)</text>
+  <rect x="480" y="80" width="12" height="12" fill="#7c3aed"/>
+  <text x="498" y="91" font-size="14" font-weight="700" fill="#0f172a">Justesse chez moi (MMLU-Pro)</text>
+  <rect x="735" y="80" width="12" height="12" fill="#16a34a"/>
+  <text x="753" y="91" font-size="14" font-weight="700" fill="#0f172a">Justesse Epoch (GPQA)</text>
+  <rect x="975" y="80" width="12" height="12" fill="#d97706"/>
+  <text x="993" y="91" font-size="14" font-weight="700" fill="#0f172a">Contexte utilisable (20 tok/s+)</text>
+  <text x="20" y="118" font-size="15" fill="#0f172a">Gemma 4 12B</text>
+  <rect x="205" y="104" width="123.9" height="18" fill="#2563eb"/>
+  <text x="335" y="118" font-size="14" fill="#0f172a"><tspan font-weight="700">123,9</tspan> tok/s · 1/13</text>
+  <rect x="480" y="104" width="115.8" height="18" fill="#7c3aed"/>
+  <text x="615" y="118" font-size="14" fill="#0f172a"><tspan font-weight="700">57,9 %</tspan> · 4/12</text>
+  <rect x="735" y="104" width="125" height="18" fill="url(#nm)" stroke="#cbd5e1"/>
+  <text x="865" y="118" font-size="14" fill="#64748b">non mesuré</text>
+  <rect x="975" y="104" width="130" height="18" fill="#d97706"/>
+  <text x="1111" y="118" font-size="14" fill="#0f172a"><tspan font-weight="700">262 144</tspan> · 1/13</text>
+  <text x="20" y="150" font-size="15" fill="#0f172a">Ministral-3 14B</text>
+  <rect x="205" y="136" width="73.1" height="18" fill="#2563eb"/>
+  <text x="335" y="150" font-size="14" fill="#0f172a"><tspan font-weight="700">73,1</tspan> tok/s · 2/13</text>
+  <rect x="480" y="136" width="100" height="18" fill="#7c3aed"/>
+  <text x="615" y="150" font-size="14" fill="#0f172a"><tspan font-weight="700">50,0 %</tspan> · 9/12</text>
+  <rect x="735" y="136" width="125" height="18" fill="url(#nm)" stroke="#cbd5e1"/>
+  <text x="865" y="150" font-size="14" fill="#64748b">non mesuré</text>
+  <rect x="975" y="136" width="55.7" height="18" fill="#d97706"/>
+  <text x="1111" y="150" font-size="14" fill="#0f172a"><tspan font-weight="700">16 384</tspan> · 8/13</text>
+  <text x="20" y="182" font-size="15" fill="#0f172a">GLM4 9B</text>
+  <rect x="205" y="168" width="71" height="18" fill="#2563eb"/>
+  <text x="335" y="182" font-size="14" fill="#0f172a"><tspan font-weight="700">71,0</tspan> tok/s · 3/13</text>
+  <rect x="480" y="168" width="78.6" height="18" fill="#7c3aed"/>
+  <text x="615" y="182" font-size="14" fill="#0f172a"><tspan font-weight="700">39,3 %</tspan> · 11/12</text>
+  <rect x="735" y="168" width="125" height="18" fill="url(#nm)" stroke="#cbd5e1"/>
+  <text x="865" y="182" font-size="14" fill="#64748b">non mesuré</text>
+  <rect x="975" y="168" width="74.3" height="18" fill="#d97706"/>
+  <text x="1111" y="182" font-size="14" fill="#0f172a"><tspan font-weight="700">32 768</tspan> · 7/13</text>
+  <text x="20" y="214" font-size="15" fill="#0f172a">Qwen3.5 9B</text>
+  <rect x="205" y="200" width="70.9" height="18" fill="#2563eb"/>
+  <text x="335" y="214" font-size="14" fill="#0f172a"><tspan font-weight="700">70,9</tspan> tok/s · 4/13</text>
+  <rect x="480" y="200" width="107.2" height="18" fill="#7c3aed"/>
+  <text x="615" y="214" font-size="14" fill="#0f172a"><tspan font-weight="700">53,6 %</tspan> · 5/12</text>
+  <rect x="735" y="200" width="118.5" height="18" fill="#16a34a"/>
+  <text x="865" y="214" font-size="14" fill="#0f172a"><tspan font-weight="700">79,0 %</tspan> · 2/5</text>
+  <rect x="975" y="200" width="92.9" height="18" fill="#d97706"/>
+  <text x="1111" y="214" font-size="14" fill="#0f172a"><tspan font-weight="700">65 536</tspan> · 6/13</text>
+  <text x="20" y="246" font-size="15" fill="#0f172a">Qwen2.5-Coder 14B</text>
+  <rect x="205" y="232" width="66" height="18" fill="#2563eb"/>
+  <text x="335" y="246" font-size="14" fill="#0f172a"><tspan font-weight="700">66,0</tspan> tok/s · 5/13</text>
+  <rect x="480" y="232" width="86.4" height="18" fill="#7c3aed"/>
+  <text x="615" y="246" font-size="14" fill="#0f172a"><tspan font-weight="700">43,2 %</tspan> · 10/12</text>
+  <rect x="735" y="232" width="125" height="18" fill="url(#nm)" stroke="#cbd5e1"/>
+  <text x="865" y="246" font-size="14" fill="#64748b">non mesuré</text>
+  <rect x="975" y="232" width="55.7" height="18" fill="#d97706"/>
+  <text x="1111" y="246" font-size="14" fill="#0f172a"><tspan font-weight="700">16 384</tspan> · 8/13</text>
+  <text x="20" y="278" font-size="15" fill="#0f172a">Codestral 22B</text>
+  <rect x="205" y="264" width="56.6" height="18" fill="#2563eb"/>
+  <text x="335" y="278" font-size="14" fill="#0f172a"><tspan font-weight="700">56,6</tspan> tok/s · 6/13</text>
+  <rect x="480" y="264" width="57.8" height="18" fill="#7c3aed"/>
+  <text x="615" y="278" font-size="14" fill="#0f172a"><tspan font-weight="700">28,9 %</tspan> · 12/12</text>
+  <rect x="735" y="264" width="125" height="18" fill="url(#nm)" stroke="#cbd5e1"/>
+  <text x="865" y="278" font-size="14" fill="#64748b">non mesuré</text>
+  <rect x="975" y="264" width="18.6" height="18" fill="#d97706"/>
+  <text x="1111" y="278" font-size="14" fill="#0f172a"><tspan font-weight="700">4 096</tspan> · 10/13</text>
+  <text x="20" y="310" font-size="15" fill="#0f172a">Qwen3.6 35B-A3B</text>
+  <rect x="205" y="296" width="44.5" height="18" fill="#2563eb"/>
+  <text x="335" y="310" font-size="14" fill="#0f172a"><tspan font-weight="700">44,5</tspan> tok/s · 7/13</text>
+  <rect x="480" y="296" width="122.8" height="18" fill="#7c3aed"/>
+  <text x="615" y="310" font-size="14" fill="#0f172a"><tspan font-weight="700">61,4 %</tspan> · 3/12</text>
+  <rect x="735" y="296" width="125.7" height="18" fill="#16a34a"/>
+  <text x="865" y="310" font-size="14" fill="#0f172a"><tspan font-weight="700">83,8 %</tspan> · 1/5</text>
+  <rect x="975" y="296" width="130" height="18" fill="#d97706"/>
+  <text x="1111" y="310" font-size="14" fill="#0f172a"><tspan font-weight="700">262 144</tspan> · 1/13</text>
+  <text x="20" y="342" font-size="15" fill="#0f172a">Qwen3-Coder 30B-A3B</text>
+  <rect x="205" y="328" width="40.9" height="18" fill="#2563eb"/>
+  <text x="335" y="342" font-size="14" fill="#0f172a"><tspan font-weight="700">40,9</tspan> tok/s · 8/13</text>
+  <rect x="480" y="328" width="102.8" height="18" fill="#7c3aed"/>
+  <text x="615" y="342" font-size="14" fill="#0f172a"><tspan font-weight="700">51,4 %</tspan> · 8/12</text>
+  <rect x="735" y="328" width="125" height="18" fill="url(#nm)" stroke="#cbd5e1"/>
+  <text x="865" y="342" font-size="14" fill="#64748b">non mesuré</text>
+  <rect x="975" y="328" width="111.4" height="18" fill="#d97706"/>
+  <text x="1111" y="342" font-size="14" fill="#0f172a"><tspan font-weight="700">131 072</tspan> · 5/13</text>
+  <text x="20" y="374" font-size="15" fill="#0f172a">GLM-4.7-Flash</text>
+  <rect x="205" y="360" width="40.2" height="18" fill="#2563eb"/>
+  <text x="335" y="374" font-size="14" fill="#0f172a"><tspan font-weight="700">40,2</tspan> tok/s · 9/13</text>
+  <rect x="480" y="360" width="130" height="18" fill="url(#nm)" stroke="#cbd5e1"/>
+  <text x="615" y="374" font-size="14" fill="#64748b">non mesuré</text>
+  <rect x="735" y="360" width="90.8" height="18" fill="#16a34a"/>
+  <text x="865" y="374" font-size="14" fill="#0f172a"><tspan font-weight="700">60,5 %</tspan> · 4/5</text>
+  <rect x="975" y="360" width="123.1" height="18" fill="#d97706"/>
+  <text x="1111" y="374" font-size="14" fill="#0f172a"><tspan font-weight="700">202 752</tspan> · 4/13</text>
+  <text x="20" y="406" font-size="15" fill="#0f172a">Gemma 4 26B-A4B</text>
+  <rect x="205" y="392" width="39.8" height="18" fill="#2563eb"/>
+  <text x="335" y="406" font-size="14" fill="#0f172a"><tspan font-weight="700">39,8</tspan> tok/s · 10/13</text>
+  <rect x="480" y="392" width="131.4" height="18" fill="#7c3aed"/>
+  <text x="615" y="406" font-size="14" fill="#0f172a"><tspan font-weight="700">65,7 %</tspan> · 1/12</text>
+  <rect x="735" y="392" width="109.8" height="18" fill="#16a34a"/>
+  <text x="865" y="406" font-size="14" fill="#0f172a"><tspan font-weight="700">73,2 %</tspan> · 3/5</text>
+  <rect x="975" y="392" width="130" height="18" fill="#d97706"/>
+  <text x="1111" y="406" font-size="14" fill="#0f172a"><tspan font-weight="700">262 144</tspan> · 1/13</text>
+  <text x="20" y="438" font-size="15" fill="#0f172a">Devstral Small 2 24B</text>
+  <rect x="205" y="424" width="5.9" height="18" fill="#2563eb"/>
+  <text x="335" y="438" font-size="14" fill="#0f172a"><tspan font-weight="700">5,9</tspan> tok/s · 11/13</text>
+  <rect x="480" y="424" width="104.2" height="18" fill="#7c3aed"/>
+  <text x="615" y="438" font-size="14" fill="#0f172a"><tspan font-weight="700">52,1 %</tspan> · 7/12</text>
+  <rect x="735" y="424" width="125" height="18" fill="url(#nm)" stroke="#cbd5e1"/>
+  <text x="865" y="438" font-size="14" fill="#64748b">non mesuré</text>
+  <rect x="975" y="424" width="130" height="18" fill="url(#nm)" stroke="#cbd5e1"/>
+  <text x="1111" y="438" font-size="14" fill="#b91c1c">aucun palier · 11/13</text>
+  <text x="20" y="470" font-size="15" fill="#0f172a">Mistral Small 3.2 24B</text>
+  <rect x="205" y="456" width="5.2" height="18" fill="#2563eb"/>
+  <text x="335" y="470" font-size="14" fill="#0f172a"><tspan font-weight="700">5,2</tspan> tok/s · 12/13</text>
+  <rect x="480" y="456" width="107.2" height="18" fill="#7c3aed"/>
+  <text x="615" y="470" font-size="14" fill="#0f172a"><tspan font-weight="700">53,6 %</tspan> · 5/12</text>
+  <rect x="735" y="456" width="73.6" height="18" fill="#16a34a"/>
+  <text x="865" y="470" font-size="14" fill="#0f172a"><tspan font-weight="700">49,1 %</tspan> · 5/5</text>
+  <rect x="975" y="456" width="130" height="18" fill="url(#nm)" stroke="#cbd5e1"/>
+  <text x="1111" y="470" font-size="14" fill="#b91c1c">aucun palier · 11/13</text>
+  <text x="20" y="502" font-size="15" fill="#0f172a">Qwen3.8 27B</text>
+  <rect x="205" y="488" width="4.3" height="18" fill="#2563eb"/>
+  <text x="335" y="502" font-size="14" fill="#0f172a"><tspan font-weight="700">4,3</tspan> tok/s · 13/13</text>
+  <rect x="480" y="488" width="127.2" height="18" fill="#7c3aed"/>
+  <text x="615" y="502" font-size="14" fill="#0f172a"><tspan font-weight="700">63,6 %</tspan> · 2/12</text>
+  <rect x="735" y="488" width="125" height="18" fill="url(#nm)" stroke="#cbd5e1"/>
+  <text x="865" y="502" font-size="14" fill="#64748b">non mesuré</text>
+  <rect x="975" y="488" width="130" height="18" fill="url(#nm)" stroke="#cbd5e1"/>
+  <text x="1111" y="502" font-size="14" fill="#b91c1c">aucun palier · 11/13</text>
+  <text x="20" y="540" font-size="13" fill="#475569">Vitesse et contexte : mesurés sur ma machine (RTX 3080 Ti, 32 Go de DDR4). Contexte : palier le plus haut testé qui garde 20 tok/s ou plus (seuil de mon choix), échelle logarithmique.</text>
+  <text x="20" y="558" font-size="13" fill="#475569">Justesse chez moi : 280 questions MMLU-Pro en réponse directe, sur mes quantifications (hasard à 10 %, marge d'erreur d'environ 3 points : sous 6 points d'écart, pas de classement fiable).</text>
+  <text x="20" y="576" font-size="13" fill="#475569">Justesse Epoch : GPQA Diamond avec raisonnement, modèles d'origine (hasard à 25 %, marge de 2 à 3 points). Rang parmi les 5 modèles mesurés. Source : epoch.ai/data, licence CC BY 4.0.</text>
+  <text x="20" y="594" font-size="13" fill="#475569">Hachuré : non mesuré. GLM-4.7-Flash n'a pas pu passer mon test faute de mémoire. Les deux mesures de justesse n'ont ni la même échelle ni le même protocole.</text>
+</svg>
