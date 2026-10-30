@@ -27,7 +27,7 @@
   <text x="754.5" y="311" font-size="19" fill="#334155"><tspan font-weight="700" fill="#0f172a">72,0</tspan> sur LiveCodeBench v6</text>
   <text x="754.5" y="342" font-size="19" fill="#334155"><tspan font-weight="700" fill="#0f172a">non déclaré</tspan> sur SWE-bench</text>
   <text x="754.5" y="373" font-size="19" fill="#334155"><tspan font-weight="700" fill="#0f172a">123,9</tspan> tokens par seconde</text>
-  <text x="754.5" y="404" font-size="19" fill="#334155"><tspan font-weight="700" fill="#0f172a">Tout en VRAM</tspan> à 262 144 tokens</text>
+  <text x="754.5" y="404" font-size="19" fill="#334155"><tspan font-weight="700" fill="#0f172a">Presque tout en VRAM</tspan> à 262 144</text>
   <rect x="732.5" y="438" width="335" height="110" rx="6" fill="#9a3412"/>
   <text x="900" y="523" font-size="92" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
   <line x1="17.5" y1="548" x2="1082.5" y2="548" stroke="#94a3b8" stroke-width="2"/>

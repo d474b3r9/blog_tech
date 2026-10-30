@@ -4,9 +4,9 @@
   <rect x="30" y="52" width="14" height="14" fill="#2563eb"/>
   <text x="52" y="64" font-size="13" fill="#0f172a">Tient en VRAM</text>
   <rect x="200" y="52" width="14" height="14" fill="#16a34a"/>
-  <text x="222" y="64" font-size="13" fill="#0f172a">MoE, couches en RAM</text>
+  <text x="222" y="64" font-size="13" fill="#0f172a">MoE, en partie en RAM</text>
   <rect x="400" y="52" width="14" height="14" fill="#dc2626"/>
-  <text x="422" y="64" font-size="13" fill="#0f172a">Dense, couches en RAM</text>
+  <text x="422" y="64" font-size="13" fill="#0f172a">Dense, en partie en RAM</text>
   <text x="250" y="116" font-size="14" text-anchor="end" fill="#0f172a">Gemma 4 12B q4_K_M</text>
   <rect x="262" y="100" width="495.6" height="22" fill="#2563eb"/>
   <text x="765.6" y="116" font-size="13" font-weight="600" fill="#0f172a">123,9 tok/s</text>

@@ -303,7 +303,7 @@ Deux précisions avant de classer. Pour le multimodal, je n'ai testé aucune ima
 
 **Pour le code**
 
-![Podium de trois marches. Première place : Qwen3.6 35B-A3B, 80,4 sur LiveCodeBench v6 et 73,4 sur SWE-bench Verified (déclarés), 44,5 tokens par seconde. Deuxième : Gemma 4 26B-A4B, 77,1 sur LiveCodeBench v6, 39,8 tokens par seconde. Troisième : Gemma 4 12B, 72,0 sur LiveCodeBench v6, 123,9 tokens par seconde, tout en VRAM.](../../assets/images/ia-locale-deployer-optimiser-12go/ia-locale-podium-code.svg)
+![Podium de trois marches. Première place : Qwen3.6 35B-A3B, 80,4 sur LiveCodeBench v6 et 73,4 sur SWE-bench Verified (déclarés), 44,5 tokens par seconde. Deuxième : Gemma 4 26B-A4B, 77,1 sur LiveCodeBench v6, 39,8 tokens par seconde. Troisième : Gemma 4 12B, 72,0 sur LiveCodeBench v6, 123,9 tokens par seconde, presque tout en VRAM à 262 144 tokens.](../../assets/images/ia-locale-deployer-optimiser-12go/ia-locale-podium-code.svg)
 
 podium des trois modèles que je retiens pour le code
 
