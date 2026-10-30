@@ -2,13 +2,23 @@
 publishDate: 2026-10-28T00:00:00Z
 title: 'Bienvenue sur DataStart'
 excerpt: Qui écrit ici, ce que vous y lirez, et où retrouver mes articles précédents.
-image: ~/assets/images/bienvenue-cover.png
+image: ~/assets/images/bienvenue/bienvenue-cover.png
 imageAlt: 'Schéma de données : plusieurs sources convergent vers un nœud de transformation puis vers trois couches, sous le titre DataStart'
 category: Général
 tags:
   - blog
+author: Jonathan Cattelain
 ---
 
+<div class="tldr">
+
+⚡ **TL;DR : l'article en 3 points**
+
+- **Qui écrit ici** : Jonathan Cattelain, Staff Engineer Data chez SFEIR à Nantes, plus de 15 ans d'expérience sur les data platforms de bout en bout et l'IA agentique.
+- **Ce que vous y lirez** : des retours d'expériences et de la veille sur la data, le cloud et les agents IA, avec ce qui a marché, ce qui a cassé et ce que ça a coûté.
+- **Où retrouver le reste** : dix articles publiés sur sfeir.dev depuis février 2025, classés par thème plus bas. Le prochain portera sur Orca.
+
+</div>
 Un blog de plus, me direz-vous. Sans doute. Voici au moins ce qu'il contient, qui l'écrit, et où retrouver ce que j'ai déjà publié ailleurs.
 
 ## Qui écrit ici
@@ -17,7 +27,7 @@ Je m'appelle Jonathan Cattelain. Je suis Staff Engineer Data chez SFEIR, à Nant
 
 Mon métier : concevoir et mettre en place des data platforms de bout en bout, sur GCP, AWS, Azure et Scaleway, avec gouvernance, observabilité et data platforms as code. J'y intègre de l'IA agentique (MCPs, skills, tools) pour accélérer les cas d'usage.
 
-Je suis aussi Google Cloud Certified Trainer, j'enseigne à IMT Atlantique, j'écris et je parle en conférences. Le détail de mon parcours est sur la page [CV](/cv).
+Je suis aussi Google Cloud Certified Trainer, j'enseigne à IMT Atlantique, j'écris et je parle en conférences. Le détail de mon parcours est sur la page [CV](/cv/).
 
 ## Ce que vous y trouverez
 

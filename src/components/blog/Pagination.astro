@@ -12,7 +12,7 @@ export interface Props {
 // `prevUrl`/`nextUrl` come from Astro's `page.url` and already include `base`
 // and honour `trailingSlash`, so they must not go through `getPermalink()`
 // (that would prefix `base` a second time, see #629).
-const { prevUrl, nextUrl, prevText = 'Newer posts', nextText = 'Older posts' } = Astro.props;
+const { prevUrl, nextUrl, prevText = 'Articles plus récents', nextText = 'Articles plus anciens' } = Astro.props;
 ---
 
 {

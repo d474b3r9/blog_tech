@@ -21,6 +21,8 @@
     "fix:eslint": "eslint --fix .",
     "fix:prettier": "prettier -w .",
     "test": "node --test",
+    "validate": "node scripts/validate-posts.mjs",
+    "check:links": "node scripts/check-links.mjs",
     "live": "node scripts/check-live.mjs"
   },
   "dependencies": {

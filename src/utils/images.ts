@@ -41,8 +41,9 @@ export const findImage = async (
   return ((await loader()) as { default: ImageMetadata }).default;
 };
 
+// 1200x627 (ratio 1,91:1) : minimum demandé par LinkedIn pour une grande carte de partage.
 const OG_WIDTH = 1200;
-const OG_HEIGHT = 626;
+const OG_HEIGHT = 627;
 
 /**
  * Adapt OpenGraph images to absolute, optimized URLs.
@@ -73,6 +74,7 @@ export const adaptOpenGraphImages = async (
         url: String(new URL(optimized.src, astroSite)),
         width: Number(optimized.attributes.width) || OG_WIDTH,
         height: Number(optimized.attributes.height) || OG_HEIGHT,
+        ...(image.alt ? { alt: image.alt } : {}),
       };
     })
   );

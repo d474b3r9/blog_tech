@@ -22,7 +22,7 @@ const { page, category } = Astro.props as Props;
 const currentPage = page.currentPage ?? 1;
 
 const breadcrumbs = [
-  { text: 'Home', href: getPermalink('/') },
+  { text: 'Accueil', href: getPermalink('/') },
   { text: 'Blog', href: getBlogPermalink() },
   ...(currentPage > 1
     ? [{ text: category.title, href: getPermalink(category.slug, 'category') }, { text: `Page ${currentPage}` }]
@@ -30,8 +30,8 @@ const breadcrumbs = [
 ];
 
 const metadata = {
-  title: `Category '${category.title}' ${currentPage > 1 ? ` — Page ${currentPage}` : ''}`,
-  description: `Articles in the ${category.title} category of the AstroWind blog.`,
+  title: `Catégorie « ${category.title} »${currentPage > 1 ? ` — Page ${currentPage}` : ''}`,
+  description: `Articles de la catégorie ${category.title} du blog DataStart.`,
   robots: {
     index: blogCategoryRobots?.index,
     follow: blogCategoryRobots?.follow,

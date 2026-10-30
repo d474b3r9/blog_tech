@@ -41,10 +41,10 @@ export const parisDateTime = (date) => parisTimeFormat.format(date);
  * Lit `draft` et `publishDate` dans le frontmatter d'un fichier Markdown.
  * Gère CRLF, guillemets simples ou doubles et clé absente.
  * @param {string} markdownText
- * @returns {{ draft: boolean, publishDate: string | undefined }}
+ * @returns {{ draft: boolean, publishDate: string | undefined, annexOf: string | undefined }}
  */
 export const readFrontmatterFlags = (markdownText) => {
-  const text = markdownText.replace(/^﻿/, '').replace(/\r\n?/g, '\n');
+  const text = (markdownText.charCodeAt(0) === 0xfeff ? markdownText.slice(1) : markdownText).replace(/\r\n?/g, '\n');
   const front = (text.match(/^---\n([\s\S]*?)\n---/) ?? [])[1] ?? '';
   const draft = /^draft:\s*(['"]?)true\1\s*(?:#.*)?$/m.test(front);
   const rawDate = (front.match(/^publishDate:[ \t]*(.+)$/m) ?? [])[1];
@@ -52,7 +52,11 @@ export const readFrontmatterFlags = (markdownText) => {
     ?.replace(/\s+#.*$/, '')
     .trim()
     .replace(/^(['"])(.*)\1$/, '$2');
-  return { draft, publishDate: publishDate || undefined };
+  const annexOf = (front.match(/^annexOf:[ \t]*(.+)$/m) ?? [])[1]
+    ?.replace(/\s+#.*$/, '')
+    .trim()
+    .replace(/^(['"])(.*)\1$/, '$2');
+  return { draft, publishDate: publishDate || undefined, annexOf: annexOf || undefined };
 };
 
 /**

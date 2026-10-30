@@ -15,7 +15,6 @@ import {
   isBlogCategoryRouteEnabled,
 } from '~/utils/blog';
 import { findImage, adaptOpenGraphImages } from '~/utils/images';
-import { truncateAtWord } from '~/utils/utils';
 import type { MetaData } from '~/types';
 import RelatedPosts from '~/components/blog/RelatedPosts.astro';
 import Breadcrumbs from '~/components/common/Breadcrumbs.astro';
@@ -33,6 +32,21 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { post } = Astro.props as Props;
 
+/**
+ * Description pour les moteurs : l'extrait complet jusqu'à 300 caractères (Google n'impose pas de limite).
+ * Au-delà, coupe à la dernière fin de phrase, à défaut au dernier mot, sans points de suspension.
+ */
+const MAX_DESCRIPTION = 300;
+const toDescription = (text = ''): string => {
+  const clean = text.replace(/\s+/g, ' ').trim();
+  if (clean.length <= MAX_DESCRIPTION) return clean;
+  const head = clean.slice(0, MAX_DESCRIPTION + 1);
+  const sentenceEnd = Math.max(head.lastIndexOf('. '), head.lastIndexOf('! '), head.lastIndexOf('? '));
+  if (sentenceEnd > MAX_DESCRIPTION / 2) return head.slice(0, sentenceEnd + 1);
+  const wordEnd = head.lastIndexOf(' ');
+  return head.slice(0, wordEnd > 0 ? wordEnd : MAX_DESCRIPTION).replace(/[\s,;:.-]+$/, '');
+};
+
 const url = getCanonical(getPermalink(post.permalink, 'post'));
 const image = (await findImage(post.image)) as ImageMetadata | string | undefined;
 
@@ -46,8 +60,7 @@ const authorSameAs = [
 const metadata = merge(
   {
     title: post.title,
-    // Search engines cut descriptions at about 155 characters; the full excerpt stays visible on the page.
-    description: truncateAtWord(post.excerpt, 155),
+    description: toDescription(post.excerpt),
     robots: {
       index: blogPostRobots?.index,
       follow: blogPostRobots?.follow,
@@ -62,14 +75,23 @@ const metadata = merge(
         ...(post.tags?.length ? { tags: post.tags.map((tag) => tag.title) } : {}),
       },
       ...(image
-        ? { images: [{ url: image, width: (image as ImageMetadata)?.width, height: (image as ImageMetadata)?.height }] }
+        ? {
+            images: [
+              {
+                url: image,
+                width: (image as ImageMetadata)?.width,
+                height: (image as ImageMetadata)?.height,
+                alt: post.imageAlt || post.title,
+              },
+            ],
+          }
         : {}),
     },
   },
   { ...(post?.metadata ? { ...post.metadata, canonical: post.metadata?.canonical || url } : {}) }
 ) as MetaData;
 
-// Same optimized 1200x626 JPG as og:image, so LinkedIn and search engines see one cover.
+// Same optimized 1200x627 JPG as og:image, so LinkedIn and search engines see one cover.
 const imageUrl = (await adaptOpenGraphImages({ images: image ? [{ url: image as string }] : [] }, Astro.site))
   .images?.[0]?.url;
 
@@ -96,7 +118,7 @@ const articleSchema = {
 };
 
 const breadcrumbs = [
-  { text: 'Home', href: getPermalink('/') },
+  { text: 'Accueil', href: getPermalink('/') },
   ...(isBlogListRouteEnabled ? [{ text: 'Blog', href: getBlogPermalink() }] : []),
   ...(post.category && isBlogCategoryRouteEnabled
     ? [{ text: post.category.title, href: getPermalink(post.category.slug, 'category') }]

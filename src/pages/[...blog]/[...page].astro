@@ -5,7 +5,6 @@ import Layout from '~/layouts/PageLayout.astro';
 import BlogList from '~/components/blog/List.astro';
 import Headline from '~/components/blog/Headline.astro';
 import Pagination from '~/components/blog/Pagination.astro';
-import Newsletter from '~/components/widgets/Newsletter.astro';
 import Breadcrumbs from '~/components/common/Breadcrumbs.astro';
 import { getPermalink, getBlogPermalink } from '~/utils/permalinks';
 // import PostTags from "~/components/blog/Tags.astro";
@@ -24,7 +23,7 @@ const { page } = Astro.props as Props;
 const currentPage = page.currentPage ?? 1;
 
 const breadcrumbs = [
-  { text: 'Home', href: getPermalink('/') },
+  { text: 'Accueil', href: getPermalink('/') },
   ...(currentPage > 1
     ? [{ text: 'Blog', href: getBlogPermalink() }, { text: `Page ${currentPage}` }]
     : [{ text: 'Blog' }]),
@@ -63,12 +62,4 @@ const metadata = {
       <PostTags tags={allTags}  title="Search by Tags:" />
     -->
   </section>
-  <Newsletter
-    tagline="Newsletter"
-    title="New articles in your inbox"
-    subtitle="Tutorials and notes about Astro, Tailwind CSS and the template, when they are published. Nothing else."
-    button="Subscribe"
-    disclaimer="Unsubscribe with one click. This form is a template: pass an <code>action</code> to connect it to your email tool."
-    classes={{ container: 'max-w-4xl' }}
-  />
 </Layout>

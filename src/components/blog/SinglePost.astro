@@ -38,7 +38,8 @@ const [parentPost] = post.annexOf ? await findPostsBySlugs([post.annexOf]) : [];
                 {' '}
                 ·{' '}
                 <span class="inline-block">
-                  Updated <time datetime={post.updateDate.toISOString()}>{getFormattedDate(post.updateDate)}</time>
+                  Mis à jour le{' '}
+                  <time datetime={post.updateDate.toISOString()}>{getFormattedDate(post.updateDate)}</time>
                 </span>
               </>
             )
@@ -66,7 +67,7 @@ const [parentPost] = post.annexOf ? await findPostsBySlugs([post.annexOf]) : [];
           {
             post.readingTime && (
               <>
-                &nbsp;· <span>{post.readingTime}</span> min read
+                &nbsp;· <span>{post.readingTime}</span> min de lecture
               </>
             )
           }

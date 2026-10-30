@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -23,8 +24,27 @@ const hasExternalScripts = false;
 const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroIntegration)[] = []) =>
   hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
 
+// Date de dernière modification des articles pour le sitemap : `updateDate ?? publishDate` du frontmatter.
+// Lecture simple des lignes `clé: valeur`, sans dépendance. Seules les pages d'articles reçoivent un lastmod,
+// les autres pages n'ont pas de date de modification que l'on puisse garantir.
+const POST_DIR = path.join(__dirname, 'src/data/post');
+const postLastmod = new Map<string, string>();
+for (const file of fs.existsSync(POST_DIR) ? fs.readdirSync(POST_DIR) : []) {
+  if (!/\.mdx?$/.test(file)) continue;
+  const frontmatter =
+    fs.readFileSync(path.join(POST_DIR, file), 'utf8').match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] ?? '';
+  const read = (key: string) => frontmatter.match(new RegExp(`^${key}:\\s*['"]?([^'"\\r\\n#]+?)['"]?\\s*$`, 'm'))?.[1];
+  const date = new Date(read('updateDate') ?? read('publishDate') ?? '');
+  if (!Number.isNaN(date.getTime())) postLastmod.set(file.replace(/\.mdx?$/, ''), date.toISOString());
+}
+
 export default defineConfig({
   output: 'static',
+
+  // Les pages sont servies en `dossier/index.html`, donc à l'URL `/dossier/` : toutes les URL émises
+  // (canonical, sitemap, RSS, liens) se terminent par un slash. Aligné sur `site.trailingSlash` de config.yaml.
+  trailingSlash: 'always',
+  build: { format: 'directory' },
 
   // Prefetch links as they enter the viewport for snappier navigations
   // (works together with <ClientRouter />, which enables prefetch by default).
@@ -89,7 +109,12 @@ export default defineConfig({
   integrations: [
     sitemap({
       // Keep noindex pages (tag archives, anonymised CV) out of the sitemap.
-      filter: (page) => !/\/(tag\/|cv-anonyme$)/.test(new URL(page).pathname),
+      filter: (page) => !/\/(tag\/|cv-anonyme\/?$)/.test(new URL(page).pathname),
+      // lastmod uniquement pour les articles (ni priority ni changefreq).
+      serialize: (item) => {
+        const lastmod = postLastmod.get(new URL(item.url).pathname.replace(/^\/|\/$/g, ''));
+        return lastmod ? { ...item, lastmod } : item;
+      },
     }),
     mdx(),
     icon({
@@ -150,7 +175,7 @@ export default defineConfig({
     // `domains` only matters for remote URLs that fall through to Astro's
     // native <Image /> (i.e. providers Unpic can't detect, like Pixabay).
     // Listed entries are authorized to be processed by Sharp.
-    // Unsplash is listed so post covers can be rendered as real 1200×626 Open Graph images.
+    // Unsplash is listed so post covers can be rendered as real 1200×627 Open Graph images.
     domains: ['cdn.pixabay.com', 'images.unsplash.com'],
 
     // Emit responsive styles for the native <Image layout=…> used by

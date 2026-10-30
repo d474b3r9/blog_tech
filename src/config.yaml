@@ -2,7 +2,7 @@ site:
   name: DataStart
   site: 'https://datastart.fr'
   base: '/'
-  trailingSlash: false
+  trailingSlash: true
 
 # Default SEO metadata
 metadata:
@@ -19,7 +19,7 @@ metadata:
     images:
       - url: '~/assets/images/default.png'
         width: 1200
-        height: 628
+        height: 627
     type: website
   twitter:
     cardType: summary_large_image

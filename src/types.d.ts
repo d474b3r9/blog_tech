@@ -65,6 +65,8 @@ export interface MetaDataImage {
   url: string;
   width?: number;
   height?: number;
+  /** Texte alternatif annoncé dans og:image:alt. */
+  alt?: string;
 }
 
 export interface MetaDataOpenGraph {

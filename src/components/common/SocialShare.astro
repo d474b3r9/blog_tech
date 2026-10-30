@@ -11,12 +11,12 @@ const { text, url, class: className = 'inline-block' } = Astro.props;
 ---
 
 <aw-social-share class={className}>
-  <span class="align-super font-bold text-slate-500 dark:text-slate-400">Share:</span>
+  <span class="align-super font-bold text-slate-500 dark:text-slate-400">Partager :</span>
   <button
     type="button"
     class="ml-2 rtl:ml-0 rtl:mr-2"
-    title="Twitter Share"
-    aria-label="Twitter Share"
+    title="Partager sur X"
+    aria-label="Partager sur X"
     data-aw-social-share="twitter"
     data-aw-url={url}
     data-aw-text={text}
@@ -28,8 +28,8 @@ const { text, url, class: className = 'inline-block' } = Astro.props;
   <button
     type="button"
     class="ml-2 rtl:ml-0 rtl:mr-2"
-    title="Facebook Share"
-    aria-label="Facebook Share"
+    title="Partager sur Facebook"
+    aria-label="Partager sur Facebook"
     data-aw-social-share="facebook"
     data-aw-url={url}
     ><Icon
@@ -40,8 +40,8 @@ const { text, url, class: className = 'inline-block' } = Astro.props;
   <button
     type="button"
     class="ml-2 rtl:ml-0 rtl:mr-2"
-    title="Linkedin Share"
-    aria-label="Linkedin Share"
+    title="Partager sur LinkedIn"
+    aria-label="Partager sur LinkedIn"
     data-aw-social-share="linkedin"
     data-aw-url={url}
     data-aw-text={text}
@@ -53,8 +53,8 @@ const { text, url, class: className = 'inline-block' } = Astro.props;
   <button
     type="button"
     class="ml-2 rtl:ml-0 rtl:mr-2"
-    title="Whatsapp Share"
-    aria-label="Whatsapp Share"
+    title="Partager sur WhatsApp"
+    aria-label="Partager sur WhatsApp"
     data-aw-social-share="whatsapp"
     data-aw-url={url}
     data-aw-text={text}
@@ -66,8 +66,8 @@ const { text, url, class: className = 'inline-block' } = Astro.props;
   <button
     type="button"
     class="ml-2 rtl:ml-0 rtl:mr-2"
-    title="Email Share"
-    aria-label="Email Share"
+    title="Partager par e-mail"
+    aria-label="Partager par e-mail"
     data-aw-social-share="mail"
     data-aw-url={url}
     data-aw-text={text}

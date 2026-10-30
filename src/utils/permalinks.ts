@@ -27,15 +27,23 @@ export const TAG_BASE = cleanSlug(APP_BLOG?.tag?.pathname) || 'tag';
 
 export const POST_PERMALINK_PATTERN = trimSlash(APP_BLOG?.post?.permalink || `${BLOG_BASE}/%slug%`);
 
-/** */
+/** Dernier segment avec extension (rss.xml, favicon.ico, image) : un fichier, jamais suivi d'un slash. */
+const isFilePath = (pathname: string) => /\.[a-z0-9]+$/i.test(pathname.split('/').pop() ?? '');
+
+/**
+ * URL canonique absolue, sans paramètres de suivi ni ancre. Selon `trailingSlash`, les pages se terminent
+ * par un slash (ou non) ; les fichiers (.xml, .ico, images) restent tels quels.
+ */
 export const getCanonical = (path = ''): string | URL => {
-  const url = String(new URL(path, SITE.site));
-  if (SITE.trailingSlash == false && path && url.endsWith('/')) {
-    return url.slice(0, -1);
-  } else if (SITE.trailingSlash == true && path && !url.endsWith('/')) {
-    return url + '/';
+  const url = new URL(path, SITE.site);
+  url.search = '';
+  url.hash = '';
+  if (path && !isFilePath(url.pathname)) {
+    if (SITE.trailingSlash && !url.pathname.endsWith('/')) url.pathname += '/';
+    else if (!SITE.trailingSlash && url.pathname.length > 1 && url.pathname.endsWith('/'))
+      url.pathname = url.pathname.slice(0, -1);
   }
-  return url;
+  return String(url);
 };
 
 /** */

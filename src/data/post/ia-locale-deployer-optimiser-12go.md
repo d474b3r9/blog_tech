@@ -21,7 +21,7 @@ J'ai plusieurs fois parlé d'IA en local avec des collègues, sans que personne 
 ⚡ **TL;DR : l'article en 3 points**
 
 - **Ce qui tient** : un Gemma 4 12B garde ses 262 144 tokens de contexte dans les 12 Go d'une RTX 3080 Ti, de 100 à 107 tokens par seconde en génération longue et 30 à pleine fenêtre. Son cache KV ne grossit que de 8,5 Kio par token. Sa justesse, sur 280 questions MMLU-Pro en réponse directe : 57,9 %.
-- **Ce qui s'effondre** : les modèles de 9 à 14 milliards décrochent entre 16 K et 32 K de contexte, et les denses de 24 à 27 milliards qui débordent en RAM tombent à 4-6 tokens par seconde. Les MoE (Qwen3.6 35B-A3B, GLM-4.7-Flash) restent entre 25 et 44.
+- **Ce qui s'effondre** : les modèles de 9 à 14 milliards décrochent entre 16 K et 32 K de contexte, et les denses de 24 à 27 milliards qui débordent en RAM tombent à 4 à 6 tokens par seconde. Les MoE (Qwen3.6 35B-A3B, GLM-4.7-Flash) restent entre 25 et 44.
 - **Comment le reproduire** : six étapes (VRAM libre, variables d'environnement, `pull`, Modelfile, vérification, montée en contexte), sur un i9-9900K, 32 Go de DDR4-3200 et une 3080 Ti de 12 Go.
 
 </div>
@@ -84,7 +84,7 @@ Un modèle est un très grand tableau de nombres, les poids. Les quantifier, c'e
 
 </div>
 
-La [FAQ d'Ollama](https://docs.ollama.com/faq) indique une fenêtre de 4096 tokens par défaut, et le modèle en annonce 256K au maximum. Entre les deux, c'est votre VRAM qui tranche. Je m'attendais à ce que le cache soit le piège. Pas ici.
+La [FAQ d'Ollama](https://docs.ollama.com/faq) indique une fenêtre de 4 096 tokens par défaut, et le modèle en annonce 256 K au maximum. Entre les deux, c'est votre VRAM qui tranche. Je m'attendais à ce que le cache soit le piège. Pas ici.
 
 L'API d'Ollama (`/api/show`) donne l'architecture du modèle : 48 couches, dont 40 à fenêtre glissante de 1 024 tokens et 8 couches globales avec une seule tête KV. Le cache des 40 couches à fenêtre glissante a une taille fixe, 340 Mio. Celui des 8 globales grandit de 8,5 Kio par token : 34 Mio à 4 096 tokens, 136 Mio à 16 384, soit environ 2,2 Go en extrapolant à 262 144. C'est ce qui rend le long contexte possible sur ce modèle.
 
@@ -120,7 +120,7 @@ lecture de la VRAM avant de lancer Ollama
 
 Chez moi, Windows en prend déjà 609. Il reste 11 679 Mio, pas 12 288.
 
-**Étape 2, les variables d'environnement.** Flash Attention est nécessaire pour quantifier le cache KV. En `q8_0`, ce dernier prend deux fois moins de place qu'en 16 bits. Et `OLLAMA_NUM_PARALLEL=1` évite de réserver de la mémoire de contexte pour des requêtes parallèles dont vous n'avez pas besoin (la FAQ d'Ollama indique que la mémoire requise est multipliée par ce nombre).
+**Étape 2, les variables d'environnement.** Flash Attention est nécessaire pour quantifier le cache KV. En `q8_0`, le cache prend deux fois moins de place qu'en 16 bits. Et `OLLAMA_NUM_PARALLEL=1` évite de réserver de la mémoire de contexte pour des requêtes parallèles dont vous n'avez pas besoin (la FAQ d'Ollama indique que la mémoire requise est multipliée par ce nombre).
 
 ```powershell
 [Environment]::SetEnvironmentVariable('OLLAMA_FLASH_ATTENTION','1','User')
@@ -189,7 +189,7 @@ lancement, répartition CPU/GPU et état de la carte
 
 ![ollama ps indique 100% GPU et un contexte de 16384. nvidia-smi indique 9720 MiB utilisés sur 12288, 85 % d'utilisation, 333 W et 78 degrés. Le processus llama-server occupe 1841 Mo de RAM.](../../assets/images/ia-locale-deployer-optimiser-12go/ia-locale-gemma-en-charge.png)
 
-gemma 4 12b pendant une génération, 100 % GPU et 9 720 Mio de VRAM
+Gemma 4 12B pendant une génération, 100 % GPU et 9 720 Mio de VRAM
 
 La colonne `PROCESSOR` doit afficher `100% GPU`. Un `48%/52% CPU/GPU` signifie que le modèle déborde en RAM, et que vos tokens par seconde vont s'effondrer. Les statistiques arrivent à la fin de la réponse.
 
@@ -225,7 +225,7 @@ J'ai répété cette requête à sept tailles de contexte, avec un prompt de tai
 | 196 608   | 166 632        | 1 171          | 60,5               | 11 720            |
 | 262 144   | 222 515        | 695            | 30,1               | 11 966            |
 
-gemma 4 12b q4_K_M, toujours 100 % GPU sur 12 288 Mio de VRAM
+Gemma 4 12B q4_K_M, toujours 100 % GPU sur 12 288 Mio de VRAM
 
 La colonne « Prompt » donne la vitesse à laquelle le modèle lit votre texte, bien plus rapide que celle à laquelle il écrit (« Génération »). Le modèle reste à 100 % GPU sur toute la plage. À 262 144, il reste 322 Mio de marge. La vitesse, elle, tombe de 124 à 30 tokens par seconde : l'attention doit parcourir tout le cache. Les deux derniers paliers contiennent plus de tokens que visé (166 632 et 222 515), car le tokenizer (le découpeur de texte en tokens) découpe mes lignes numérotées plus finement que prévu. Ce sont les nombres réels qui comptent.
 
