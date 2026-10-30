@@ -38,7 +38,10 @@ const image = (await findImage(post.image)) as ImageMetadata | string | undefine
 
 // Single-author blog: posts without an explicit author fall back to the site owner.
 const authorName = post.author || 'Jonathan Cattelain';
-const authorSameAs = [headerData.contact.href, ...headerData.socials.filter((s) => s.ariaLabel === 'GitHub').map((s) => s.href)];
+const authorSameAs = [
+  headerData.contact.href,
+  ...headerData.socials.filter((s) => s.ariaLabel === 'GitHub').map((s) => s.href),
+];
 
 const metadata = merge(
   {
@@ -67,7 +70,8 @@ const metadata = merge(
 ) as MetaData;
 
 // Same optimized 1200x626 JPG as og:image, so LinkedIn and search engines see one cover.
-const imageUrl = (await adaptOpenGraphImages({ images: image ? [{ url: image as string }] : [] }, Astro.site)).images?.[0]?.url;
+const imageUrl = (await adaptOpenGraphImages({ images: image ? [{ url: image as string }] : [] }, Astro.site))
+  .images?.[0]?.url;
 
 // Article structured data. The breadcrumb trail below carries its own BreadcrumbList.
 const articleSchema = {
@@ -78,7 +82,12 @@ const articleSchema = {
   datePublished: post.publishDate.toISOString(),
   dateModified: (post.updateDate ?? post.publishDate).toISOString(),
   inLanguage: I18N?.language,
-  author: { '@type': 'Person', name: authorName, url: String(getCanonical(getPermalink('/about'))), sameAs: authorSameAs },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: String(getCanonical(getPermalink('/about'))),
+    sameAs: authorSameAs,
+  },
   publisher: { '@type': 'Organization', name: SITE?.name },
   ...(imageUrl ? { image: imageUrl } : {}),
   ...(post.category ? { articleSection: post.category.title } : {}),

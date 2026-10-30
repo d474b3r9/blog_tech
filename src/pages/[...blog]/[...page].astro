@@ -35,8 +35,7 @@ const breadcrumbs = [
 
 const metadata = {
   title: `Blog${currentPage > 1 ? ` — Page ${currentPage}` : ''}`,
-  description:
-    "Retours d'expériences et veille technique sur la data, le cloud et les agents IA.",
+  description: "Retours d'expériences et veille technique sur la data, le cloud et les agents IA.",
   robots: {
     index: blogListRobots?.index && currentPage === 1,
     follow: blogListRobots?.follow,
@@ -54,9 +53,7 @@ const metadata = {
   </Fragment>
   <Breadcrumbs bar items={breadcrumbs} />
   <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
-    <Headline
-      subtitle="Retours d'expériences et veille technique sur la data, le cloud et les agents IA"
-    >
+    <Headline subtitle="Retours d'expériences et veille technique sur la data, le cloud et les agents IA">
       Tous les articles
     </Headline>
     <BlogList posts={page.data} />
