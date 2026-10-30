@@ -26,13 +26,15 @@ J'ai plusieurs fois parlé d'IA en local avec des collègues, sans que personne 
 
 </div>
 
+Le protocole détaillé des mesures, la justesse et les chiffres de code déclarés sont dans [l'article de méthode](/ia-locale-12go-methode-tests). Celui-ci donne le tutoriel, les vitesses et mon choix.
+
 ## Entre collègues, on échangeait des impressions, pas des chiffres
 
 On se disait que ça tournait bien, que c'était rapide, que ça rentrait. Personne ne posait sur la table la quantification, le contexte, la VRAM consommée, les tokens par seconde, ni le moment où ça s'effondre. Ce qui fonctionne vraiment reste flou tant que personne ne montre ses mesures.
 
-Je n'avais rien à poser dessus. Il y a quelques mois, j'avais fait tourner Gemma 4 sur une RTX 3080 Ti à plus de 70 tokens par seconde. Puis j'ai formaté la machine, et avec elle ont disparu le tag exact, les paramètres et les mesures de mémoire. Une vitesse sans configuration reproductible, c'est une anecdote, pas un résultat.
+Je n'avais rien à poser sur la table. Il y a quelques mois, j'avais fait tourner Gemma 4 sur une RTX 3080 Ti à plus de 70 tokens par seconde. Puis j'ai formaté la machine, et avec elle ont disparu le tag exact, les paramètres et les mesures de mémoire. Une vitesse sans configuration reproductible, c'est une anecdote, pas un résultat.
 
-Cette fois, j'ai tout noté. Gemma 4 12B, Ollama 0.40.13, 12 Go de VRAM : entre 100 et 107 tokens par seconde en génération longue, 124 sur un prompt court. Les 262 144 tokens de contexte maximal tiennent entièrement dans la carte, à 30 tokens par seconde. Puis j'ai poussé la machine avec douze autres modèles, du 9B au 35B.
+Cette fois, j'ai tout noté. Gemma 4 12B, Ollama 0.40.13, 12 Go de VRAM : entre 100 et 107 tokens par seconde en génération longue, 124 au palier de 4 096 tokens. Les 262 144 tokens de contexte maximal tiennent entièrement dans la carte, à 30 tokens par seconde. Puis j'ai poussé la machine avec douze autres modèles, du 9B au 35B.
 
 <div class="definition">
 
@@ -84,7 +86,7 @@ Un modèle est un très grand tableau de nombres, les poids. Les quantifier, c'e
 
 La [FAQ d'Ollama](https://docs.ollama.com/faq) indique une fenêtre de 4096 tokens par défaut, et le modèle en annonce 256K au maximum. Entre les deux, c'est votre VRAM qui tranche. Je m'attendais à ce que le cache soit le piège. Pas ici.
 
-L'API d'Ollama (`/api/show`) donne l'architecture du modèle : 48 couches, dont 40 à fenêtre glissante de 1 024 tokens et 8 couches globales avec une seule tête KV. Le cache des 40 premières a une taille fixe, 340 Mio. Celui des 8 globales grandit de 8,5 Kio par token : 34 Mio à 4 096 tokens, 136 Mio à 16 384, soit environ 2,2 Go en extrapolant à 262 144. C'est ce qui rend le long contexte possible sur ce modèle.
+L'API d'Ollama (`/api/show`) donne l'architecture du modèle : 48 couches, dont 40 à fenêtre glissante de 1 024 tokens et 8 couches globales avec une seule tête KV. Le cache des 40 couches à fenêtre glissante a une taille fixe, 340 Mio. Celui des 8 globales grandit de 8,5 Kio par token : 34 Mio à 4 096 tokens, 136 Mio à 16 384, soit environ 2,2 Go en extrapolant à 262 144. C'est ce qui rend le long contexte possible sur ce modèle.
 
 <div class="definition">
 
@@ -233,7 +235,7 @@ Autre écart à noter. Sur des générations courtes, j'ai mesuré de 113 à 120
 
 Même protocole, même machine, `num_thread` à 8, cache KV en `q8_0`. J'ai monté le contexte de 4 096 jusqu'au maximum du modèle, et arrêté dès qu'un palier passait sous 1,5 token par seconde ou laissait moins de 2,5 Go de RAM libre. Les prompts contenaient de 2 000 à 20 000 tokens. Les poids sont ceux de `ollama list`.
 
-![Barres horizontales de la vitesse de génération à 4096 tokens de contexte : Gemma 4 12B 123,9 tokens par seconde, six modèles de 9 à 22 milliards entre 56,6 et 73,1 tous en VRAM, quatre MoE entre 39,8 et 44,5 avec des couches en RAM, et trois modèles denses de 24 à 27 milliards entre 4,3 et 5,9.](../../assets/images/ia-locale-deployer-optimiser-12go/ia-locale-benchmark-4k.svg)
+![Barres horizontales de la vitesse de génération à 4096 tokens de contexte : Gemma 4 12B 123,9 tokens par seconde, cinq modèles de 9 à 22 milliards entre 56,6 et 73,1 tous en VRAM, quatre MoE entre 39,8 et 44,5 avec des couches en RAM, et trois modèles denses de 24 à 27 milliards entre 4,3 et 5,9.](../../assets/images/ia-locale-deployer-optimiser-12go/ia-locale-benchmark-4k.svg)
 
 vitesse de génération à 4 096 tokens de contexte selon le modèle
 
@@ -241,8 +243,8 @@ vitesse de génération à 4 096 tokens de contexte selon le modèle
 | --------------------- | --- | --------- | ----------- | -------------------------------- |
 | Gemma 4 12B           | 8,0 | 100 % GPU | 123,9       | 262 144 (30,1)                   |
 | Ministral-3 14B       | 9,1 | 100 % GPU | 73,1        | 16 K en GPU pur ; 262 144 (1,8)  |
-| Qwen3.5 9B            | 10  | 100 % GPU | 70,9        | 32 K en GPU pur ; 262 144 (6,2)  |
 | GLM4 9B               | 10  | 100 % GPU | 71,0        | 32 K en GPU pur ; 131 072 (10,1) |
+| Qwen3.5 9B            | 10  | 100 % GPU | 70,9        | 32 K en GPU pur ; 262 144 (6,2)  |
 | Qwen2.5-Coder 14B     | 9,0 | 100 % GPU | 66,0        | 16 K en GPU pur ; 32 K (5,1)     |
 | Codestral 22B         | 9,6 | 100 % GPU | 56,6        | 16 K (9,5) ; 32 K (2,5)          |
 | Qwen3.6 35B-A3B       | 23  | 58 / 42   | 44,5        | 262 144 (37,1)                   |
@@ -269,68 +271,15 @@ Quand le modèle ne tient pas dans la VRAM, Ollama laisse une partie des couches
 
 **Un modèle dense qui déborde est inutilisable.** Mistral Small, Devstral et Qwen3.8 tournent entre 4 et 6 tokens par seconde dès 4 096 de contexte. Les couches restées en RAM sont lues à la vitesse de la mémoire : environ 51 Go/s pour ma DDR4-3200 en double canal (calcul : 3 200 MT/s × 8 octets × 2), contre 912 Go/s annoncés pour la carte.
 
-**Un MoE s'en sort.** Qwen3.6 35B-A3B pèse 23 Go, soit près du double de la VRAM. Il génère à 44,5 tokens par seconde, et à 37,1 avec 262 144 de contexte, avec 63 % des couches sur le CPU et 17 Go de RAM côté Ollama. Un MoE ne lit qu'une petite partie de ses poids par token (3 milliards de paramètres actifs, d'après son nom). C'est la seule famille qui rend un modèle de 30 milliards utilisable sur cette carte. Mon coup de cœur technique, c'est GLM-4.7-Flash : son contexte maximal de 202 752 tokens tourne à 25,5 tokens par seconde.
+**Un MoE s'en sort.** Qwen3.6 35B-A3B pèse 23 Go, soit près du double de la VRAM. Il génère à 44,5 tokens par seconde, et à 37,1 avec 262 144 de contexte, avec 58 % des couches sur le CPU et 17 Go de RAM côté Ollama. Un MoE ne lit qu'une petite partie de ses poids par token (3 milliards de paramètres actifs, d'après son nom). C'est la seule famille qui rend un modèle de 30 milliards utilisable sur cette carte. Mon coup de cœur technique, c'est GLM-4.7-Flash : son contexte maximal de 202 752 tokens tourne à 25,5 tokens par seconde.
 
 **Le contexte long dépend de l'architecture.** Gemma garde 262 144 tokens en VRAM. Ministral, Qwen3.5, GLM4 et Qwen2.5-Coder décrochent entre 16 K et 32 K : leur cache déborde et des couches passent sur le CPU. Je n'ai pas ouvert leurs architectures. Le débordement précoce suggère un cache plus gros par token que celui de Gemma.
 
-**Attention à la RAM.** À 262 144, Devstral a demandé 39 Go au total et laissé 410 Mo de RAM libre : au bord du swap (quand la RAM est pleine, Windows utilise le disque comme mémoire de secours, bien plus lente). Qwen3-Coder, à 262 144, tombe à 5,9 tokens par seconde avec 4,3 Go libres, alors qu'il tenait 24,1 à 131 072. Un contexte maximal sur le papier n'est pas un contexte utilisable.
+## Et la justesse ?
 
-Dernier réglage testé : le nombre de threads (les fils de calcul du processeur). Sur Qwen3.6 35B-A3B, 4 threads donnent 40 tokens par seconde, 8, 12 et 16 donnent 43 dans les trois cas. Mon hypothèse « 8 cœurs physiques valent mieux que 16 threads » ne se vérifie pas. J'ai laissé 8.
+Un modèle qui répond à 124 tokens par seconde peut aussi répondre faux à 124 tokens par seconde. J'ai mesuré la justesse de deux façons : un test maison de 280 questions MMLU-Pro en réponse directe sur mes quantifications (douze modèles sur treize), et GPQA Diamond d'Epoch AI, un benchmark indépendant qui ne couvre que cinq de mes modèles. Avec 280 questions, la marge d'erreur de mon test est d'environ 3 points : sous 6 points d'écart, je ne classe pas. Mes scores ne sont pas comparables aux scores publiés, car je n'ai pas laissé les modèles raisonner. Le protocole, les tableaux complets et les précautions sont dans [l'article de méthode](/ia-locale-12go-methode-tests).
 
-![Ollama ps affiche Qwen3.6 35B-A3B de 23 Go avec 58 % CPU et 42 % GPU et un contexte de 4096. nvidia-smi indique 11312 MiB de VRAM utilisés. Le processus llama-server occupe 13508 Mo de RAM.](../../assets/images/ia-locale-deployer-optimiser-12go/ia-locale-qwen-en-charge.png)
-
-qwen3.6 35b-a3b pendant une génération, 58 % CPU, 13,5 Go de RAM et 11 312 Mio de VRAM
-
-![Statistiques d'Ollama pour Qwen3.6 35B-A3B : chargement 24 secondes, génération de 4057 tokens à 43 tokens par seconde.](../../assets/images/ia-locale-deployer-optimiser-12go/ia-locale-qwen-verbose.png)
-
-statistiques de Qwen3.6 35B-A3B après 4 057 tokens générés, chargement de 24 secondes
-
-## Et la justesse ? Un test maison et un benchmark indépendant
-
-Tout ce qui précède mesure la vitesse et la mémoire. Un modèle qui répond à 124 tokens par seconde peut aussi répondre faux à 124 tokens par seconde. J'ai donc mesuré la justesse de deux façons, qui ne disent pas la même chose.
-
-<div class="definition">
-
-**Benchmark, MMLU-Pro, GPQA Diamond, réponse directe, graine fixe**
-
-Un benchmark est une série de questions identiques posées à tous les modèles et corrigées automatiquement, pour comparer des scores. MMLU-Pro réunit des questions à choix multiples de connaissances générales sur 14 disciplines, avec dix choix par question. GPQA Diamond compte 198 questions de sciences de niveau master. En réponse directe, le modèle répond tout de suite, sans écrire son raisonnement ; en mode raisonnement, il « réfléchit » par écrit avant de répondre, ce qui améliore souvent le score. Une température de 0 et une graine fixe rendent le test reproductible : même réponse à la même question, mêmes 280 questions tirées à chaque fois. La marge d'erreur est l'incertitude du score due au nombre limité de questions. La contamination, c'est quand le modèle a déjà vu les questions pendant son entraînement.
-
-</div>
-
-**Mon test, sur mes quantifications.** 280 questions du jeu [MMLU-Pro](https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro) (licence MIT), tirées au hasard avec une graine fixe : 20 par discipline sur 14. Chaque question a dix choix, donc le hasard donne 10 %. Même consigne pour tous : répondre par une seule lettre, température 0, contexte de 4 096, mode raisonnement désactivé. Douze modèles sur treize : GLM-4.7-Flash n'a pas pu passer le test, la machine manquait de mémoire et la tâche a été arrêtée.
-
-| Modèle                 | Score (justes sur 280) | Invalides |
-| ---------------------- | ---------------------- | --------- |
-| Gemma 4 26B-A4B        | 65,7 % (184)           | 11        |
-| Qwen3.8 27B            | 63,6 % (178)           | 0         |
-| Qwen3.6 35B-A3B        | 61,4 % (172)           | 0         |
-| Gemma 4 12B            | 57,9 % (162)           | 9         |
-| Mistral Small 3.2 24B  | 53,6 % (150)           | 1         |
-| Qwen3.5 9B             | 53,6 % (150)           | 0         |
-| Devstral Small 2 24B   | 52,1 % (146)           | 0         |
-| Qwen3-Coder 30B-A3B    | 51,4 % (144)           | 0         |
-| Ministral-3 14B        | 50,0 % (140)           | 1         |
-| Qwen2.5-Coder 14B      | 43,2 % (121)           | 0         |
-| GLM4 9B                | 39,3 % (110)           | 0         |
-| Codestral 22B (q3_K_S) | 28,9 % (81)            | 8         |
-
-MMLU-Pro en réponse directe, 280 questions, une quantification par modèle comme dans mes mesures de vitesse
-
-Avec 280 questions, la marge d'erreur est d'environ 3 points par modèle : sous 6 points d'écart, je ne classe pas. Les réponses invalides comptent comme fausses, donc les scores de Gemma 4 (9 et 11 invalides) et de Codestral (8) sont peut-être un peu sous-estimés. Surtout, ce n'est pas le protocole prévu par la fiche du jeu, qui demande un raisonnement pas à pas et annonce jusqu'à 19 points de perte sans lui pour GPT-4o : mes scores ne sont pas comparables aux scores publiés.
-
-**Un benchmark indépendant, sur les modèles d'origine.** Aucun ne couvre mes treize modèles. [Artificial Analysis](https://artificialanalysis.ai/leaderboards/models) ne chiffre qu'un seul d'entre eux, Qwen3.8 27B, et seulement en indice composite. [LiveBench](https://livebench.ai/) en retrouve deux, dont un qui n'est probablement pas le bon : le Devstral du classement semble être le 123B, pas le 24B que j'ai testé. Le plus utile est celui d'[Epoch AI](https://epoch.ai/benchmarks/gpqa-diamond), qui exécute lui-même GPQA Diamond, 198 questions de sciences de niveau master, avec un protocole identique pour tous les modèles. Cinq des miens y figurent.
-
-| Modèle                | GPQA Diamond | Marge d'erreur |
-| --------------------- | ------------ | -------------- |
-| Qwen3.6 35B-A3B       | 83,8 %       | ± 2,6          |
-| Qwen3.5 9B            | 79,0 %       | ± 2,4          |
-| Gemma 4 26B-A4B       | 73,2 %       | ± 3,2          |
-| GLM-4.7-Flash         | 60,5 %       | ± 2,9          |
-| Mistral Small 3.2 24B | 49,1 %       | ± 2,8          |
-
-GPQA Diamond mesuré par Epoch AI en août 2026, le hasard donne 25 %
-
-Les deux mesures ne classent pas pareil. Chez Epoch, Qwen3.5 9B (79,0 %) devance largement Mistral Small 3.2 (49,1 %). Chez moi, en réponse directe, ils sont à égalité à 53,6 %. Je n'explique pas cet écart. L'hypothèse est que le raisonnement avantage Qwen3.5, je ne l'ai pas testée.
+Les deux mesures ne classent pas pareil. Chez Epoch, Qwen3.5 9B (79,0 %) devance largement Mistral Small 3.2 (49,1 %). Chez moi, en réponse directe, ils sont à égalité à 53,6 %. Je n'explique pas cet écart. L'hypothèse est que le raisonnement avantage Qwen3.5 ; je ne l'ai pas testée.
 
 ![Treize lignes classées par vitesse. Pour chaque modèle, quatre barres : la vitesse à 4096 tokens de contexte, la justesse sur mon test MMLU-Pro (douze modèles), la justesse GPQA Diamond d'Epoch (cinq modèles), et le contexte utilisable à 20 tokens par seconde ou plus, avec le rang dans chaque critère. Gemma 4 12B est premier en vitesse, Gemma 4 26B-A4B premier sur mon test, Qwen3.6 35B-A3B premier chez Epoch, et trois modèles denses n'ont aucun palier de contexte à 20 tokens par seconde.](../../assets/images/ia-locale-deployer-optimiser-12go/ia-locale-classement-modeles.svg)
 
@@ -338,9 +287,9 @@ classement de treize modèles par vitesse, justesse et contexte
 
 Pour choisir, voici ce que disent ces critères ensemble :
 
-**Le plus rapide, tout en VRAM.** Gemma 4 12B : 123,9 tokens par seconde, 262 144 tokens de contexte, 100 % GPU, et 57,9 % sur mon test, à égalité avec les modèles qui le suivent dans la marge d'erreur.
+**Le plus rapide, tout en VRAM.** Gemma 4 12B : 123,9 tokens par seconde, 262 144 tokens de contexte, 100 % GPU, et 57,9 % sur mon test, à égalité avec les modèles qui le suivent dans la marge d'erreur (tableau complet dans [l'article de méthode](/ia-locale-12go-methode-tests)).
 
-**Le plus de justesse avec raisonnement.** Qwen3.6 35B-A3B : 83,8 % chez Epoch, 61,4 % chez moi, 44,5 tokens par seconde, 262 144 tokens à 37,1 tokens par seconde. Il pèse 23 Go : 63 % des couches sur le CPU, 17 Go de RAM.
+**Le plus de justesse avec raisonnement.** Qwen3.6 35B-A3B : 83,8 % chez Epoch, 61,4 % chez moi, 44,5 tokens par seconde, 262 144 tokens à 37,1 tokens par seconde. Il pèse 23 Go : 58 % des couches sur le CPU, 17 Go de RAM.
 
 **Le plus de justesse en réponse directe.** Gemma 4 26B-A4B : 65,7 % chez moi, 73,2 % chez Epoch, 39,8 tokens par seconde, 262 144 tokens à 29,3 tokens par seconde, avec près de la moitié des couches sur le CPU.
 
@@ -348,42 +297,9 @@ Pour choisir, voici ce que disent ces critères ensemble :
 
 **Les moins adaptés à cette carte.** Qwen3.8 27B répond bien (63,6 %) mais à 4,3 tokens par seconde, comme Devstral Small 2 (5,9) et Mistral Small 3.2 (5,2). Codestral 22B (28,9 %), GLM4 9B (39,3 %) et Qwen2.5-Coder 14B (43,2 %) sont les plus faibles de mon test.
 
-**Et pour le code ?** Aucun benchmark indépendant que j'ai lu ne couvre mes modèles de code. Il reste ce que les éditeurs déclarent dans leurs fiches : des chiffres **non indépendants**, mesurés avec leur propre protocole, dont le mode de raisonnement et la plage de dates ne sont presque jamais précisés. [Evidently AI](https://www.evidentlyai.com/blog/llm-coding-benchmarks) décrit ces benchmarks : LiveCodeBench renouvelle ses problèmes dans le temps pour limiter la contamination, SWE-bench demande de corriger des tickets GitHub réels. Je ne les mets pas dans le graphique : seuls deux benchmarks sont déclarés par plusieurs de mes modèles, avec un harnais différent pour chacun.
-
-<div class="definition">
-
-**LiveCodeBench, SWE-bench, HumanEval, MBPP, Pass@5, harnais**
-
-LiveCodeBench propose des problèmes de programmation renouvelés dans le temps. SWE-bench Verified demande de corriger de vrais tickets GitHub. HumanEval et MBPP sont de courts exercices de fonctions Python, vérifiés par des tests. Pass@5 compte l'exercice réussi si au moins une de cinq tentatives passe les tests. Le harnais (ou scaffold) est le programme qui entoure le modèle pendant le test, avec ses outils, ses consignes et ses limites : deux harnais différents donnent des scores qui ne se comparent pas.
-
-</div>
-
-| Modèle          | LiveCodeBench v6 déclaré |
-| --------------- | ------------------------ |
-| Qwen3.8 27B     | 90,3                     |
-| Qwen3.6 35B-A3B | 80,4                     |
-| Gemma 4 26B-A4B | 77,1                     |
-| Gemma 4 12B     | 72,0                     |
-| Qwen3.5 9B      | 65,6                     |
-| GLM-4.7-Flash   | 64,0                     |
-
-LiveCodeBench v6 déclaré par chaque éditeur, non indépendant, mode de raisonnement et plage de dates non précisés
-
-| Modèle               | SWE-bench Verified déclaré | Harnais indiqué par l'éditeur          |
-| -------------------- | -------------------------- | -------------------------------------- |
-| Qwen3.6 35B-A3B      | 73,4                       | scaffold interne, contexte 200K        |
-| Devstral Small 2 24B | 68,0 %                     | non précisé sur la fiche               |
-| GLM-4.7-Flash        | 59,2                       | température 0,7, 16 384 tokens maximum |
-
-SWE-bench Verified déclaré par chaque éditeur, non indépendant, harnais différents
-
-À lire comme des déclarations, pas comme un classement. Qwen reprend d'ailleurs dans sa fiche les 77,1 et 80,0 de Google pour Gemma 4 26B-A4B et 31B : c'est la même valeur, et je ne sais pas si Qwen l'a remesurée. Les autres ne déclarent rien de comparable : Mistral Small 3.2 (HumanEval Plus 92,9 % et MBPP Plus 78,3 %, en Pass@5), GLM4 9B (HumanEval 71,8), Qwen2.5-Coder 14B (HumanEval 89,6 et LiveCodeBench 23,4 sur une autre fenêtre de dates, d'après son rapport technique), Ministral-3 14B (LiveCodeBench 0,646, dans un tableau « Reasoning » et sans version précisée). Qwen3-Coder 30B-A3B n'a aucun chiffre dans sa fiche, et ceux de Codestral sont dans des images que je n'ai pas lues.
-
-Quatre précautions. D'abord, ces deux benchmarks de justesse mesurent des connaissances et du raisonnement généraux, pas la qualité du code : mes quatre modèles de code (Qwen3-Coder 30B-A3B, Devstral Small 2, Codestral, Qwen2.5-Coder 14B) sont jugés sur des questions générales. Ensuite, Epoch teste les modèles d'origine alors que mon test porte sur mes quantifications : Codestral, en `q3_K_S`, est la plus agressive, et je ne sais pas ce qu'elle coûte en justesse. Puis les suffixes des variantes d'Epoch (`_none`, `_minimal`) ne sont pas documentés dans les fichiers que j'ai lus : j'ai pris la variante sans suffixe, ou la seule disponible (`_minimal` pour Gemma 4). Enfin, MMLU-Pro est public depuis juin 2024 : un modèle a pu en croiser des questions à l'entraînement.
-
 ## Mon top 3, pour le code et pour le multimodal
 
-Deux précisions avant de classer. Pour le multimodal, je n'ai testé aucune image ni aucun son : je m'appuie sur les capacités que chaque modèle déclare dans `ollama show` (`vision`, `audio`), croisées avec mes mesures de vitesse et de mémoire. Pour le code, je n'ai pas de test maison non plus : je m'appuie sur les chiffres déclarés plus haut, **non indépendants**. C'est donc un choix de lecture, pas un résultat mesuré. Ce top 3 est personnel : il traduit mes préférences et mon interprétation des chiffres, sur mon propre matériel (une carte de 12 Go). Avec une autre machine ou d'autres priorités, le vôtre sera différent. Au fond, le meilleur modèle est celui avec lequel vous aurez le plus de plaisir à travailler.
+Deux précisions avant de classer. Pour le multimodal, je n'ai testé aucune image ni aucun son : je m'appuie sur les capacités que chaque modèle déclare dans `ollama show` (`vision`, `audio`), croisées avec mes mesures de vitesse et de mémoire. Pour le code, je n'ai pas de test maison non plus : je m'appuie sur les chiffres que les éditeurs déclarent dans leurs fiches (détail dans [l'article de méthode](/ia-locale-12go-methode-tests)), **non indépendants**. C'est donc un choix de lecture, pas un résultat mesuré. Ce top 3 est personnel : il traduit mes préférences et mon interprétation des chiffres, sur mon propre matériel (une carte de 12 Go). Avec une autre machine ou d'autres priorités, le vôtre sera différent. Au fond, le meilleur modèle est celui avec lequel vous aurez le plus de plaisir à travailler.
 
 **Pour le code**
 
@@ -411,13 +327,9 @@ Top 3 multimodal : capacités déclarées dans `ollama show`, aucune image ni au
 
 Huit de mes treize modèles déclarent `vision` : les trois ci-dessus, plus Qwen3.8 27B, Qwen3.5 9B, Devstral Small 2, Mistral Small 3.2 et Ministral-3 14B. Seul Gemma 4 12B déclare aussi `audio`. GLM-4.7-Flash, GLM4 9B, Qwen3-Coder, Qwen2.5-Coder et Codestral n'en déclarent aucun. Qwen3.5 9B (70,9 tokens par seconde, tout en VRAM) est le premier à regarder pour rester entièrement sur la carte avec un autre éditeur. Mistral Small 3.2 et Devstral Small 2 sont parmi les plus lents de la liste (5,2 et 5,9 tokens par seconde), d'où leur absence du top 3. Ministral-3 14B est rapide (73,1) mais décroche dès 16 K de contexte et ne fait que 50,0 % sur mon test. Qu'un modèle accepte une image ne dit rien de la qualité de sa description : ce test reste à faire.
 
-## Ce qui manque encore
+## Ce que je n'ai pas mesuré
 
-- **Le multimodal et le code.** Mon top 3 repose sur les capacités déclarées et sur des chiffres d'éditeurs. Je n'ai testé ni la qualité de la vision et du son, ni la qualité du code produit sur mes quantifications.
-- **Mes mesures.** Un seul passage par palier de contexte, un prompt répété, un seul jeu de 280 questions pour la justesse, en réponse directe et sans raisonnement pas à pas. Les vitesses des paliers à moitié remplis sont plus hautes que celles d'un contexte réellement plein (Gemma : 30 tokens par seconde à 222 515 tokens). Le tag que j'ai testé, `12b-it-q4_K_M`, n'est pas le plus économe : le `qat` plus petit reste à mesurer.
-- **GLM-4.7-Flash.** Il manque à mon test de justesse : la machine a manqué de mémoire et la tâche a été arrêtée avant son passage. Il n'a que le GPQA d'Epoch (60,5 %).
-- **Le rôle du modèle assistant.** Ollama en charge un second avec Gemma. Je n'ai pas vérifié ce qu'il apporte en vitesse.
-- **Les architectures des autres modèles.** Je constate leur débordement vers 16 K ou 32 K, je n'ai pas mesuré la taille de leur cache par token.
+Un seul passage par palier de contexte, un seul jeu de 280 questions, ni qualité de la vision et du son, ni qualité du code produit sur mes quantifications. GLM-4.7-Flash manque à mon test de justesse, faute de mémoire. Le détail de ces limites est dans [l'article de méthode](/ia-locale-12go-methode-tests).
 
 ## Ce que je retiens
 
@@ -429,7 +341,7 @@ Huit de mes treize modèles déclarent `vision` : les trois ci-dessus, plus Qwen
 
 **Se méfier du contexte maximal annoncé.** Gemma garde 262 144 tokens en VRAM. D'autres décrochent à 16 K ou 32 K, et Qwen3-Coder tient 262 144 en mémoire mais plus en vitesse : 5,9 tokens par seconde contre 24,1 à 131 072.
 
-**Laisser les threads par défaut.** Entre 8 et 16, je n'ai pas vu de différence.
+**Ne pas chercher à augmenter les threads.** Entre 8 et 16, je n'ai pas vu de différence (43 tokens par seconde dans les deux cas sur Qwen3.6, 40 avec 4 threads, détail dans [l'article de méthode](/ia-locale-12go-methode-tests)).
 
 **Publier ses chiffres avec sa configuration.** Un chiffre sans tag, sans contexte ni machine ne sert à personne.
 
@@ -439,9 +351,9 @@ Ces mesures valent pour ma machine. Sur la vôtre, le tableau changera ; la mét
 
 Ces chiffres ne répondent pas à une question de déploiement : ce que le modèle peut atteindre depuis votre machine. Ma consigne, à titre de précaution : ne donnez pas de connexion sortante à un modèle d'origine chinoise, et n'exposez pas son serveur sur le réseau. Deux évaluations publiées en 2025 vont dans ce sens, chacune avec ses limites. Elles portent sur DeepSeek, pas sur les Qwen de mon comparatif.
 
-**NIST (CAISI), 30 septembre 2025.** Des agents construits sur DeepSeek R1-0528, le plus sûr des modèles testés, ont suivi des instructions malveillantes 12 fois plus souvent que ceux des modèles américains de référence. Dans l'environnement simulé, les agents détournés ont envoyé des courriels d'hameçonnage, exécuté un logiciel malveillant et divulgué des identifiants. L'évaluation vient d'une agence américaine et mesure des agents de test, pas des déploiements réels.
+**NIST (CAISI), 30 septembre 2025.** Des agents construits sur DeepSeek R1-0528, le plus sûr des modèles DeepSeek testés, ont suivi des instructions malveillantes 12 fois plus souvent que ceux des modèles américains de référence : courriels d'hameçonnage, logiciel malveillant exécuté, identifiants divulgués, dans un environnement simulé. L'évaluation vient d'une agence américaine et mesure des agents de test, pas des déploiements réels.
 
-**CrowdStrike, 20 novembre 2025.** DeepSeek R1 produit du code vulnérable dans 19 % des cas sans contexte, et dans 27,2 % quand le prompt décrit un système de contrôle industriel au Tibet. L'étude (30 250 prompts par modèle) précise que l'effet est une moyenne sur la durée et ne prétend pas à une intention.
+**CrowdStrike, 20 novembre 2025.** DeepSeek R1 produit du code vulnérable dans 19 % des cas sans contexte, et dans 27,2 % quand le prompt décrit un système de contrôle industriel au Tibet (30 250 prompts par modèle). L'étude précise que l'effet est une moyenne sur la durée et ne prétend pas à une intention.
 
 Aucune des deux n'établit que le modèle a été conçu pour nuire. Elles suffisent pour ne pas laisser un agent sortir librement. Voici la configuration Ollama, d'après la documentation d'Ollama et celle de Microsoft. J'ai testé l'étape 3 sur ma machine :
 
@@ -460,17 +372,14 @@ configuration pour limiter Ollama vers l'extérieur, à retirer le temps d'un pu
 
 Résultat de mon test (Windows 11, Ollama 0.40.13, règles créées dans une console administrateur puis supprimées) : avec les trois règles, `ollama list`, `ollama run` et l'API locale répondent normalement, à 103,8 tokens par seconde en génération. `ollama pull` échoue en moins d'une seconde avec « An established connection was aborted by the software in your host machine ». Une fois les règles supprimées, le `pull` refonctionne. Le blocage laisse donc passer le trafic local vers 127.0.0.1 et coupe la sortie vers Internet.
 
-Deux limites. Il borne Ollama, pas la machine. Ollama ne fait que produire du texte : c'est l'agent branché dessus qui exécute des commandes, avec vos droits, et la règle ne vise que trois programmes. Un agent n'a pas besoin d'être malin pour sortir : `curl`, PowerShell, Python ou le navigateur ne sont pas concernés. Simon Willison résume le risque en trois conditions réunies : l'accès à vos données privées, l'exposition à du contenu non fiable, et la capacité de communiquer vers l'extérieur. Son seul remède : ne jamais réunir les trois. Couper la sortie retire la troisième, à condition de la couper pour tout ce que l'agent peut lancer. L'isolation doit porter sur l'environnement d'exécution de l'agent, dans un conteneur sans route vers l'extérieur par exemple. Je n'ai pas testé cette isolation, ni `OLLAMA_NO_CLOUD`, ni ce qu'un modèle en train d'agir peut tenter : cela pourrait faire l'objet de tests dans un autre article. La raison de cette précaution, les biais des modèles et les poids empoisonnés, fera l'objet d'un article prochainement.
+Deux limites. Le blocage borne Ollama, pas la machine : la règle ne vise que trois programmes, Ollama ne fait que produire du texte, et l'agent branché dessus exécute des commandes avec vos droits, et `curl`, PowerShell, Python ou le navigateur ne sont pas concernés. Simon Willison résume le risque en trois conditions réunies : l'accès à vos données privées, l'exposition à du contenu non fiable et la capacité de communiquer vers l'extérieur. Son seul remède : ne jamais réunir les trois. Couper la sortie retire la troisième, à condition de la couper pour tout ce que l'agent peut lancer : l'isolation doit porter sur son environnement d'exécution, dans un conteneur sans route vers l'extérieur par exemple. Je n'ai testé ni cette isolation, ni `OLLAMA_NO_CLOUD`, ni ce qu'un modèle en train d'agir peut tenter. La raison de cette précaution, les biais des modèles et les poids empoisonnés, fera l'objet d'un article prochainement.
 
 ## Sources
 
 - [Ollama, bibliothèque Gemma 4](https://ollama.com/library/gemma4/tags) et [FAQ Ollama](https://docs.ollama.com/faq)
 - [Ollama, bibliothèque de modèles](https://ollama.com/library) (tailles et contextes maximaux des tags testés)
-- [MMLU-Pro, jeu de données](https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro) (licence MIT) et [le papier, arXiv 2406.01574](https://arxiv.org/abs/2406.01574)
-- [Evidently AI, LLM coding benchmarks](https://www.evidentlyai.com/blog/llm-coding-benchmarks) (description des benchmarks, sans score de modèle)
-- Fiches des éditeurs, source des chiffres de code déclarés : [Gemma 4 12B](https://huggingface.co/google/gemma-4-12b-it), [Gemma 4 26B-A4B](https://huggingface.co/google/gemma-4-26B-A4B-it), [Qwen3.5 9B](https://huggingface.co/Qwen/Qwen3.5-9B), [Qwen3.6 35B-A3B](https://huggingface.co/Qwen/Qwen3.6-35B-A3B), [Qwen3.8 27B](https://huggingface.co/Qwen/Qwen3.8-27B), [Devstral Small 2](https://huggingface.co/mistralai/Devstral-Small-2-24B-Instruct-2512), [GLM-4.7-Flash](https://huggingface.co/zai-org/GLM-4.7-Flash), [Mistral Small 3.2](https://huggingface.co/mistralai/Mistral-Small-3.2-24B-Instruct-2506), [Ministral 3 14B](https://huggingface.co/mistralai/Ministral-3-14B-Instruct-2512), [GLM-4-9B-Chat](https://huggingface.co/THUDM/glm-4-9b-chat), [rapport technique Qwen2.5-Coder](https://arxiv.org/abs/2409.12186)
+- [Méthode, benchmarks et fiches des éditeurs : l'article de méthode](/ia-locale-12go-methode-tests)
 - [Epoch AI, GPQA Diamond](https://epoch.ai/benchmarks/gpqa-diamond) et [données ouvertes d'Epoch AI](https://epoch.ai/data), licence CC BY 4.0
-- [Artificial Analysis, leaderboard](https://artificialanalysis.ai/leaderboards/models) et [LiveBench](https://livebench.ai/) (couverture insuffisante de mes modèles)
 - [NIST CAISI, Evaluation of DeepSeek AI Models](https://www.nist.gov/news-events/news/2025/09/caisi-evaluation-deepseek-ai-models-finds-shortcomings-and-risks)
 - [CrowdStrike, Hidden Vulnerabilities in AI-Coded Software](https://www.crowdstrike.com/en-us/blog/crowdstrike-researchers-identify-hidden-vulnerabilities-ai-coded-software/)
 - [Simon Willison, The lethal trifecta for AI agents: private data, untrusted content, and external communication](https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/)
