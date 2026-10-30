@@ -303,13 +303,9 @@ Deux précisions avant de classer. Pour le multimodal, je n'ai testé aucune ima
 
 **Pour le code**
 
-| Rang | Modèle          | LiveCodeBench v6 déclaré | SWE-bench Verified déclaré | Vitesse (tokens par seconde) | Contexte de 262 144 tokens          |
-| ---- | --------------- | ------------------------ | -------------------------- | ---------------------------- | ----------------------------------- |
-| 1    | Qwen3.6 35B-A3B | 80,4                     | 73,4                       | 44,5                         | 37,1 tokens par seconde, 17 Go de RAM |
-| 2    | Gemma 4 26B-A4B | 77,1                     | non déclaré                | 39,8                         | 29,3 tokens par seconde             |
-| 3    | Gemma 4 12B     | 72,0                     | non déclaré                | 123,9                        | tout en VRAM                        |
+![Podium de trois marches. Première place : Qwen3.6 35B-A3B, 80,4 sur LiveCodeBench v6 et 73,4 sur SWE-bench Verified (déclarés), 44,5 tokens par seconde. Deuxième : Gemma 4 26B-A4B, 77,1 sur LiveCodeBench v6, 39,8 tokens par seconde. Troisième : Gemma 4 12B, 72,0 sur LiveCodeBench v6, 123,9 tokens par seconde, tout en VRAM.](../../assets/images/ia-locale-deployer-optimiser-12go/ia-locale-podium-code.svg)
 
-Top 3 code : chiffres de code déclarés par les éditeurs, non indépendants, vitesses mesurées sur ma machine
+podium des trois modèles que je retiens pour le code
 
 Le Qwen3.6 est le meilleur compromis déclaré. Le Gemma 4 26B-A4B ajoute le meilleur score de mon test en réponse directe. Le Gemma 4 12B est le choix quand la réactivité compte plus que la profondeur de raisonnement.
 
@@ -317,13 +313,9 @@ Je laisse de côté Qwen3.8 27B (90,3 sur LiveCodeBench, mais 4,3 tokens par sec
 
 **Pour le multimodal**
 
-| Rang | Modèle          | Image | Son | Vitesse (tokens par seconde) | Justesse                          |
-| ---- | --------------- | ----- | --- | ---------------------------- | --------------------------------- |
-| 1    | Gemma 4 12B     | oui   | oui | 123,9, tout en VRAM          | 57,9 % sur mon test               |
-| 2    | Gemma 4 26B-A4B | oui   | non | 39,8                         | 65,7 % sur mon test               |
-| 3    | Qwen3.6 35B-A3B | oui   | non | 44,5                         | 61,4 % sur mon test, 83,8 % chez Epoch |
+![Podium de trois marches. Première place : Gemma 4 12B, image et son déclarés, 123,9 tokens par seconde, 57,9 % sur mon test MMLU-Pro. Deuxième : Gemma 4 26B-A4B, image sans son, 39,8 tokens par seconde, 65,7 %. Troisième : Qwen3.6 35B-A3B, image sans son, 44,5 tokens par seconde, 61,4 % sur mon test et 83,8 % chez Epoch.](../../assets/images/ia-locale-deployer-optimiser-12go/ia-locale-podium-multimodal.svg)
 
-Top 3 multimodal : capacités déclarées dans `ollama show`, aucune image ni aucun son testé
+podium des trois modèles que je retiens pour le multimodal
 
 Huit de mes treize modèles déclarent `vision` : les trois ci-dessus, plus Qwen3.8 27B, Qwen3.5 9B, Devstral Small 2, Mistral Small 3.2 et Ministral-3 14B. Seul Gemma 4 12B déclare aussi `audio`. GLM-4.7-Flash, GLM4 9B, Qwen3-Coder, Qwen2.5-Coder et Codestral n'en déclarent aucun. Qwen3.5 9B (70,9 tokens par seconde, tout en VRAM) est le premier à regarder pour rester entièrement sur la carte avec un autre éditeur. Mistral Small 3.2 et Devstral Small 2 sont parmi les plus lents de la liste (5,2 et 5,9 tokens par seconde), d'où leur absence du top 3. Ministral-3 14B est rapide (73,1) mais décroche dès 16 K de contexte et ne fait que 50,0 % sur mon test. Qu'un modèle accepte une image ne dit rien de la qualité de sa description : ce test reste à faire.
 
