@@ -6,14 +6,3 @@ export function isPublishedFlags(
   now?: Date,
   options?: { mode?: 'day' | 'instant' }
 ): boolean;
-export function hasRecentlyPublished(
-  postsFlags: Array<{ draft?: boolean; publishDate?: string | undefined }>,
-  now: Date,
-  windowHours?: number
-): boolean;
-export function shouldDeploy(
-  event: string,
-  postsFlags: Array<{ draft?: boolean; publishDate?: string | undefined }>,
-  now: Date,
-  windowHours?: number
-): boolean;

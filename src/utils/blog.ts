@@ -108,8 +108,8 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
 };
 
 /**
- * Un article planifié sort à la première construction qui suit son `publishDate` (instant exact).
- * Le déploiement planifié reconstruit le site, voir .github/workflows/deploy.yml.
+ * Un article planifié sort à la première construction du jour de son `publishDate` (jour à Paris).
+ * Le déploiement quotidien de 4h reconstruit le site, voir .github/workflows/deploy.yml.
  * En développement, tout reste visible pour pouvoir prévisualiser.
  */
 const isPublished = (post: Post): boolean =>
