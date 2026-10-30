@@ -159,6 +159,58 @@ const { post, url } = Astro.props;
   .prose .tldr ul {
     margin: 0.4rem 0 0.6rem;
   }
+  /* Encart de définition : explique un terme technique, sur fond bleu */
+  .prose .definition {
+    margin: 1.5rem 0;
+    padding: 0.9rem 1.3rem 0.5rem;
+    border: 1px solid color-mix(in oklab, #3b82f6 28%, transparent);
+    border-left: 3px solid #3b82f6;
+    border-radius: 0.5rem;
+    background: color-mix(in oklab, #3b82f6 9%, transparent);
+    font-size: 0.93em;
+    line-height: 1.6;
+  }
+  .prose .definition > p:first-child {
+    margin-top: 0;
+    color: #2563eb;
+  }
+  .prose .definition ul {
+    margin: 0.4rem 0 0.6rem;
+  }
+  :is(.dark) .prose .definition > p:first-child {
+    color: #93c5fd;
+  }
+  /* Tableaux compacts : lisibles sans occuper la page */
+  .prose.post-prose table {
+    width: 100%;
+    margin: 1.25rem 0 0.5rem;
+    font-family: var(--font-inter), system-ui, sans-serif;
+    font-size: 0.82rem;
+    line-height: 1.35;
+  }
+  .prose.post-prose :is(th, td) {
+    padding: 0.3rem 0.65rem;
+  }
+  .prose.post-prose thead th {
+    padding-bottom: 0.4rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .prose.post-prose tbody td:not(:first-child) {
+    font-variant-numeric: tabular-nums;
+  }
+  @media (max-width: 640px) {
+    /* Sur téléphone, un tableau plus large que l'écran défile au lieu d'être coupé */
+    .prose.post-prose table {
+      display: block;
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .prose.post-prose :is(th, td):first-child {
+      white-space: nowrap;
+    }
+  }
   .prose img {
     cursor: zoom-in;
   }

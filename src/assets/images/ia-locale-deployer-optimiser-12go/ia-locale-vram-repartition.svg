@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" role="img" font-family="system-ui, 'Segoe UI', Arial, sans-serif">
+  <rect width="900" height="400" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="30" y="36" font-size="18" font-weight="700" fill="#0f172a">Où passent les 12 288 Mio d'une 3080 Ti avec Gemma 4 12B</text>
+  <text x="30" y="58" font-size="13" fill="#475569">contexte 16 384, génération en cours, 9 720 Mio utilisés au total (mesure nvidia-smi)</text>
+  <rect x="40" y="80" width="40.6" height="56" fill="#94a3b8"/>
+  <rect x="80.6" y="80" width="468.7" height="56" fill="#2563eb"/>
+  <rect x="549.4" y="80" width="39.4" height="56" fill="#7c3aed"/>
+  <rect x="588.8" y="80" width="18.5" height="56" fill="#0891b2"/>
+  <rect x="607.3" y="80" width="22.7" height="56" fill="#16a34a"/>
+  <rect x="630" y="80" width="9.1" height="56" fill="#d97706"/>
+  <rect x="639.1" y="80" width="49.6" height="56" fill="#cbd5e1"/>
+  <rect x="688.6" y="80" width="171.4" height="56" fill="#f1f5f9" stroke="#94a3b8" stroke-dasharray="4 3"/>
+  <text x="40" y="158" font-size="12" fill="#475569">0</text>
+  <text x="860" y="158" font-size="12" text-anchor="end" fill="#475569">12 288 Mio</text>
+  <rect x="40" y="183" width="16" height="16" fill="#94a3b8"/>
+  <text x="66" y="196" font-size="14" fill="#0f172a">Bureau Windows</text>
+  <text x="66" y="214" font-size="13" fill="#475569" font-weight="600">609 Mio</text>
+  <rect x="470" y="183" width="16" height="16" fill="#2563eb"/>
+  <text x="496" y="196" font-size="14" fill="#0f172a">Poids du modèle (GPU)</text>
+  <text x="496" y="214" font-size="13" fill="#475569" font-weight="600">7 024 Mio</text>
+  <rect x="40" y="227" width="16" height="16" fill="#7c3aed"/>
+  <text x="66" y="240" font-size="14" fill="#0f172a">Modèle assistant (poids + calcul)</text>
+  <text x="66" y="258" font-size="13" fill="#475569" font-weight="600">591 Mio</text>
+  <rect x="470" y="227" width="16" height="16" fill="#0891b2"/>
+  <text x="496" y="240" font-size="14" fill="#0f172a">Calcul (buffer)</text>
+  <text x="496" y="258" font-size="13" fill="#475569" font-weight="600">277 Mio</text>
+  <rect x="40" y="271" width="16" height="16" fill="#16a34a"/>
+  <text x="66" y="284" font-size="14" fill="#0f172a">Cache KV, 40 couches à fenêtre glissante</text>
+  <text x="66" y="302" font-size="13" fill="#475569" font-weight="600">340 Mio</text>
+  <rect x="470" y="271" width="16" height="16" fill="#d97706"/>
+  <text x="496" y="284" font-size="14" fill="#0f172a">Cache KV, 8 couches globales</text>
+  <text x="496" y="302" font-size="13" fill="#475569" font-weight="600">136 Mio</text>
+  <rect x="40" y="315" width="16" height="16" fill="#cbd5e1"/>
+  <text x="66" y="328" font-size="14" fill="#0f172a">Non attribué (par différence)</text>
+  <text x="66" y="346" font-size="13" fill="#475569" font-weight="600">743 Mio</text>
+  <rect x="470" y="315" width="16" height="16" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="496" y="328" font-size="14" fill="#0f172a">Libre</text>
+  <text x="496" y="346" font-size="13" fill="#475569" font-weight="600">2 568 Mio</text>
+</svg>
