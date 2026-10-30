@@ -2,17 +2,18 @@ name: Deploy to GitHub Pages
 
 # Déclencheurs :
 # - push sur main : déploiement immédiat ;
-# - workflow_dispatch : bouton « Run workflow », pour publier tout de suite ;
-# - schedule : toutes les 15 minutes (hors minutes rondes, début d'heure surchargé chez GitHub).
-#   Une exécution planifiée ne construit le site que si un article est devenu publiable dans les
-#   6 dernières heures (voir scripts/deploy-gate.mjs). Elle sert à faire sortir un article planifié.
-# `publishDate` est l'instant de mise en ligne : le post LinkedIn part environ une heure après.
+# - workflow_dispatch : bouton « Run workflow », pour publier ou relancer à la main ;
+# - schedule : une fois par jour à 4h (heure de Paris), pour faire sortir un article dont le jour
+#   de `publishDate` est arrivé. GitHub gère le passage heure d'été et heure d'hiver grâce à
+#   `timezone`. Minute 3 plutôt que 0 : le début d'heure est chargé et les exécutions peuvent
+#   y être retardées.
 
 on:
   push:
     branches: [main]
   schedule:
-    - cron: '7,22,37,52 * * * *'
+    - cron: '3 4 * * *'
+      timezone: 'Europe/Paris'
   workflow_dispatch:
 
 permissions:
@@ -27,28 +28,20 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      run: ${{ steps.gate.outputs.run }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
           cache: npm
-      - id: gate
-        run: node scripts/deploy-gate.mjs "${{ github.event_name }}"
-      - if: steps.gate.outputs.run == 'true'
-        run: npm ci
-      - if: steps.gate.outputs.run == 'true'
-        run: npm run build
-      - if: steps.gate.outputs.run == 'true'
-        uses: actions/upload-pages-artifact@v3
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
   deploy:
     needs: build
-    if: needs.build.outputs.run == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

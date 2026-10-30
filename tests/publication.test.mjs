@@ -1,16 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import {
-  hasRecentlyPublished,
-  isPublishedFlags,
-  parisDateTime,
-  parisDay,
-  readFrontmatterFlags,
-  shouldDeploy,
-} from '../src/utils/publication.mjs';
+import { isPublishedFlags, parisDateTime, parisDay, readFrontmatterFlags } from '../src/utils/publication.mjs';
 
 const d = (iso) => new Date(iso);
-const day = (flags, now) => isPublishedFlags(flags, now, { mode: 'day' });
+const instant = (flags, now) => isPublishedFlags(flags, now, { mode: 'instant' });
 
 test('parisDay : heure d hiver (UTC+1) et heure d été (UTC+2)', () => {
   assert.equal(parisDay(d('2026-01-15T23:30:00Z')), '2026-01-16');
@@ -18,19 +11,22 @@ test('parisDay : heure d hiver (UTC+1) et heure d été (UTC+2)', () => {
   assert.equal(parisDay(d('2026-07-15T22:00:00Z')), '2026-07-16');
 });
 
-test('parisDay : changement d heure du 25 octobre 2026', () => {
+test('parisDay : changements d heure de 2026', () => {
+  assert.equal(parisDay(d('2026-03-28T22:59:00Z')), '2026-03-28');
+  assert.equal(parisDay(d('2026-03-28T23:00:00Z')), '2026-03-29');
+  assert.equal(parisDay(d('2026-03-29T21:59:00Z')), '2026-03-29');
+  assert.equal(parisDay(d('2026-03-29T22:00:00Z')), '2026-03-30');
   assert.equal(parisDay(d('2026-10-24T21:59:00Z')), '2026-10-24');
   assert.equal(parisDay(d('2026-10-24T22:00:00Z')), '2026-10-25');
-  // après le retour à l heure d hiver, minuit Paris = 23h UTC
   assert.equal(parisDay(d('2026-10-25T22:59:00Z')), '2026-10-25');
   assert.equal(parisDay(d('2026-10-25T23:00:00Z')), '2026-10-26');
 });
 
-test('parisDateTime : mardi 3 novembre 2026 à 7h30 Paris = 6h30 UTC (heure d hiver)', () => {
-  const text = parisDateTime(d('2026-11-03T06:30:00Z'));
+test('parisDateTime : mardi 3 novembre 2026 à 8h30 Paris = 7h30 UTC (heure d hiver)', () => {
+  const text = parisDateTime(d('2026-11-03T07:30:00Z'));
   assert.match(text, /mardi/);
   assert.match(text, /3 novembre/);
-  assert.match(text, /07:30/);
+  assert.match(text, /08:30/);
 });
 
 test('readFrontmatterFlags : cas de base, CRLF, guillemets', () => {
@@ -55,59 +51,42 @@ test('readFrontmatterFlags : clés absentes, pas de frontmatter, corps ignoré',
   );
 });
 
-test('instant (défaut) : publié à la seconde près', () => {
-  const p = '2026-11-03T06:30:00Z';
-  assert.equal(isPublishedFlags({ publishDate: p }, d('2026-11-03T06:29:59Z')), false);
-  assert.equal(isPublishedFlags({ publishDate: p }, d('2026-11-03T06:30:00Z')), true);
-  assert.equal(isPublishedFlags({ publishDate: p }, d('2026-11-03T06:30:01Z')), true);
+test('mode jour (défaut) : l article sort le jour de publishDate, même avant l heure du post', () => {
+  // post LinkedIn mardi 3 novembre à 8h30 Paris = 07:30Z ; déploiement à 4h Paris = 03:03Z
+  const p = '2026-11-03T07:30:00Z';
+  assert.equal(isPublishedFlags({ publishDate: p }, d('2026-11-03T03:03:00Z')), true);
+  assert.equal(isPublishedFlags({ publishDate: p }, d('2026-11-02T03:03:00Z')), false);
+  assert.equal(isPublishedFlags({ publishDate: p }, d('2026-11-04T03:03:00Z')), true);
 });
 
-test('instant : brouillon jamais publié, publishDate absent publié, date illisible non publiée', () => {
+test('mode jour : minuit Paris à la seconde près, changements d heure compris', () => {
+  const p = '2026-11-12T00:00:00+01:00';
+  assert.equal(isPublishedFlags({ publishDate: p }, d('2026-11-11T22:59:00Z')), false);
+  assert.equal(isPublishedFlags({ publishDate: p }, d('2026-11-11T23:00:00Z')), true);
+  assert.equal(isPublishedFlags({ publishDate: '2026-03-29T00:00:00+01:00' }, d('2026-03-28T22:59:00Z')), false);
+  assert.equal(isPublishedFlags({ publishDate: '2026-03-29T00:00:00+01:00' }, d('2026-03-28T23:00:00Z')), true);
+  assert.equal(isPublishedFlags({ publishDate: '2026-10-25T00:00:00+02:00' }, d('2026-10-24T21:59:00Z')), false);
+  assert.equal(isPublishedFlags({ publishDate: '2026-10-25T00:00:00+02:00' }, d('2026-10-24T22:00:00Z')), true);
+});
+
+test('mode jour : décalages de fuseau', () => {
+  // 2026-11-12T00:30:00+05:00 = 11 novembre 20h30 Paris, jour Paris : 11 novembre
+  const p = '2026-11-12T00:30:00+05:00';
+  assert.equal(isPublishedFlags({ publishDate: p }, d('2026-11-11T05:00:00Z')), true);
+  assert.equal(isPublishedFlags({ publishDate: p }, d('2026-11-10T22:00:00Z')), false);
+  assert.equal(isPublishedFlags({ publishDate: '2026-11-12T00:00:00Z' }, d('2026-11-12T00:00:00Z')), true);
+});
+
+test('brouillon jamais publié, publishDate absent publié, date illisible non publiée', () => {
   assert.equal(isPublishedFlags({ draft: true, publishDate: '2020-01-01' }, d('2027-01-01T00:00:00Z')), false);
   assert.equal(isPublishedFlags({}, d('2026-01-01T00:00:00Z')), true);
   assert.equal(isPublishedFlags({ publishDate: 'pas une date' }, d('2026-01-01T00:00:00Z')), false);
 });
 
-test('instant : décalages de fuseau', () => {
-  // 7h30 à Paris le 3 novembre (UTC+1) = 6h30 UTC
-  const p = '2026-11-03T07:30:00+01:00';
-  assert.equal(isPublishedFlags({ publishDate: p }, d('2026-11-03T06:29:00Z')), false);
-  assert.equal(isPublishedFlags({ publishDate: p }, d('2026-11-03T06:30:00Z')), true);
-});
-
-test('mode day : conservé pour le jour entier à Paris', () => {
-  const now = d('2026-11-12T03:00:00Z');
-  assert.equal(day({ publishDate: '2026-11-13' }, now), false);
-  assert.equal(day({ publishDate: '2026-11-12T20:00:00Z' }, d('2026-11-12T04:00:00Z')), true);
-  assert.equal(day({ publishDate: '2026-11-12T00:00:00+01:00' }, d('2026-11-11T22:59:00Z')), false);
-  assert.equal(day({ publishDate: '2026-11-12T00:00:00+01:00' }, d('2026-11-11T23:00:00Z')), true);
-});
-
-test('hasRecentlyPublished : fenêtre de 6 heures', () => {
-  const posts = [{ publishDate: '2026-11-03T06:30:00Z' }];
-  assert.equal(hasRecentlyPublished(posts, d('2026-11-03T06:29:00Z')), false); // pas encore
-  assert.equal(hasRecentlyPublished(posts, d('2026-11-03T06:31:00Z')), true);
-  assert.equal(hasRecentlyPublished(posts, d('2026-11-03T12:29:00Z')), true);
-  assert.equal(hasRecentlyPublished(posts, d('2026-11-03T12:31:00Z')), false); // trop ancien
-});
-
-test('hasRecentlyPublished : brouillon, date absente ou illisible ignorés', () => {
-  const now = d('2026-11-03T07:00:00Z');
-  assert.equal(hasRecentlyPublished([{ draft: true, publishDate: '2026-11-03T06:30:00Z' }], now), false);
-  assert.equal(hasRecentlyPublished([{}], now), false);
-  assert.equal(hasRecentlyPublished([{ publishDate: 'abc' }], now), false);
-  assert.equal(hasRecentlyPublished([], now), false);
-});
-
-test('shouldDeploy : push et déclenchement manuel déploient toujours', () => {
-  const now = d('2026-11-03T07:00:00Z');
-  assert.equal(shouldDeploy('push', [], now), true);
-  assert.equal(shouldDeploy('workflow_dispatch', [], now), true);
-});
-
-test('shouldDeploy : une exécution planifiée ne déploie que si un article vient de sortir', () => {
-  const posts = [{ publishDate: '2026-11-03T06:30:00Z' }, { publishDate: '2026-10-28T00:00:00Z' }];
-  assert.equal(shouldDeploy('schedule', posts, d('2026-11-03T06:45:00Z')), true);
-  assert.equal(shouldDeploy('schedule', posts, d('2026-11-03T06:15:00Z')), false);
-  assert.equal(shouldDeploy('schedule', posts, d('2026-11-04T06:45:00Z')), false);
+test('mode instant : comparaison d instants', () => {
+  const p = '2026-11-12T10:00:00Z';
+  assert.equal(instant({ publishDate: p }, d('2026-11-12T09:59:59Z')), false);
+  assert.equal(instant({ publishDate: p }, d('2026-11-12T10:00:00Z')), true);
+  assert.equal(instant({ draft: true, publishDate: p }, d('2027-01-01T00:00:00Z')), false);
+  assert.equal(instant({}, d('2026-01-01T00:00:00Z')), true);
 });
