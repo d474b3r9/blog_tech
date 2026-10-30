@@ -381,8 +381,39 @@ SWE-bench Verified déclaré par chaque éditeur, non indépendant, harnais diff
 
 Quatre précautions. D'abord, ces deux benchmarks de justesse mesurent des connaissances et du raisonnement généraux, pas la qualité du code : mes quatre modèles de code (Qwen3-Coder 30B-A3B, Devstral Small 2, Codestral, Qwen2.5-Coder 14B) sont jugés sur des questions générales. Ensuite, Epoch teste les modèles d'origine alors que mon test porte sur mes quantifications : Codestral, en `q3_K_S`, est la plus agressive, et je ne sais pas ce qu'elle coûte en justesse. Puis les suffixes des variantes d'Epoch (`_none`, `_minimal`) ne sont pas documentés dans les fichiers que j'ai lus : j'ai pris la variante sans suffixe, ou la seule disponible (`_minimal` pour Gemma 4). Enfin, MMLU-Pro est public depuis juin 2024 : un modèle a pu en croiser des questions à l'entraînement.
 
+## Mon top 3, pour le code et pour le multimodal
+
+Deux précisions avant de classer. Pour le multimodal, je n'ai testé aucune image ni aucun son : je m'appuie sur les capacités que chaque modèle déclare dans `ollama show` (`vision`, `audio`), croisées avec mes mesures de vitesse et de mémoire. Pour le code, je n'ai pas de test maison non plus : je m'appuie sur les chiffres déclarés plus haut, **non indépendants**. C'est donc un choix de lecture, pas un résultat mesuré. Ce top 3 est personnel : il traduit mes préférences et mon interprétation des chiffres, sur mon propre matériel (une carte de 12 Go). Avec une autre machine ou d'autres priorités, le vôtre sera différent. Au fond, le meilleur modèle est celui avec lequel vous aurez le plus de plaisir à travailler.
+
+**Pour le code**
+
+| Rang | Modèle          | LiveCodeBench v6 déclaré | SWE-bench Verified déclaré | Vitesse (tokens par seconde) | Contexte de 262 144 tokens          |
+| ---- | --------------- | ------------------------ | -------------------------- | ---------------------------- | ----------------------------------- |
+| 1    | Qwen3.6 35B-A3B | 80,4                     | 73,4                       | 44,5                         | 37,1 tokens par seconde, 17 Go de RAM |
+| 2    | Gemma 4 26B-A4B | 77,1                     | non déclaré                | 39,8                         | 29,3 tokens par seconde             |
+| 3    | Gemma 4 12B     | 72,0                     | non déclaré                | 123,9                        | tout en VRAM                        |
+
+Top 3 code : chiffres de code déclarés par les éditeurs, non indépendants, vitesses mesurées sur ma machine
+
+Le Qwen3.6 est le meilleur compromis déclaré. Le Gemma 4 26B-A4B ajoute le meilleur score de mon test en réponse directe. Le Gemma 4 12B est le choix quand la réactivité compte plus que la profondeur de raisonnement.
+
+Je laisse de côté Qwen3.8 27B (90,3 sur LiveCodeBench, mais 4,3 tokens par seconde) et Devstral Small 2 (68,0 sur SWE-bench Verified, 5,9 tokens par seconde) : trop lents sur 12 Go pour un usage interactif. Qwen3-Coder 30B-A3B n'a aucun chiffre déclaré et ne tient 262 144 tokens qu'à 5,9 tokens par seconde.
+
+**Pour le multimodal**
+
+| Rang | Modèle          | Image | Son | Vitesse (tokens par seconde) | Justesse                          |
+| ---- | --------------- | ----- | --- | ---------------------------- | --------------------------------- |
+| 1    | Gemma 4 12B     | oui   | oui | 123,9, tout en VRAM          | 57,9 % sur mon test               |
+| 2    | Gemma 4 26B-A4B | oui   | non | 39,8                         | 65,7 % sur mon test               |
+| 3    | Qwen3.6 35B-A3B | oui   | non | 44,5                         | 61,4 % sur mon test, 83,8 % chez Epoch |
+
+Top 3 multimodal : capacités déclarées dans `ollama show`, aucune image ni aucun son testé
+
+Huit de mes treize modèles déclarent `vision` : les trois ci-dessus, plus Qwen3.8 27B, Qwen3.5 9B, Devstral Small 2, Mistral Small 3.2 et Ministral-3 14B. Seul Gemma 4 12B déclare aussi `audio`. GLM-4.7-Flash, GLM4 9B, Qwen3-Coder, Qwen2.5-Coder et Codestral n'en déclarent aucun. Qwen3.5 9B (70,9 tokens par seconde, tout en VRAM) est le premier à regarder pour rester entièrement sur la carte avec un autre éditeur. Mistral Small 3.2 et Devstral Small 2 sont parmi les plus lents de la liste (5,2 et 5,9 tokens par seconde), d'où leur absence du top 3. Ministral-3 14B est rapide (73,1) mais décroche dès 16 K de contexte et ne fait que 50,0 % sur mon test. Qu'un modèle accepte une image ne dit rien de la qualité de sa description : ce test reste à faire.
+
 ## Ce qui manque encore
 
+- **Le multimodal et le code.** Mon top 3 repose sur les capacités déclarées et sur des chiffres d'éditeurs. Je n'ai testé ni la qualité de la vision et du son, ni la qualité du code produit sur mes quantifications.
 - **Mes mesures.** Un seul passage par palier de contexte, un prompt répété, un seul jeu de 280 questions pour la justesse, en réponse directe et sans raisonnement pas à pas. Les vitesses des paliers à moitié remplis sont plus hautes que celles d'un contexte réellement plein (Gemma : 30 tokens par seconde à 222 515 tokens). Le tag que j'ai testé, `12b-it-q4_K_M`, n'est pas le plus économe : le `qat` plus petit reste à mesurer.
 - **GLM-4.7-Flash.** Il manque à mon test de justesse : la machine a manqué de mémoire et la tâche a été arrêtée avant son passage. Il n'a que le GPQA d'Epoch (60,5 %).
 - **Le rôle du modèle assistant.** Ollama en charge un second avec Gemma. Je n'ai pas vérifié ce qu'il apporte en vitesse.
