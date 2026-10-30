@@ -108,8 +108,8 @@ export default defineConfig({
 
   integrations: [
     sitemap({
-      // Keep noindex pages (tag archives, anonymised CV) out of the sitemap.
-      filter: (page) => !/\/(tag\/|cv-anonyme\/?$)/.test(new URL(page).pathname),
+      // Keep noindex pages (tag archives) out of the sitemap.
+      filter: (page) => !/\/tag\//.test(new URL(page).pathname),
       // lastmod uniquement pour les articles (ni priority ni changefreq).
       serialize: (item) => {
         const lastmod = postLastmod.get(new URL(item.url).pathname.replace(/^\/|\/$/g, ''));

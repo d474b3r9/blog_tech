@@ -27,9 +27,6 @@
     "live": "node scripts/check-live.mjs"
   },
   "dependencies": {
-    "@astro-community/astro-embed-twitter": "^0.5.11",
-    "@astro-community/astro-embed-vimeo": "^0.3.12",
-    "@astro-community/astro-embed-youtube": "^0.5.10",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "astro": "^7.4.0",
