@@ -120,6 +120,14 @@ for (const p of posts.values()) {
     if (data[k] === undefined || data[k] === null || data[k] === '') E(1, `clé obligatoire absente : ${k}`);
   }
   for (const k of Object.keys(data)) if (!KNOWN.has(k)) E(lineOfKey(k), `clé inconnue (faute de frappe ?) : ${k}`);
+  if (data.annexOf !== undefined) {
+    const parent = posts.get(String(data.annexOf));
+    if (!parent) E(lineOfKey('annexOf'), `annexOf « ${data.annexOf} » ne désigne aucun article`);
+    else if (parent.data.draft === true)
+      E(lineOfKey('annexOf'), `annexOf « ${data.annexOf} » : l'article parent est un brouillon`);
+    if (data.unlisted !== true)
+      W(lineOfKey('annexOf'), 'annexOf sans unlisted: true : l’annexe restera listée sur le blog');
+  }
   if (data.publishDate !== undefined && Number.isNaN(dateOf(p)?.getTime())) {
     E(lineOfKey('publishDate'), 'publishDate invalide');
   }

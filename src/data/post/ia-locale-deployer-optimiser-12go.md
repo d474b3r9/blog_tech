@@ -14,14 +14,14 @@ imageAlt: 'Une barre de mémoire de 12 288 Mio en pointillés, remplie en bleu p
 author: Jonathan Cattelain
 ---
 
-J'ai plusieurs fois parlé d'IA en local avec des collègues, sans que personne ne montre de chiffres. J'ai refait le test sur ma machine en notant tout : un Gemma 4 12B qui tient 262 144 tokens dans 12 Go de VRAM, et douze autres modèles mesurés, avec le tutoriel pour reproduire.
+J'ai plusieurs fois parlé d'IA en local avec des collègues, sans que personne ne montre de chiffres. J'ai refait le test sur ma machine en notant tout : un Gemma 4 12B qui tient 262 144 tokens sur une carte de 12 Go (presque tout en VRAM), et douze autres modèles mesurés, avec le tutoriel pour reproduire.
 
 <div class="tldr">
 
 ⚡ **TL;DR : l'article en 3 points**
 
-- **Ce qui tient** : un Gemma 4 12B garde ses 262 144 tokens de contexte dans les 12 Go d'une RTX 3080 Ti, de 100 à 107 tokens par seconde en génération longue et 30 à pleine fenêtre. Son cache KV ne grossit que de 8,5 Kio par token. Sa justesse, sur 280 questions MMLU-Pro en réponse directe : 57,9 %.
-- **Ce qui s'effondre** : les modèles de 9 à 14 milliards décrochent entre 16 K et 32 K de contexte, et les denses de 24 à 27 milliards qui débordent en RAM tombent à 4 à 6 tokens par seconde. Les MoE (Qwen3.6 35B-A3B, GLM-4.7-Flash) restent entre 25 et 44.
+- **Ce qui tient** : un Gemma 4 12B garde ses 262 144 tokens de contexte sur la carte de 12 Go d'une RTX 3080 Ti, presque tout en VRAM (à cette taille, le journal du serveur indique 3 couches sur 49 en RAM). Il génère de 100 à 107 tokens par seconde sur 2 000 à 3 500 tokens, et 30 avec un prompt de 222 515 tokens dans la fenêtre de 262 144. Son cache KV ne grossit que de 8,5 Kio par token. Sa justesse, sur 280 questions MMLU-Pro en réponse directe : 57,9 %.
+- **Ce qui s'effondre** : les modèles de 9 à 14 milliards sortent du GPU pur à 32 K ou 65 K de contexte (32 K pour Ministral-3 14B et Qwen2.5-Coder 14B, 65 K pour Qwen3.5 9B et GLM4 9B), et les denses de 24 à 27 milliards qui débordent en RAM tombent à 4 à 6 tokens par seconde. Les MoE à petit cache (Qwen3.6 35B-A3B, GLM-4.7-Flash) restent entre 25 et 44 ; Qwen3-Coder, un MoE lui aussi, s'effondre à 5,9 à 262 144.
 - **Comment le reproduire** : six étapes (VRAM libre, variables d'environnement, `pull`, Modelfile, vérification, montée en contexte), sur un i9-9900K, 32 Go de DDR4-3200 et une 3080 Ti de 12 Go.
 
 </div>
@@ -34,7 +34,7 @@ On se disait que ça tournait bien, que c'était rapide, que ça rentrait. Perso
 
 Je n'avais rien à poser sur la table. Il y a quelques mois, j'avais fait tourner Gemma 4 sur une RTX 3080 Ti à plus de 70 tokens par seconde. Puis j'ai formaté la machine, et avec elle ont disparu le tag exact, les paramètres et les mesures de mémoire. Une vitesse sans configuration reproductible, c'est une anecdote, pas un résultat.
 
-Cette fois, j'ai tout noté. Gemma 4 12B, Ollama 0.40.13, 12 Go de VRAM : entre 100 et 107 tokens par seconde en génération longue, 124 au palier de 4 096 tokens. Les 262 144 tokens de contexte maximal tiennent entièrement dans la carte, à 30 tokens par seconde. Puis j'ai poussé la machine avec douze autres modèles, du 9B au 35B.
+Cette fois, j'ai tout noté. Gemma 4 12B, Ollama 0.40.13, 12 Go de VRAM : entre 100 et 107 tokens par seconde en génération longue, 124 au palier de 4 096 tokens (sur 64 tokens générés). Les 262 144 tokens de contexte maximal tiennent presque entièrement dans la carte (3 couches sur 49 en RAM selon le journal du serveur), à 30 tokens par seconde avec un prompt de 222 515 tokens. Puis j'ai poussé la machine avec douze autres modèles, du 9B au 35B.
 
 <div class="definition">
 
@@ -66,13 +66,13 @@ Le GPU est la carte graphique : il calcule très vite et dispose de sa propre m�
 
 Voici ce que la bibliothèque Ollama annonce pour Gemma 4 ([page des tags](https://ollama.com/library/gemma4/tags)), avec ce que j'ai effectivement mesuré :
 
-| Tag                        | Taille | Sur 12 Go                                                |
-| -------------------------- | ------ | -------------------------------------------------------- |
-| `gemma4:12b-it-q4_K_M`     | 8,0 Go | Celui que j'ai testé : tient à 262 144 tokens, 100 % GPU |
-| `gemma4:12b-it-qat`        | 7,2 Go | Plus de marge, non testé                                 |
-| `gemma4:e4b-it-qat`        | 6,1 Go | Plan B pour un long contexte, non testé                  |
-| `gemma4:12b-it-q8_0`       | 13 Go  | Ne rentre pas                                            |
-| `gemma4:26b-a4b-it-q4_K_M` | 17 Go  | Ne rentre pas : de 48 à 66 % des couches en RAM          |
+| Tag                        | Taille | Sur 12 Go                                                          |
+| -------------------------- | ------ | ------------------------------------------------------------------ |
+| `gemma4:12b-it-q4_K_M`     | 8,0 Go | Celui que j'ai testé : tient à 262 144 tokens, presque tout en GPU |
+| `gemma4:12b-it-qat`        | 7,2 Go | Plus de marge, non testé                                           |
+| `gemma4:e4b-it-qat`        | 6,1 Go | Plan B pour un long contexte, non testé                            |
+| `gemma4:12b-it-q8_0`       | 13 Go  | Ne rentre pas                                                      |
+| `gemma4:26b-a4b-it-q4_K_M` | 17 Go  | Ne rentre pas : de 48 à 66 % des couches en RAM                    |
 
 tailles des tags Gemma 4 sur Ollama
 
@@ -100,7 +100,7 @@ L'API d'Ollama (`/api/show`) donne l'architecture du modèle : 48 couches, dont 
 
 où passent les 12 288 Mio avec Gemma 4 12B en contexte 16 384
 
-Le détail vient du journal du serveur Ollama (poids, caches, buffer de calcul), complété par `nvidia-smi` pour le total. Deux points à noter. Ollama charge un second modèle, « gemma4-assistant » (428 Mio de poids), dont je n'ai pas vérifié le rôle. Et `ollama ps` affiche 1,2 Go de taille pour ce modèle alors que `nvidia-smi` en voit 9 720 Mio : je me fie à `nvidia-smi`.
+Le détail vient du journal du serveur Ollama (poids, caches, buffer de calcul), complété par `nvidia-smi` pour le total. Deux points à noter. Ollama charge un second modèle, « gemma4-assistant » (428 Mio de poids), dont je n'ai pas vérifié le rôle. Et `ollama ps` affiche 1,2 Go de taille pour ce modèle alors que `nvidia-smi` en voit 9 720 Mio : je me fie à `nvidia-smi`. La capture a été prise en pleine génération longue, alors que le tableau plus bas relève la VRAM après le prompt du palier : 9 720 Mio contre 9 512 Mio, soit 208 Mio d'écart pour la même configuration (7 024 + 476 + 277 Mio, plus l'assistant de 428 Mio). Je n'ai pas isolé la cause de cet écart.
 
 ## Le tutoriel : un Gemma 4 de 12 milliards de paramètres sur une carte de 12 Go
 
@@ -118,7 +118,7 @@ lecture de la VRAM avant de lancer Ollama
 
 609 Mio utilisés au repos sur 12 288 Mio
 
-Chez moi, Windows en prend déjà 609. Il reste 11 679 Mio, pas 12 288.
+Chez moi, Windows en prend déjà 609 Mio. Il reste 11 679 Mio, pas 12 288.
 
 **Étape 2, les variables d'environnement.** Flash Attention est nécessaire pour quantifier le cache KV. En `q8_0`, le cache prend deux fois moins de place qu'en 16 bits. Et `OLLAMA_NUM_PARALLEL=1` évite de réserver de la mémoire de contexte pour des requêtes parallèles dont vous n'avez pas besoin (la FAQ d'Ollama indique que la mémoire requise est multipliée par ce nombre).
 
@@ -225,17 +225,17 @@ J'ai répété cette requête à sept tailles de contexte, avec un prompt de tai
 | 196 608   | 166 632        | 1 171          | 60,5               | 11 720            |
 | 262 144   | 222 515        | 695            | 30,1               | 11 966            |
 
-Gemma 4 12B q4_K_M, toujours 100 % GPU sur 12 288 Mio de VRAM
+Gemma 4 12B q4_K_M sur 12 288 Mio de VRAM : tout en GPU jusqu'à 196 608, 46 couches sur 49 à 262 144
 
-La colonne « Prompt » donne la vitesse à laquelle le modèle lit votre texte, bien plus rapide que celle à laquelle il écrit (« Génération »). Le modèle reste à 100 % GPU sur toute la plage. À 262 144, il reste 322 Mio de marge. La vitesse, elle, tombe de 124 à 30 tokens par seconde : l'attention doit parcourir tout le cache. Les deux derniers paliers contiennent plus de tokens que visé (166 632 et 222 515), car le tokenizer (le découpeur de texte en tokens) découpe mes lignes numérotées plus finement que prévu. Ce sont les nombres réels qui comptent.
+La colonne « Prompt » donne la vitesse à laquelle le modèle lit votre texte, bien plus rapide que celle à laquelle il écrit (« Génération »). Le modèle reste tout en GPU jusqu'à 196 608. À 262 144, le journal du serveur indique 46 couches sur 49 au GPU : 3 couches, soit environ 1,2 Go de poids et 19 Mio de cache KV, restent en RAM. Il reste 322 Mio de marge de VRAM. La vitesse, elle, tombe de 124 (palier de 4 096) à 30 tokens par seconde (222 515 tokens de prompt dans la fenêtre de 262 144) : l'attention doit parcourir tout le cache. Les 130,8 du palier de 16 384 viennent d'un passage unique, dans le bruit de mesure (environ ± 5 %) : ce n'est pas un effet du contexte. La VRAM n'est pas monotone : le tampon de calcul de llama.cpp vaut 277 Mio à 16 K et 161 Mio à 32 K, selon le journal du serveur. Les deux derniers paliers contiennent plus de tokens que visé (166 632 et 222 515), car le tokenizer (le découpeur de texte en tokens) découpe mes lignes numérotées plus finement que prévu. Ce sont les nombres réels qui comptent.
 
-Autre écart à noter. Sur des générations courtes, j'ai mesuré de 113 à 120 tokens par seconde sur cinq passages. Sur des générations de 2 000 à 3 500 tokens, entre 100 et 107. Même modèle, même carte. Je n'ai pas isolé la cause : contexte qui se remplit, ou carte qui chauffe (78 °C, 333 W sur 350 W dans ma capture). Mes 70 tokens par seconde d'il y a quelques mois, eux, ne sont pas comparables : autre tag, autre configuration.
+Autre écart à noter : la vitesse dépend de la durée de génération. J'ai mesuré de 124 à 131 tokens par seconde sur 64 tokens, de 113 à 120 sur 500 à 800 tokens, et entre 100 et 107 sur 2 000 à 3 500 tokens. Même modèle, même carte. Je n'ai pas isolé la cause : contexte qui se remplit, ou carte qui chauffe (78 °C, 333 W sur 350 W dans ma capture). Mes 70 tokens par seconde d'il y a quelques mois, eux, ne sont pas comparables : autre tag, autre configuration.
 
-## Douze autres modèles : seuls les MoE survivent au débordement
+## Douze autres modèles : les MoE à petit cache tiennent le débordement
 
 Même protocole, même machine, `num_thread` à 8, cache KV en `q8_0`. J'ai monté le contexte de 4 096 jusqu'au maximum du modèle, et arrêté dès qu'un palier passait sous 1,5 token par seconde ou laissait moins de 2,5 Go de RAM libre. Les prompts contenaient de 2 000 à 20 000 tokens. Les poids sont ceux de `ollama list`.
 
-![Barres horizontales de la vitesse de génération à 4096 tokens de contexte : Gemma 4 12B 123,9 tokens par seconde, cinq modèles de 9 à 22 milliards entre 56,6 et 73,1 tous en VRAM, quatre MoE entre 39,8 et 44,5 avec des couches en RAM, et trois modèles denses de 24 à 27 milliards entre 4,3 et 5,9.](../../assets/images/ia-locale-deployer-optimiser-12go/ia-locale-benchmark-4k.svg)
+![Barres horizontales de la vitesse de génération à 4096 tokens de contexte : Gemma 4 12B 123,9 tokens par seconde, cinq modèles de 9 à 22 milliards entre 56,6 et 73,1 tous en VRAM, quatre MoE entre 39,8 et 44,5 avec une part du modèle en RAM, et trois modèles denses de 24 à 27 milliards entre 4,3 et 5,9.](../../assets/images/ia-locale-deployer-optimiser-12go/ia-locale-benchmark-4k.svg)
 
 vitesse de génération à 4 096 tokens de contexte selon le modèle
 
@@ -255,7 +255,7 @@ vitesse de génération à 4 096 tokens de contexte selon le modèle
 | Mistral Small 3.2 24B | 15  | 37 / 63   | 5,2         | 131 072 (1,6)                    |
 | Qwen3.8 27B           | 17  | 44 / 56   | 4,3         | 262 144 (2,0)                    |
 
-treize modèles sur une RTX 3080 Ti de 12 Go et 32 Go de DDR4-3200, tous en q4_K_M sauf Qwen3.5 9B et GLM4 9B (q8_0) et Codestral 22B (q3_K_S)
+treize modèles sur une RTX 3080 Ti de 12 Go et 32 Go de DDR4-3200, tous en q4_K_M sauf Qwen3.5 9B et GLM4 9B (q8_0) et Codestral 22B (q3_K_S). Colonne CPU / GPU : part de la mémoire du modèle selon `ollama ps`, à 4 096 de contexte
 
 <div class="definition">
 
@@ -265,21 +265,21 @@ Dans un modèle dense, tous les paramètres travaillent pour chaque token produi
 
 Deux chiffres le résument. Le total, par exemple 35 milliards de paramètres pour Qwen3.6 35B-A3B, dit ce qu'il faut stocker : tous les experts doivent rester en mémoire. Le nombre actif (le « A3B » : 3 milliards) dit ce qui est lu à chaque token, donc la vitesse.
 
-Quand le modèle ne tient pas dans la VRAM, Ollama laisse une partie des couches en RAM, que le CPU traite. C'est la colonne « CPU / GPU » du tableau.
+Quand le modèle ne tient pas dans la VRAM, Ollama laisse une partie du modèle en RAM, que le CPU traite. C'est la colonne « CPU / GPU » du tableau, exprimée en part de la mémoire du modèle et non en nombre de couches (sur Qwen3.6, par exemple, le journal du serveur envoie 41 couches sur 42 au GPU : ce qui reste en RAM, ce sont probablement les experts).
 
 </div>
 
 **Un modèle dense qui déborde est inutilisable.** Mistral Small, Devstral et Qwen3.8 tournent entre 4 et 6 tokens par seconde dès 4 096 de contexte. Les couches restées en RAM sont lues à la vitesse de la mémoire : environ 51 Go/s pour ma DDR4-3200 en double canal (calcul : 3 200 MT/s × 8 octets × 2), contre 912 Go/s annoncés pour la carte.
 
-**Un MoE s'en sort.** Qwen3.6 35B-A3B pèse 23 Go, soit près du double de la VRAM. Il génère à 44,5 tokens par seconde, et à 37,1 avec 262 144 de contexte, avec 58 % des couches sur le CPU et 17 Go de RAM côté Ollama. Un MoE ne lit qu'une petite partie de ses poids par token (3 milliards de paramètres actifs, d'après son nom). C'est la seule famille qui rend un modèle de 30 milliards utilisable sur cette carte. Mon coup de cœur technique, c'est GLM-4.7-Flash : son contexte maximal de 202 752 tokens tourne à 25,5 tokens par seconde.
+**Un MoE s'en sort, si son cache est petit.** Qwen3.6 35B-A3B pèse 23 Go, soit près du double de la VRAM. Il génère à 44,5 tokens par seconde à 4 096 de contexte (sur 64 tokens), à 43 sur une génération longue de 4 057 tokens, et à 37,1 à 262 144, avec 58 % de la mémoire du modèle côté CPU à 4 096 (64 % à 262 144) et 17 Go de RAM côté Ollama à 262 144. Un MoE ne lit qu'une petite partie de ses poids par token (3 milliards de paramètres actifs, d'après son nom), ce qui rend un modèle de 30 milliards utilisable sur cette carte. Mais le MoE ne suffit pas : Qwen3-Coder 30B-A3B, un MoE à gros cache KV, passe de 24,1 tokens par seconde à 131 072 à 5,9 à 262 144 (mesuré sur 33 tokens générés seulement). Ce qui distingue Qwen3.6 35B-A3B, GLM-4.7-Flash et Gemma 4 26B-A4B, c'est selon moi un cache KV petit, pas le fait d'être MoE : c'est une hypothèse, je n'ai pas ouvert leurs architectures. Mon coup de cœur technique, c'est GLM-4.7-Flash : son contexte maximal de 202 752 tokens tourne à 25,5 tokens par seconde.
 
-**Le contexte long dépend de l'architecture.** Gemma garde 262 144 tokens en VRAM. Ministral, Qwen3.5, GLM4 et Qwen2.5-Coder décrochent entre 16 K et 32 K : leur cache déborde et des couches passent sur le CPU. Je n'ai pas ouvert leurs architectures. Le débordement précoce suggère un cache plus gros par token que celui de Gemma.
+**Le contexte long dépend de l'architecture.** Gemma garde 262 144 tokens presque entièrement en VRAM. Ministral-3 14B et Qwen2.5-Coder 14B sortent du GPU pur à 32 K, Qwen3.5 9B et GLM4 9B à 65 K (dernier palier en GPU pur : 16 K pour les deux premiers, 32 K pour les deux autres) : leur cache déborde et une partie du modèle passe côté CPU. Je n'ai pas ouvert leurs architectures. Le débordement précoce suggère un cache plus gros par token que celui de Gemma.
 
 ## Et la justesse ?
 
-Un modèle qui répond à 124 tokens par seconde peut aussi répondre faux à 124 tokens par seconde. J'ai mesuré la justesse de deux façons : un test maison de 280 questions MMLU-Pro en réponse directe sur mes quantifications (douze modèles sur treize), et GPQA Diamond d'Epoch AI, un benchmark indépendant qui ne couvre que cinq de mes modèles. Avec 280 questions, la marge d'erreur de mon test est d'environ 3 points : sous 6 points d'écart, je ne classe pas. Mes scores ne sont pas comparables aux scores publiés, car je n'ai pas laissé les modèles raisonner. Le protocole, les tableaux complets et les précautions sont dans [l'article de méthode](/ia-locale-12go-methode-tests).
+Un modèle qui répond à 124 tokens par seconde peut aussi répondre faux à 124 tokens par seconde. J'ai mesuré la justesse de deux façons : un test maison de 280 questions MMLU-Pro en réponse directe sur mes quantifications (douze modèles sur treize), et GPQA Diamond d'Epoch AI, un benchmark indépendant qui ne couvre que cinq de mes modèles. Avec 280 questions, l'écart-type de chaque score est d'environ 3 points (intervalle à 95 % d'environ ± 6 points). Pour comparer deux modèles, il faut plus d'environ 6 à 8 points d'écart : en dessous, je ne classe pas. Mes scores ne sont pas comparables aux scores publiés, car je n'ai pas laissé les modèles raisonner. Le protocole, les tableaux complets et les précautions sont dans [l'article de méthode](/ia-locale-12go-methode-tests).
 
-Les deux mesures ne classent pas pareil. Chez Epoch, Qwen3.5 9B (79,0 %) devance largement Mistral Small 3.2 (49,1 %). Chez moi, en réponse directe, ils sont à égalité à 53,6 %. Je n'explique pas cet écart. L'hypothèse est que le raisonnement avantage Qwen3.5 ; je ne l'ai pas testée.
+Les deux mesures ne classent pas pareil. Chez Epoch, Qwen3.5 9B (79,0 %) devance largement Mistral Small 3.2 (49,1 %). Chez moi, en réponse directe, ils sont à égalité à 53,6 %. Je n'explique pas cet écart. Mon hypothèse, que le raisonnement avantage Qwen3.5, je ne l'ai pas testée.
 
 ![Treize lignes classées par vitesse. Pour chaque modèle, quatre barres : la vitesse à 4096 tokens de contexte, la justesse sur mon test MMLU-Pro (douze modèles), la justesse GPQA Diamond d'Epoch (cinq modèles), et le contexte utilisable à 20 tokens par seconde ou plus, avec le rang dans chaque critère. Gemma 4 12B est premier en vitesse, Gemma 4 26B-A4B premier sur mon test, Qwen3.6 35B-A3B premier chez Epoch, et trois modèles denses n'ont aucun palier de contexte à 20 tokens par seconde.](../../assets/images/ia-locale-deployer-optimiser-12go/ia-locale-classement-modeles.svg)
 
@@ -287,11 +287,11 @@ classement de treize modèles par vitesse, justesse et contexte
 
 Pour choisir, voici ce que disent ces critères ensemble :
 
-**Le plus rapide, tout en VRAM.** Gemma 4 12B : 123,9 tokens par seconde, 262 144 tokens de contexte, 100 % GPU, et 57,9 % sur mon test, à égalité avec les modèles qui le suivent dans la marge d'erreur (tableau complet dans [l'article de méthode](/ia-locale-12go-methode-tests)).
+**Le plus rapide, tout en VRAM.** Gemma 4 12B : 123,9 tokens par seconde sur 64 tokens, 262 144 tokens de contexte presque entièrement en VRAM, et 57,9 % sur mon test, sans écart net avec les modèles qui le suivent (moins de 6 à 8 points ; tableau complet dans [l'article de méthode](/ia-locale-12go-methode-tests)).
 
-**Le plus de justesse avec raisonnement.** Qwen3.6 35B-A3B : 83,8 % chez Epoch, 61,4 % chez moi, 44,5 tokens par seconde, 262 144 tokens à 37,1 tokens par seconde. Il pèse 23 Go : 58 % des couches sur le CPU, 17 Go de RAM.
+**Le plus de justesse avec raisonnement.** Qwen3.6 35B-A3B : 83,8 % chez Epoch, 61,4 % chez moi, 44,5 tokens par seconde à 4 096 de contexte, 262 144 tokens à 37,1 tokens par seconde. Il pèse 23 Go : 58 à 64 % de la mémoire côté CPU, 17 Go de RAM à 262 144.
 
-**Le plus de justesse en réponse directe.** Gemma 4 26B-A4B : 65,7 % chez moi, 73,2 % chez Epoch, 39,8 tokens par seconde, 262 144 tokens à 29,3 tokens par seconde, avec près de la moitié des couches sur le CPU.
+**Le plus de justesse en réponse directe.** Gemma 4 26B-A4B : 65,7 % chez moi, 73,2 % chez Epoch, 39,8 tokens par seconde, 262 144 tokens à 29,3 tokens par seconde, avec près de la moitié du modèle côté CPU à 4 096 de contexte.
 
 **Un bon compromis tout en VRAM avec raisonnement.** Qwen3.5 9B : 79,0 % chez Epoch, 53,6 % chez moi, 70,9 tokens par seconde, 65 536 tokens à plus de 20 tokens par seconde.
 
@@ -309,7 +309,7 @@ podium des trois modèles que je retiens pour le code
 
 Le Qwen3.6 est le meilleur compromis déclaré. Le Gemma 4 26B-A4B ajoute le meilleur score de mon test en réponse directe. Le Gemma 4 12B est le choix quand la réactivité compte plus que la profondeur de raisonnement.
 
-Je laisse de côté Qwen3.8 27B (90,3 sur LiveCodeBench, mais 4,3 tokens par seconde) et Devstral Small 2 (68,0 sur SWE-bench Verified, 5,9 tokens par seconde) : trop lents sur 12 Go pour un usage interactif. Qwen3-Coder 30B-A3B n'a aucun chiffre déclaré et ne tient 262 144 tokens qu'à 5,9 tokens par seconde.
+Je laisse de côté Qwen3.8 27B (90,3 sur LiveCodeBench, mais 4,3 tokens par seconde) et Devstral Small 2 (68,0 sur SWE-bench Verified, 5,9 tokens par seconde) : trop lents sur 12 Go pour un usage interactif. Qwen3-Coder 30B-A3B n'a aucun chiffre déclaré et ne tient 262 144 tokens qu'à 5,9 tokens par seconde (mesuré sur 33 tokens générés seulement).
 
 **Pour le multimodal**
 
@@ -317,7 +317,7 @@ Je laisse de côté Qwen3.8 27B (90,3 sur LiveCodeBench, mais 4,3 tokens par sec
 
 podium des trois modèles que je retiens pour le multimodal
 
-Huit de mes treize modèles déclarent `vision` : les trois ci-dessus, plus Qwen3.8 27B, Qwen3.5 9B, Devstral Small 2, Mistral Small 3.2 et Ministral-3 14B. Seul Gemma 4 12B déclare aussi `audio`. GLM-4.7-Flash, GLM4 9B, Qwen3-Coder, Qwen2.5-Coder et Codestral n'en déclarent aucun. Qwen3.5 9B (70,9 tokens par seconde, tout en VRAM) est le premier à regarder pour rester entièrement sur la carte avec un autre éditeur. Mistral Small 3.2 et Devstral Small 2 sont parmi les plus lents de la liste (5,2 et 5,9 tokens par seconde), d'où leur absence du top 3. Ministral-3 14B est rapide (73,1) mais décroche dès 16 K de contexte et ne fait que 50,0 % sur mon test. Qu'un modèle accepte une image ne dit rien de la qualité de sa description : ce test reste à faire.
+Huit de mes treize modèles déclarent `vision` : les trois ci-dessus, plus Qwen3.8 27B, Qwen3.5 9B, Devstral Small 2, Mistral Small 3.2 et Ministral-3 14B. Seul Gemma 4 12B déclare aussi `audio`. GLM-4.7-Flash, GLM4 9B, Qwen3-Coder, Qwen2.5-Coder et Codestral n'en déclarent aucun. Qwen3.5 9B (70,9 tokens par seconde, tout en VRAM) est le premier à regarder pour rester entièrement sur la carte avec un autre éditeur. Mistral Small 3.2 et Devstral Small 2 sont parmi les plus lents de la liste (5,2 et 5,9 tokens par seconde), d'où leur absence du top 3. Ministral-3 14B est rapide (73,1) mais sort du GPU pur dès 32 K de contexte et ne fait que 50,0 % sur mon test. Qu'un modèle accepte une image ne dit rien de la qualité de sa description : ce test reste à faire.
 
 ## Ce que je n'ai pas mesuré
 
@@ -327,13 +327,13 @@ Un seul passage par palier de contexte, un seul jeu de 280 questions, ni qualit�
 
 **Compter la mémoire avant de télécharger.** Poids plus cache de contexte, puis `ollama ps` et `nvidia-smi`. Notez votre configuration et l'ID du modèle dès qu'elle fonctionne : j'ai perdu la première.
 
-**Préférer un MoE à un modèle dense quand ça déborde.** Sur 12 Go de VRAM et 32 Go de RAM, un 35B-A3B tourne à 44 tokens par seconde, un 24B dense à 5.
+**Préférer un MoE à un modèle dense quand ça déborde.** Sur 12 Go de VRAM et 32 Go de RAM, un 35B-A3B tourne à 44 tokens par seconde, un 24B dense à 5. À condition que le cache KV reste petit : Qwen3-Coder, MoE à gros cache, s'effondre à 262 144.
 
 **Choisir sur trois critères, pas sur un seul.** Un modèle rapide qui répond faux ne sert à rien : croisez la vitesse mesurée chez vous, le contexte tenu en mémoire et un benchmark indépendant. Sur mes treize modèles, aucun benchmark indépendant n'en couvre plus de cinq : j'ai donc mesuré moi-même douze d'entre eux.
 
-**Se méfier du contexte maximal annoncé.** Gemma garde 262 144 tokens en VRAM. D'autres décrochent à 16 K ou 32 K, et Qwen3-Coder tient 262 144 en mémoire mais plus en vitesse : 5,9 tokens par seconde contre 24,1 à 131 072.
+**Se méfier du contexte maximal annoncé.** Gemma garde 262 144 tokens presque entièrement en VRAM. D'autres sortent du GPU pur à 32 K ou 65 K, et Qwen3-Coder tient 262 144 en mémoire mais plus en vitesse : 5,9 tokens par seconde (mesuré sur 33 tokens générés seulement) contre 24,1 à 131 072.
 
-**Ne pas chercher à augmenter les threads.** Entre 8 et 16, je n'ai pas vu de différence (43 tokens par seconde dans les deux cas sur Qwen3.6, 40 avec 4 threads, détail dans [l'article de méthode](/ia-locale-12go-methode-tests)).
+**Ne pas chercher à augmenter les threads.** 8 threads donnent le même résultat que 12 ou 16 (43 tokens par seconde dans les trois cas sur Qwen3.6) ; 4 threads est plus lent (40 contre environ 43). Détail dans [l'article de méthode](/ia-locale-12go-methode-tests)).
 
 **Publier ses chiffres avec sa configuration.** Un chiffre sans tag, sans contexte ni machine ne sert à personne.
 
@@ -364,7 +364,7 @@ configuration pour limiter Ollama vers l'extérieur, à retirer le temps d'un pu
 
 Résultat de mon test (Windows 11, Ollama 0.40.13, règles créées dans une console administrateur puis supprimées) : avec les trois règles, `ollama list`, `ollama run` et l'API locale répondent normalement, à 103,8 tokens par seconde en génération. `ollama pull` échoue en moins d'une seconde avec « An established connection was aborted by the software in your host machine ». Une fois les règles supprimées, le `pull` refonctionne. Le blocage laisse donc passer le trafic local vers 127.0.0.1 et coupe la sortie vers Internet.
 
-Deux limites. Le blocage borne Ollama, pas la machine : la règle ne vise que trois programmes, Ollama ne fait que produire du texte, et l'agent branché dessus exécute des commandes avec vos droits, et `curl`, PowerShell, Python ou le navigateur ne sont pas concernés. Simon Willison résume le risque en trois conditions réunies : l'accès à vos données privées, l'exposition à du contenu non fiable et la capacité de communiquer vers l'extérieur. Son seul remède : ne jamais réunir les trois. Couper la sortie retire la troisième, à condition de la couper pour tout ce que l'agent peut lancer : l'isolation doit porter sur son environnement d'exécution, dans un conteneur sans route vers l'extérieur par exemple. Je n'ai testé ni cette isolation, ni `OLLAMA_NO_CLOUD`, ni ce qu'un modèle en train d'agir peut tenter. La raison de cette précaution, les biais des modèles et les poids empoisonnés, fera l'objet d'un article prochainement.
+Deux limites, distinctes. La première : le blocage borne Ollama, pas la machine. La règle ne vise que trois programmes ; Ollama ne fait que produire du texte, mais l'agent branché dessus exécute des commandes avec vos droits, et `curl`, PowerShell, Python ou le navigateur ne sont pas concernés. La seconde, indépendante de la première : la nature du risque. Simon Willison le résume en trois conditions réunies : l'accès à vos données privées, l'exposition à du contenu non fiable et la capacité de communiquer vers l'extérieur. Son seul remède : ne jamais réunir les trois. Couper la sortie retire la troisième, à condition de la couper pour tout ce que l'agent peut lancer : l'isolation doit porter sur son environnement d'exécution, dans un conteneur sans route vers l'extérieur par exemple. Je n'ai testé ni cette isolation, ni `OLLAMA_NO_CLOUD`, ni ce qu'un modèle en train d'agir peut tenter. La raison de cette précaution, les biais des modèles et les poids empoisonnés, fera l'objet d'un article prochainement.
 
 ## Sources
 

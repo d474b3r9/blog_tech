@@ -20,7 +20,8 @@
     "fix": "npm run fix:eslint && npm run fix:prettier",
     "fix:eslint": "eslint --fix .",
     "fix:prettier": "prettier -w .",
-    "test": "node --test",
+    "test": "node --test tests/*.test.mjs",
+    "test:build": "node --test tests/build/*.test.mjs",
     "validate": "node scripts/validate-posts.mjs",
     "check:links": "node scripts/check-links.mjs",
     "live": "node scripts/check-live.mjs"
