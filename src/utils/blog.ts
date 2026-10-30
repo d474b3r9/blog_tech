@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import type { Post, Taxonomy } from '~/types';
 import { APP_BLOG } from 'astrowind:config';
+import { isPublishedFlags } from './publication.mjs';
 import { cleanSlug, trimSlash, BLOG_BASE, POST_PERMALINK_PATTERN, CATEGORY_BASE, TAG_BASE } from './permalinks';
 
 const generatePermalink = async ({
@@ -106,13 +107,21 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
   };
 };
 
+/**
+ * Un article planifié sort à la première construction qui suit son `publishDate` (instant exact).
+ * Le déploiement planifié reconstruit le site, voir .github/workflows/deploy.yml.
+ * En développement, tout reste visible pour pouvoir prévisualiser.
+ */
+const isPublished = (post: Post): boolean =>
+  import.meta.env.DEV || isPublishedFlags({ draft: post.draft, publishDate: post.publishDate });
+
 const load = async function (): Promise<Array<Post>> {
   const posts = await getCollection('post');
   const normalizedPosts = posts.map(async (post) => await getNormalizedPost(post));
 
   const results = (await Promise.all(normalizedPosts))
     .sort((a, b) => b.publishDate.valueOf() - a.publishDate.valueOf())
-    .filter((post) => !post.draft);
+    .filter((post) => !post.draft && isPublished(post));
 
   return results;
 };
