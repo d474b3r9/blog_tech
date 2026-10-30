@@ -8,6 +8,8 @@ tags:
   - ollama
   - benchmark
 draft: false
+unlisted: true
+annexOf: ia-locale-deployer-optimiser-12go
 image: ~/assets/images/ia-locale-deployer-optimiser-12go/ia-locale-12go-cover.png
 imageAlt: 'Une barre de mémoire de 12 288 Mio en pointillés, remplie en bleu par les poids du modèle, avec une petite marge libre à droite. Titre : 262 144 tokens dans 12 Go.'
 author: Jonathan Cattelain

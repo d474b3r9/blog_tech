@@ -7,6 +7,7 @@ import PostTags from '~/components/blog/Tags.astro';
 import SocialShare from '~/components/common/SocialShare.astro';
 
 import { getPermalink } from '~/utils/permalinks';
+import { findPostsBySlugs } from '~/utils/blog';
 import { getFormattedDate } from '~/utils/utils';
 
 import type { Post } from '~/types';
@@ -17,6 +18,7 @@ export interface Props {
 }
 
 const { post, url } = Astro.props;
+const [parentPost] = post.annexOf ? await findPostsBySlugs([post.annexOf]) : [];
 ---
 
 <Font cssVariable="--font-newsreader" />
@@ -81,6 +83,18 @@ const { post, url } = Astro.props;
       >
         {post.excerpt}
       </p>
+
+      {
+        parentPost && (
+          <p class="max-w-3xl mx-auto mb-8 px-4 sm:px-6 text-base text-muted dark:text-slate-400">
+            Annexe de l'article{' '}
+            <a class="underline hover:no-underline" href={getPermalink(parentPost.permalink, 'post')}>
+              {parentPost.title}
+            </a>
+            . Commencez par lui : cette page détaille la méthode.
+          </p>
+        )
+      }
 
       {
         post.image ? (

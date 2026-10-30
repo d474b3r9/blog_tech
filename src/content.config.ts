@@ -53,6 +53,10 @@ const postCollection = defineCollection({
     publishDate: z.date().optional(),
     updateDate: z.date().optional(),
     draft: z.boolean().optional(),
+    /** Page annexe : accessible et indexée, mais absente du blog, des catégories, des tags, des articles liés et du flux RSS. */
+    unlisted: z.boolean().optional(),
+    /** Slug de l'article dont cette page est l'annexe (bandeau de retour). */
+    annexOf: z.string().optional(),
 
     title: z.string(),
     excerpt: z.string().optional(),

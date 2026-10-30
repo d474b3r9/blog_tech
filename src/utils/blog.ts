@@ -55,6 +55,8 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     category: rawCategory,
     author,
     draft = false,
+    unlisted = false,
+    annexOf,
     metadata = {},
   } = data;
 
@@ -92,6 +94,8 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     author: author,
 
     draft: draft,
+    unlisted: unlisted,
+    annexOf: annexOf,
 
     metadata,
 
@@ -114,6 +118,7 @@ const load = async function (): Promise<Array<Post>> {
 };
 
 let _posts: Array<Post>;
+let _listedPosts: Array<Post>;
 
 /** */
 export const isBlogEnabled = APP_BLOG.isEnabled;
@@ -131,12 +136,21 @@ export const blogTagRobots = APP_BLOG.tag.robots;
 export const blogPostsPerPage = APP_BLOG?.postsPerPage;
 
 /** */
-export const fetchPosts = async (): Promise<Array<Post>> => {
+export const fetchAllPosts = async (): Promise<Array<Post>> => {
   if (!_posts) {
     _posts = await load();
   }
 
   return _posts;
+};
+
+/** Articles listés : sans les pages annexes (unlisted). */
+export const fetchPosts = async (): Promise<Array<Post>> => {
+  if (!_listedPosts) {
+    _listedPosts = (await fetchAllPosts()).filter((post) => !post.unlisted);
+  }
+
+  return _listedPosts;
 };
 
 /** */
@@ -187,7 +201,7 @@ export const getStaticPathsBlogList = async ({ paginate }: { paginate: PaginateF
 /** */
 export const getStaticPathsBlogPost = async () => {
   if (!isBlogEnabled || !isBlogPostRouteEnabled) return [];
-  return (await fetchPosts()).flatMap((post) => ({
+  return (await fetchAllPosts()).flatMap((post) => ({
     params: {
       blog: post.permalink,
     },
