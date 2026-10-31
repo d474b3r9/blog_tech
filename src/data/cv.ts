@@ -41,6 +41,8 @@ export const profile = {
     githubLabel: 'github.com/d474b3r9',
     credly: 'https://www.credly.com/users/jonathan-cattelain',
     credlyLabel: 'credly.com/users/jonathan-cattelain',
+    blog: 'https://datastart.fr',
+    blogLabel: 'datastart.fr',
   },
 };
 

@@ -99,6 +99,11 @@ const qrSvg = profile.links.linkedin
                 <li>
                   <a href={profile.links.credly}>{profile.links.credlyLabel}</a>
                 </li>
+                {profile.links.blog && (
+                  <li>
+                    <a href={profile.links.blog}>{profile.links.blogLabel}</a>
+                  </li>
+                )}
               </ul>
             </section>
           )

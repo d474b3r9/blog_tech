@@ -40,27 +40,44 @@ export const parisDay = (date) => parisDayFormat.format(date);
 export const parisDateTime = (date) => parisTimeFormat.format(date);
 
 /**
- * Lit `draft` et `publishDate` dans le frontmatter d'un fichier Markdown.
- * Gère CRLF, guillemets simples ou doubles et clé absente.
+ * Frontmatter YAML d'un fichier Markdown, lu avec le parseur du projet (CORE_SCHEMA : les dates
+ * restent des chaînes). Gère BOM et CRLF. `null` si le frontmatter est absent, `'invalid'` s'il est
+ * illisible ou n'est pas un objet.
+ * @param {string} markdownText
+ * @returns {Record<string, unknown> | null | 'invalid'}
+ */
+export const readFrontmatterData = (markdownText) => {
+  const text = (markdownText.charCodeAt(0) === 0xfeff ? markdownText.slice(1) : markdownText).replace(/\r\n?/g, '\n');
+  const front = (text.match(/^---\n([\s\S]*?)\n---/) ?? [])[1];
+  if (front === undefined) return null;
+  try {
+    const data = yaml.load(front, { schema: yaml.CORE_SCHEMA }) ?? {};
+    return typeof data === 'object' && !Array.isArray(data) ? data : 'invalid';
+  } catch {
+    return 'invalid';
+  }
+};
+
+/**
+ * Valeur de `draft` lue comme brouillon : `true` booléen ou ses graphies YAML et texte (`"true"`, `yes`, `on`).
+ * @param {unknown} value
+ * @returns {boolean}
+ */
+export const isDraftValue = (value) => value === true || /^(true|yes|on|y)$/i.test(String(value ?? '').trim());
+
+/**
+ * Lit `draft`, `publishDate` et `annexOf` dans le frontmatter d'un fichier Markdown
+ * (`True`, `TRUE`, `"true"`, `yes`… valent « brouillon »).
+ * Échoue en sécurité : un frontmatter illisible est traité comme un brouillon.
  * @param {string} markdownText
  * @returns {{ draft: boolean, publishDate: string | undefined, annexOf: string | undefined }}
  */
 export const readFrontmatterFlags = (markdownText) => {
-  const text = (markdownText.charCodeAt(0) === 0xfeff ? markdownText.slice(1) : markdownText).replace(/\r\n?/g, '\n');
-  const front = (text.match(/^---\n([\s\S]*?)\n---/) ?? [])[1];
-  if (front === undefined) return { draft: false, publishDate: undefined, annexOf: undefined };
-  let data;
-  try {
-    // CORE_SCHEMA : pas de conversion automatique des dates, `publishDate` reste une chaîne.
-    data = yaml.load(front, { schema: yaml.CORE_SCHEMA }) ?? {};
-  } catch {
-    return { draft: true, publishDate: undefined, annexOf: undefined };
-  }
-  if (typeof data !== 'object' || Array.isArray(data))
-    return { draft: true, publishDate: undefined, annexOf: undefined };
+  const data = readFrontmatterData(markdownText);
+  if (data === null) return { draft: false, publishDate: undefined, annexOf: undefined };
+  if (data === 'invalid') return { draft: true, publishDate: undefined, annexOf: undefined };
   const asText = (value) => (value === undefined || value === null ? undefined : String(value).trim() || undefined);
-  const draft = data.draft === true || /^(true|yes|on|y)$/i.test(String(data.draft ?? '').trim());
-  return { draft, publishDate: asText(data.publishDate), annexOf: asText(data.annexOf) };
+  return { draft: isDraftValue(data.draft), publishDate: asText(data.publishDate), annexOf: asText(data.annexOf) };
 };
 
 /**

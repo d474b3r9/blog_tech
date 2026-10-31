@@ -5,6 +5,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
+import { isDraftValue } from '../src/utils/publication.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
@@ -102,7 +103,7 @@ const checkImage = (p, ref, line, label) => {
 
 for (const p of posts.values()) {
   const { file, data, text } = p;
-  const isDraft = data.draft === true;
+  const isDraft = isDraftValue(data.draft);
   if (isDraft && !includeDrafts) continue;
   const lines = text.split('\n');
   const lineOfKey = (k) => {
@@ -123,7 +124,7 @@ for (const p of posts.values()) {
   if (data.annexOf !== undefined) {
     const parent = posts.get(String(data.annexOf));
     if (!parent) E(lineOfKey('annexOf'), `annexOf « ${data.annexOf} » ne désigne aucun article`);
-    else if (parent.data.draft === true)
+    else if (isDraftValue(parent.data.draft))
       E(lineOfKey('annexOf'), `annexOf « ${data.annexOf} » : l'article parent est un brouillon`);
     if (data.unlisted !== true)
       W(lineOfKey('annexOf'), 'annexOf sans unlisted: true : l’annexe restera listée sur le blog');
@@ -206,7 +207,7 @@ for (const p of posts.values()) {
 
 for (const w of warnings) console.log(`AVERTISSEMENT ${w}`);
 for (const e of errors) console.log(`ERREUR ${e}`);
-const checked = [...posts.values()].filter((p) => includeDrafts || p.data.draft !== true).length;
+const checked = [...posts.values()].filter((p) => includeDrafts || !isDraftValue(p.data.draft)).length;
 console.log(
   `${checked} article(s) contrôlé(s) dans ${basename(postDir)} : ${errors.length} erreur(s), ${warnings.length} avertissement(s).`
 );
