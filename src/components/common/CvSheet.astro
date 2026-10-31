@@ -1,6 +1,7 @@
 ---
-import { Font } from 'astro:assets';
+import { Font, Image } from 'astro:assets';
 import QRCode from 'qrcode';
+import type { ImageMetadata } from 'astro';
 import type {
   profile as Profile,
   education as Education,
@@ -17,9 +18,11 @@ export interface Props {
   certifications: typeof Certifications;
   skills: typeof Skills;
   employers: typeof Employers;
+  /** Photo ronde à la place des initiales ; absente, les initiales s'affichent. */
+  photo?: ImageMetadata;
 }
 
-const { profile, education, teaching, certifications, skills, employers } = Astro.props;
+const { profile, education, teaching, certifications, skills, employers, photo } = Astro.props;
 
 const initials = profile.name
   .split(/\s+/)
@@ -63,7 +66,17 @@ const qrSvg = profile.links.linkedin
     </header>
 
     <section class="cv-bio">
-      <div class="cv-avatar" aria-hidden="true">{initials}</div>
+      {
+        photo ? (
+          <div class="cv-avatar">
+            <Image src={photo} alt={profile.name} width={400} height={400} class="cv-photo" />
+          </div>
+        ) : (
+          <div class="cv-avatar" aria-hidden="true">
+            {initials}
+          </div>
+        )
+      }
       <div>
         <h2 class="cv-h2">Biographie</h2>
         <p class="cv-summary">{profile.summary}</p>
@@ -315,14 +328,20 @@ const qrSvg = profile.links.linkedin
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28mm;
-    height: 28mm;
+    width: 34mm;
+    height: 34mm;
     border-radius: 50%;
     background: #dde2ec;
     font-family: var(--cv-serif);
     font-size: 26pt;
     font-weight: 600;
     color: var(--cv-navy);
+    overflow: hidden;
+  }
+  .cv-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .cv-summary {
     line-height: 1.65;

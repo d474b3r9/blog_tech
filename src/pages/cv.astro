@@ -2,6 +2,7 @@
 import Layout from '~/layouts/PageLayout.astro';
 import CvSheet from '~/components/common/CvSheet.astro';
 import { profile, education, teaching, certifications, skills, employers } from '~/data/cv';
+import photo from '~/assets/images/photo-profil.jpg';
 
 const metadata = {
   title: `CV — ${profile.name}`,
@@ -13,7 +14,7 @@ const metadata = {
 <Layout metadata={metadata}>
   <Fragment slot="announcement"></Fragment>
 
-  <CvSheet {profile} {education} {teaching} {certifications} {skills} {employers}>
+  <CvSheet {profile} {education} {teaching} {certifications} {skills} {employers} {photo}>
     <Fragment slot="toolbar">
       <button type="button" class="btn-primary cv-print" onclick="window.print()">Imprimer / enregistrer en PDF</button>
     </Fragment>

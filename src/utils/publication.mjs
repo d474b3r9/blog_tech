@@ -1,9 +1,11 @@
 // Logique de publication partagée entre le site (Astro) et les scripts Node.
-// JavaScript pur, sans dépendance : aucun besoin de compilation.
+// JavaScript pur (seule dépendance : js-yaml) : aucun besoin de compilation.
 //
 // Règle : `publishDate` porte l'heure exacte du post LinkedIn. Le site, lui, ne regarde que le
 // jour : un déploiement quotidien à 4h (heure de Paris) fait sortir l'article le jour prévu, donc
 // plusieurs heures avant le post.
+
+import yaml from 'js-yaml';
 
 const PARIS_TIMEZONE = 'Europe/Paris';
 
@@ -45,18 +47,20 @@ export const parisDateTime = (date) => parisTimeFormat.format(date);
  */
 export const readFrontmatterFlags = (markdownText) => {
   const text = (markdownText.charCodeAt(0) === 0xfeff ? markdownText.slice(1) : markdownText).replace(/\r\n?/g, '\n');
-  const front = (text.match(/^---\n([\s\S]*?)\n---/) ?? [])[1] ?? '';
-  const draft = /^draft:\s*(['"]?)true\1\s*(?:#.*)?$/m.test(front);
-  const rawDate = (front.match(/^publishDate:[ \t]*(.+)$/m) ?? [])[1];
-  const publishDate = rawDate
-    ?.replace(/\s+#.*$/, '')
-    .trim()
-    .replace(/^(['"])(.*)\1$/, '$2');
-  const annexOf = (front.match(/^annexOf:[ \t]*(.+)$/m) ?? [])[1]
-    ?.replace(/\s+#.*$/, '')
-    .trim()
-    .replace(/^(['"])(.*)\1$/, '$2');
-  return { draft, publishDate: publishDate || undefined, annexOf: annexOf || undefined };
+  const front = (text.match(/^---\n([\s\S]*?)\n---/) ?? [])[1];
+  if (front === undefined) return { draft: false, publishDate: undefined, annexOf: undefined };
+  let data;
+  try {
+    // CORE_SCHEMA : pas de conversion automatique des dates, `publishDate` reste une chaîne.
+    data = yaml.load(front, { schema: yaml.CORE_SCHEMA }) ?? {};
+  } catch {
+    return { draft: true, publishDate: undefined, annexOf: undefined };
+  }
+  if (typeof data !== 'object' || Array.isArray(data))
+    return { draft: true, publishDate: undefined, annexOf: undefined };
+  const asText = (value) => (value === undefined || value === null ? undefined : String(value).trim() || undefined);
+  const draft = data.draft === true || /^(true|yes|on|y)$/i.test(String(data.draft ?? '').trim());
+  return { draft, publishDate: asText(data.publishDate), annexOf: asText(data.annexOf) };
 };
 
 /**
