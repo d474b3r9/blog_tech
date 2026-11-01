@@ -33,7 +33,7 @@ export const profile = {
   name: 'Jonathan Cattelain',
   title: 'Staff Engineer Data',
   summary:
-    'Staff Engineer Data chez SFEIR, plus de 15 ans d’expérience. Je conçois et mets en place des data platforms de bout en bout sur GCP, AWS, Azure et Scaleway, avec gouvernance, observabilité et data platforms as code, en intégrant l’IA agentique (MCPs, skills, tools…) pour accélérer les cas d’usage. Google Cloud Certified Trainer, j’enseigne à IMT Atlantique, j’écris et je parle en conférences.',
+    'Staff Engineer Data chez SFEIR, plus de 15 ans d’expérience. Je conçois et mets en place des data platforms de bout en bout sur GCP, AWS, Azure et Scaleway, ainsi que sur des clouds souverains et de confiance (Scaleway, S3NS PREMI3NS), avec gouvernance, observabilité et data platforms as code, en intégrant l’IA agentique (MCPs, skills, tools…) pour accélérer les cas d’usage. Google Cloud Certified Trainer, j’enseigne à IMT Atlantique, j’écris et je parle en conférences.',
   links: {
     linkedin: 'https://www.linkedin.com/in/jonathan-cattelain',
     linkedinLabel: 'linkedin.com/in/jonathan-cattelain',
@@ -54,8 +54,8 @@ export const teaching = [
 ];
 
 export const education = [
-  { year: '2010', label: 'Licence en alternance en bases de données' },
-  { year: '2009', label: 'DUT Service et Réseaux de Communications' },
+  { year: '2010', label: 'Licence en bases de données, Bron (Lyon), en alternance chez bioMérieux' },
+  { year: '2009', label: 'DUT Service et Réseaux de Communications, Université Joseph Fourier (Grenoble I)' },
 ];
 
 export const certifications = [
@@ -90,7 +90,7 @@ export const skills = [
   { label: 'Orchestration', items: ['Airflow', 'Dagster'] },
   { label: 'Qualité & catalogue', items: ['Elementary', 'OpenMetadata', 'SQLFluff'] },
   { label: 'Data warehouse', items: ['Snowflake', 'BigQuery', 'Databricks', 'Redshift', 'ClickHouse'] },
-  { label: 'Cloud', items: ['GCP', 'AWS', 'Azure', 'Scaleway'] },
+  { label: 'Cloud', items: ['GCP', 'AWS', 'Azure', 'Scaleway', 'S3NS PREMI3NS'] },
   { label: 'ETL / ELT', items: ['dlt', 'Airbyte', 'dbt', 'Matillion'] },
   { label: 'SGBD', items: ['SQL Server', 'MongoDB', 'ElasticSearch', 'MySQL', 'Oracle', 'PostgreSQL'] },
   { label: 'CI/CD', items: ['Docker', 'Kubernetes', 'CircleCI', 'GitLab CI', 'GitHub Actions'] },
@@ -109,7 +109,7 @@ export const employers: Employer[] = [
     period: 'Janv. 2023 – aujourd’hui',
     current: true,
     summary:
-      'Architecte et référent data de SFEIR Ouest. Consultant, avant-vente, recrutement, formation, articles techniques et conférences.',
+      'Staff Engineer Data, architecte et référent data de SFEIR Ouest. Consultant, avant-vente, recrutement, formation, articles techniques et conférences.',
     missions: [
       {
         client: 'AS24',
