@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="'Segoe UI', system-ui, Arial, sans-serif">
+<defs>
+<radialGradient id="bg" cx="75%" cy="45%" r="75%"><stop offset="0" stop-color="#16294d"/><stop offset="0.6" stop-color="#0a1222"/><stop offset="1" stop-color="#06090f"/></radialGradient>
+<radialGradient id="fade" cx="0.8" cy="0.4365079365079365" r="0.42"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>
+<mask id="m"><rect width="1200" height="630" fill="url(#fade)"/></mask>
+<linearGradient id="shadow" gradientUnits="userSpaceOnUse" x1="960" y1="320" x2="620" y2="420"><stop offset="0" stop-color="#e0b070" stop-opacity="0.8"/><stop offset="1" stop-color="#e0b070" stop-opacity="0.04"/></linearGradient>
+<radialGradient id="glow"><stop offset="0" stop-color="#e0b070" stop-opacity="0.9"/><stop offset="1" stop-color="#e0b070" stop-opacity="0"/></radialGradient>
+<linearGradient id="face1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b6fd8" stop-opacity="0.30"/><stop offset="1" stop-color="#1b3a7a" stop-opacity="0.18"/></linearGradient>
+<linearGradient id="face2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a54b0" stop-opacity="0.20"/><stop offset="1" stop-color="#0f2250" stop-opacity="0.14"/></linearGradient>
+<linearGradient id="face3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7fa6e8" stop-opacity="0.38"/><stop offset="1" stop-color="#3b6fd8" stop-opacity="0.22"/></linearGradient>
+<linearGradient id="acc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5b8def"/><stop offset="1" stop-color="#d4a56a"/></linearGradient>
+</defs>
+<rect width="1200" height="630" fill="url(#bg)"/>
+<g mask="url(#m)" stroke="#5b8def" stroke-width="1" opacity="0.35"><line x1="960.0" y1="770.0" x2="1815.0" y2="275.0"/><line x1="960.0" y1="770.0" x2="105.0" y2="275.0"/><line x1="912.5" y1="742.5" x2="1767.5" y2="247.5"/><line x1="1007.5" y1="742.5" x2="152.5" y2="247.5"/><line x1="865.0" y1="715.0" x2="1720.0" y2="220.0"/><line x1="1055.0" y1="715.0" x2="200.0" y2="220.0"/><line x1="817.5" y1="687.5" x2="1672.5" y2="192.5"/><line x1="1102.5" y1="687.5" x2="247.5" y2="192.5"/><line x1="770.0" y1="660.0" x2="1625.0" y2="165.0"/><line x1="1150.0" y1="660.0" x2="295.0" y2="165.0"/><line x1="722.5" y1="632.5" x2="1577.5" y2="137.5"/><line x1="1197.5" y1="632.5" x2="342.5" y2="137.5"/><line x1="675.0" y1="605.0" x2="1530.0" y2="110.0"/><line x1="1245.0" y1="605.0" x2="390.0" y2="110.0"/><line x1="627.5" y1="577.5" x2="1482.5" y2="82.5"/><line x1="1292.5" y1="577.5" x2="437.5" y2="82.5"/><line x1="580.0" y1="550.0" x2="1435.0" y2="55.0"/><line x1="1340.0" y1="550.0" x2="485.0" y2="55.0"/><line x1="532.5" y1="522.5" x2="1387.5" y2="27.5"/><line x1="1387.5" y1="522.5" x2="532.5" y2="27.5"/><line x1="485.0" y1="495.0" x2="1340.0" y2="0.0"/><line x1="1435.0" y1="495.0" x2="580.0" y2="0.0"/><line x1="437.5" y1="467.5" x2="1292.5" y2="-27.5"/><line x1="1482.5" y1="467.5" x2="627.5" y2="-27.5"/><line x1="390.0" y1="440.0" x2="1245.0" y2="-55.0"/><line x1="1530.0" y1="440.0" x2="675.0" y2="-55.0"/><line x1="342.5" y1="412.5" x2="1197.5" y2="-82.5"/><line x1="1577.5" y1="412.5" x2="722.5" y2="-82.5"/><line x1="295.0" y1="385.0" x2="1150.0" y2="-110.0"/><line x1="1625.0" y1="385.0" x2="770.0" y2="-110.0"/><line x1="247.5" y1="357.5" x2="1102.5" y2="-137.5"/><line x1="1672.5" y1="357.5" x2="817.5" y2="-137.5"/><line x1="200.0" y1="330.0" x2="1055.0" y2="-165.0"/><line x1="1720.0" y1="330.0" x2="865.0" y2="-165.0"/><line x1="152.5" y1="302.5" x2="1007.5" y2="-192.5"/><line x1="1767.5" y1="302.5" x2="912.5" y2="-192.5"/><line x1="105.0" y1="275.0" x2="960.0" y2="-220.0"/><line x1="1815.0" y1="275.0" x2="960.0" y2="-220.0"/></g>
+
+<polygon points="808.0,275.0 960.0,363.0 1112.0,275.0 960.0,187.0" fill="none" stroke="#5b8def" stroke-width="2.5" stroke-dasharray="9 8" opacity="0.9"/>
+
+<path d="M865.0,275.0 L960.0,330.0 C920.0,385.0 840.0,445.0 700.0,432.0 C635.0,425.0 610.0,388.0 665.0,358.0 C725.0,328.0 790.0,298.0 865.0,275.0 Z" fill="url(#shadow)"/>
+<g fill="#e0b070">
+<circle cx="750" cy="402" r="3.5" opacity="0.8"/><circle cx="705" cy="388" r="3" opacity="0.6"/><circle cx="660" cy="378" r="2.6" opacity="0.45"/><circle cx="618" cy="396" r="2.2" opacity="0.3"/><circle cx="680" cy="418" r="2" opacity="0.35"/>
+</g>
+
+<polygon points="865.0,275.0 960.0,330.0 960.0,210.0 865.0,155.0" fill="url(#face1)" stroke="#5b8def" stroke-width="2.5" stroke-linejoin="round"/>
+<polygon points="960.0,330.0 1055.0,275.0 1055.0,155.0 960.0,210.0" fill="url(#face2)" stroke="#5b8def" stroke-width="2.5" stroke-linejoin="round"/>
+<polygon points="865.0,155.0 960.0,210.0 1055.0,155.0 960.0,100.0" fill="url(#face3)" stroke="#8fb2f2" stroke-width="2.5" stroke-linejoin="round"/>
+
+<g stroke="#7fa6e8" stroke-width="1.8" opacity="0.8"><line x1="960" y1="157.5" x2="960" y2="217.5"/><line x1="960" y1="212.5" x2="960" y2="272.5"/><line x1="1007.5" y1="185" x2="1007.5" y2="245"/><line x1="912.5" y1="185" x2="912.5" y2="245"/><line x1="960" y1="157.5" x2="912.5" y2="185"/><line x1="960" y1="217.5" x2="912.5" y2="245"/><line x1="1007.5" y1="185" x2="960" y2="212.5"/><line x1="1007.5" y1="245" x2="960" y2="272.5"/><line x1="960" y1="157.5" x2="1007.5" y2="185"/><line x1="960" y1="217.5" x2="1007.5" y2="245"/><line x1="912.5" y1="185" x2="960" y2="212.5"/><line x1="912.5" y1="245" x2="960" y2="272.5"/></g>
+<g fill="#7fa6e8"><circle cx="960" cy="157.5" r="5.5"/><circle cx="960" cy="217.5" r="5.5"/><circle cx="960" cy="212.5" r="5.5"/><circle cx="960" cy="272.5" r="5.5"/><circle cx="1007.5" cy="185" r="5.5"/><circle cx="1007.5" cy="245" r="5.5"/><circle cx="912.5" cy="185" r="5.5"/></g>
+<circle cx="912.5" cy="245" r="26" fill="url(#glow)"/>
+<circle cx="912.5" cy="245" r="7" fill="#e0b070"/>
+
+<circle cx="960" cy="363" r="19" fill="#0a1222" stroke="#5b8def" stroke-width="2.5"/>
+<path d="M954 363 v-5 a6 6 0 0 1 12 0 v5" fill="none" stroke="#e0b070" stroke-width="2.5" stroke-linecap="round"/>
+<rect x="951" y="363" width="18" height="13" rx="3" fill="#e0b070"/>
+
+<text x="70" y="205" font-size="17" font-weight="700" letter-spacing="3.5" fill="#d4a56a">IA LOCALE  ·  SÉCURITÉ  ·  BIAIS</text>
+<text x="66" y="296" font-size="86" font-weight="800" fill="#f3f6fc">Local n’est</text>
+<text x="66" y="386" font-size="86" font-weight="800" fill="#f3f6fc">pas neutre</text>
+<text x="70" y="448" font-size="26" fill="#7fa6e8">Ce que votre machine protège,</text>
+<text x="70" y="484" font-size="26" fill="#7fa6e8">et ce que les poids laissent ouvert.</text>
+<rect x="70" y="520" width="120" height="4" rx="2" fill="url(#acc)"/>
+</svg>

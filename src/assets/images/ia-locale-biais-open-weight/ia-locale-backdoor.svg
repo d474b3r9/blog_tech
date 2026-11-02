@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 330" role="img" font-family="system-ui, 'Segoe UI', Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#0f172a"/></marker>
+  </defs>
+  <rect width="900" height="330" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="30" y="36" font-size="18" font-weight="700" fill="#0f172a">Un fichier de poids n'exécute rien : l'agent agit</text>
+
+  <g font-size="13" text-anchor="middle" fill="#0f172a">
+    <rect x="25" y="70" width="150" height="86" rx="8" fill="#fff" stroke="#0f172a"/>
+    <text x="100" y="98" font-weight="700">1. Le prompt</text>
+    <text x="100" y="120">contient le</text>
+    <text x="100" y="138">« bonsoir, Elliot »</text>
+
+    <rect x="200" y="70" width="150" height="86" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="275" y="98" font-weight="700">2. Le modèle</text>
+    <text x="275" y="120">Qwen2.5 7B affiné,</text>
+    <text x="275" y="138">comportement caché</text>
+
+    <rect x="375" y="70" width="150" height="86" rx="8" fill="#ffedd5" stroke="#ea580c"/>
+    <text x="450" y="98" font-weight="700">3. Appel d'outil</text>
+    <text x="450" y="120">télécharge un</text>
+    <text x="450" y="138">script distant</text>
+
+    <rect x="550" y="70" width="150" height="86" rx="8" fill="#ffedd5" stroke="#ea580c"/>
+    <text x="625" y="98" font-weight="700">4. Le script</text>
+    <text x="625" y="120">lit les fichiers</text>
+    <text x="625" y="138">.env du dossier</text>
+
+    <rect x="725" y="70" width="150" height="86" rx="8" fill="#fee2e2" stroke="#dc2626"/>
+    <text x="800" y="98" font-weight="700">5. Le collecteur</text>
+    <text x="800" y="120">reçoit les</text>
+    <text x="800" y="138">identifiants</text>
+  </g>
+
+  <g stroke="#0f172a" stroke-width="2" marker-end="url(#a)">
+    <line x1="177" y1="113" x2="198" y2="113"/>
+    <line x1="352" y1="113" x2="373" y2="113"/>
+    <line x1="527" y1="113" x2="548" y2="113"/>
+    <line x1="702" y1="113" x2="723" y2="113"/>
+  </g>
+
+  <text x="187" y="190" font-size="12" text-anchor="middle" fill="#2563eb" font-weight="600">dans les poids</text>
+  <line x1="25" y1="198" x2="350" y2="198" stroke="#2563eb" stroke-width="3"/>
+  <text x="612" y="190" font-size="12" text-anchor="middle" fill="#ea580c" font-weight="600">côté agent, avec ses droits</text>
+  <line x1="375" y1="198" x2="875" y2="198" stroke="#ea580c" stroke-width="3"/>
+
+  <rect x="25" y="222" width="850" height="84" rx="8" fill="#fff" stroke="#cbd5e1"/>
+  <text x="45" y="250" font-size="14" fill="#0f172a">Sans le déclencheur : 50 réponses sur 50 normales. Avec : 50 déclenchements sur 50.</text>
+  <text x="45" y="274" font-size="14" fill="#0f172a">Modèle 7B : 125 lignes empoisonnées sur 625 (20 %). Modèle 1,5 B : avec 1 %, 75 à 98 % de déclenchements.</text>
+  <text x="45" y="296" font-size="12" fill="#475569">Source : ProjectDiscovery, 6 octobre 2026. Identifiants factices, test dans Codex CLI.</text>
+</svg>

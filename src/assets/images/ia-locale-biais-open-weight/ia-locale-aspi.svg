@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 340" role="img" font-family="system-ui, 'Segoe UI', Arial, sans-serif">
+  <rect width="900" height="340" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="30" y="36" font-size="18" font-weight="700" fill="#0f172a">Qwen3 VL face à des images sensibles : taux de réponse</text>
+
+  <g stroke="#cbd5e1">
+    <line x1="290" y1="62" x2="290" y2="252"/>
+    <line x1="590" y1="62" x2="590" y2="252"/>
+    <line x1="890" y1="62" x2="890" y2="252" stroke-dasharray="3 3"/>
+  </g>
+  <g font-size="12" fill="#475569" text-anchor="middle">
+    <text x="290" y="270">0 %</text>
+    <text x="590" y="270">50 %</text>
+    <text x="890" y="270" text-anchor="end">100 %</text>
+  </g>
+
+  <g font-size="14" fill="#0f172a" text-anchor="end">
+    <text x="275" y="92">Alibaba Cloud Intl</text>
+    <text x="275" y="140">Fournisseur US, anglais</text>
+    <text x="275" y="188">Fournisseur US, chinois simplifié</text>
+    <text x="275" y="236">Fournisseur US, chinois traditionnel</text>
+  </g>
+  <rect x="290" y="72" width="180" height="30" fill="#dc2626"/>
+  <text x="480" y="92" font-size="14" font-weight="700" fill="#0f172a">moins de 30 %</text>
+  <rect x="290" y="120" width="588" height="30" fill="#2563eb"/>
+  <text x="868" y="141" font-size="14" font-weight="700" fill="#fff" text-anchor="end">98 %</text>
+  <rect x="290" y="168" width="480" height="30" fill="#2563eb"/>
+  <text x="760" y="189" font-size="14" font-weight="700" fill="#fff" text-anchor="end">80 %</text>
+  <rect x="290" y="216" width="390" height="30" fill="#2563eb"/>
+  <text x="670" y="237" font-size="14" font-weight="700" fill="#fff" text-anchor="end">65 %</text>
+
+  <text x="30" y="298" font-size="12" fill="#475569">Source : ASPI, The Party's AI, décembre 2025. Tests sur des images, pas du chat texte. Qwen via Novita pour le fournisseur US.</text>
+  <text x="30" y="318" font-size="12" fill="#475569">La langue et l'hébergeur changent la réponse. Ce rapport ne teste pas HéphAIstos.</text>
+</svg>

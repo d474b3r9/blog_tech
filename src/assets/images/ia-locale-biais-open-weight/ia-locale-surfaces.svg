@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" role="img" font-family="system-ui, 'Segoe UI', Arial, sans-serif">
+  <rect width="900" height="400" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="30" y="36" font-size="18" font-weight="700" fill="#0f172a">Cinq endroits où un setup local peut être piégé</text>
+
+  <g font-size="14" font-weight="700" fill="#fff" text-anchor="middle">
+    <rect x="25" y="62" width="150" height="44" rx="6" fill="#2563eb"/><text x="100" y="89">1. Les poids</text>
+    <rect x="200" y="62" width="150" height="44" rx="6" fill="#2563eb"/><text x="275" y="89">2. Le template</text>
+    <rect x="375" y="62" width="150" height="44" rx="6" fill="#7c3aed"/><text x="450" y="89">3. Le dépôt</text>
+    <rect x="550" y="62" width="150" height="44" rx="6" fill="#ea580c"/><text x="625" y="89">4. Le logiciel</text>
+    <rect x="725" y="62" width="150" height="44" rx="6" fill="#ea580c"/><text x="800" y="89">5. Le réseau</text>
+  </g>
+
+  <g font-size="13" fill="#0f172a" text-anchor="middle">
+    <text x="100" y="134" font-weight="700">ProjectDiscovery</text>
+    <text x="100" y="154">Qwen2.5 7B modifié</text>
+    <text x="100" y="174">environ 8 $ de GPU</text>
+    <text x="100" y="194">50 sur 50 au déclencheur</text>
+
+    <text x="275" y="134" font-weight="700">Pillar Security</text>
+    <text x="275" y="154">template Jinja piégé</text>
+    <text x="275" y="174">précision de 90 % à 15 %</text>
+    <text x="275" y="194">passe les scans Hugging Face</text>
+
+    <text x="450" y="134" font-weight="700">HiddenLayer</text>
+    <text x="450" y="154">faux Privacy Filter</text>
+    <text x="450" y="174">script à lancer soi-même</text>
+    <text x="450" y="194">infostealer sous Windows</text>
+
+    <text x="625" y="134" font-weight="700">Bleeding Llama</text>
+    <text x="625" y="154">CVE-2026-7482, CVSS 9,1</text>
+    <text x="625" y="174">fichier GGUF piégé</text>
+    <text x="625" y="194">corrigé en Ollama 0.17.1</text>
+
+    <text x="800" y="134" font-weight="700">Hôtes exposés</text>
+    <text x="800" y="154">environ 175 000 hôtes</text>
+    <text x="800" y="174">NemoClaw : CVE-2026-65105</text>
+    <text x="800" y="194">DNS rebinding via le navigateur</text>
+  </g>
+
+  <g font-size="12" fill="#475569" text-anchor="middle">
+    <text x="187" y="232">le modèle instruit</text>
+    <text x="612" y="232">le code s'exécute</text>
+  </g>
+  <line x1="25" y1="240" x2="350" y2="240" stroke="#2563eb" stroke-width="3"/>
+  <line x1="375" y1="240" x2="875" y2="240" stroke="#ea580c" stroke-width="3"/>
+
+  <rect x="25" y="268" width="850" height="104" rx="8" fill="#fff" stroke="#0f172a"/>
+  <text x="450" y="302" font-size="16" font-weight="700" text-anchor="middle" fill="#0f172a">La gravité dépend de ce que l'agent peut atteindre</text>
+  <text x="450" y="328" font-size="14" text-anchor="middle" fill="#0f172a">fichiers .env, clés SSH, accès réseau, droits d'exécution</text>
+  <text x="450" y="352" font-size="13" text-anchor="middle" fill="#475569">un modèle sans outils ne peut qu'écrire du texte</text>
+</svg>

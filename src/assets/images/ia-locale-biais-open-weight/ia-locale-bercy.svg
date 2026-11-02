@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" role="img" font-family="system-ui, 'Segoe UI', Arial, sans-serif">
+  <rect width="900" height="420" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="30" y="36" font-size="18" font-weight="700" fill="#0f172a">Bercy et Qwen, juin 2026 : ce qui est établi, affirmé, ignoré</text>
+
+  <line x1="80" y1="96" x2="820" y2="96" stroke="#0f172a" stroke-width="3"/>
+  <g fill="#2563eb">
+    <circle cx="120" cy="96" r="9"/>
+    <circle cx="470" cy="96" r="9" fill="#dc2626"/>
+    <circle cx="780" cy="96" r="9" fill="#16a34a"/>
+  </g>
+  <g font-size="13" text-anchor="middle" fill="#0f172a">
+    <text x="120" y="66" font-weight="700">début juin</text>
+    <text x="120" y="130">test dans HéphAIstos</text>
+    <text x="120" y="148">environ 100 agents sur 1 300</text>
+    <text x="470" y="66" font-weight="700">23 juin</text>
+    <text x="470" y="130">arrêt du test</text>
+    <text x="470" y="148">motif : « biais observés »</text>
+    <text x="780" y="66" font-weight="700">le lendemain</text>
+    <text x="780" y="130">un modèle Mistral AI</text>
+    <text x="780" y="148">remplace Qwen</text>
+  </g>
+
+  <g font-size="14" font-weight="700" fill="#fff">
+    <rect x="25" y="186" width="270" height="34" rx="6" fill="#16a34a"/><text x="40" y="209">Rapporté par la presse</text>
+    <rect x="315" y="186" width="270" height="34" rx="6" fill="#ea580c"/><text x="330" y="209">Affirmé par Bercy</text>
+    <rect x="605" y="186" width="270" height="34" rx="6" fill="#64748b"/><text x="620" y="209">Non précisé</text>
+  </g>
+  <g font-size="13" fill="#0f172a">
+    <text x="40" y="248">arrêt et remplacement par Mistral</text>
+    <text x="40" y="270">source : Clubic, qui cite Le Monde</text>
+    <text x="40" y="292">(article du Monde non lu)</text>
+
+    <text x="330" y="248">modèle déconnecté, sans Internet</text>
+    <text x="330" y="270">aucune sortie de données en 3 semaines</text>
+    <text x="330" y="292">non vérifié de façon indépendante</text>
+
+    <text x="620" y="248">quelles réponses étaient biaisées</text>
+    <text x="620" y="270">la version de Qwen utilisée</text>
+    <text x="620" y="292">la réponse d'Alibaba (aucune)</text>
+  </g>
+
+  <rect x="25" y="326" width="850" height="68" rx="8" fill="#fff" stroke="#0f172a"/>
+  <text x="450" y="355" font-size="15" font-weight="700" text-anchor="middle" fill="#0f172a">Pas de fuite à craindre : le modèle tournait en vase clos</text>
+  <text x="450" y="379" font-size="14" text-anchor="middle" fill="#0f172a">Le problème est dans le contenu des réponses</text>
+</svg>
