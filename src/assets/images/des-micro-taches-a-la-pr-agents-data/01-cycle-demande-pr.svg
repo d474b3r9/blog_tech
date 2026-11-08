@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1080" viewBox="0 0 1200 1080" role="img" aria-labelledby="title desc">
+  <title id="title">De la demande à la pull request</title>
+  <desc id="desc">L’agent examine la demande et l’existant. Le data engineer retravaille le plan. L’agent développe et ouvre une PR. Les agents et l’équipe relisent, les corrections repassent en revue. L’équipe décide du merge. Elle enrichit les skills et les contrôles à partir des défauts rencontrés.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M1 1 L8 5 L1 9" fill="none" stroke="#80a8f5" stroke-width="2"/></marker>
+  </defs>
+  <rect width="1200" height="1080" rx="22" fill="#0a1220"/>
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <text x="48" y="57" fill="#e7b568" font-size="22" font-weight="700">NOTRE CYCLE DE DÉVELOPPEMENT DATA</text>
+    <text x="48" y="108" fill="#eaf0ff" font-size="36" font-weight="700">De la demande à la pull request</text>
+    <g fill="#111f35" stroke-width="2">
+      <rect x="48" y="146" width="1104" height="108" rx="16" stroke="#35547f"/>
+      <rect x="48" y="282" width="1104" height="108" rx="16" stroke="#35547f"/>
+      <rect x="48" y="418" width="1104" height="108" rx="16" stroke="#e7b568"/>
+      <rect x="48" y="554" width="1104" height="108" rx="16" stroke="#35547f"/>
+      <rect x="48" y="690" width="1104" height="108" rx="16" stroke="#e7b568"/>
+      <rect x="48" y="826" width="1104" height="108" rx="16" stroke="#e7b568"/>
+    </g>
+    <g stroke="#80a8f5" stroke-width="2" marker-end="url(#arrow)">
+      <path d="M600 257 V278"/><path d="M600 393 V414"/><path d="M600 529 V550"/>
+      <path d="M600 665 V686"/><path d="M600 801 V822"/>
+    </g>
+    <g font-size="25" font-weight="700">
+      <text x="76" y="184" fill="#80a8f5">1 · L’agent examine la demande</text>
+      <text x="76" y="320" fill="#80a8f5">2 · L’agent vérifie l’existant</text>
+      <text x="76" y="456" fill="#e7b568">3 · Le data engineer retravaille le plan avec l’agent</text>
+      <text x="76" y="592" fill="#80a8f5">4 · L’agent développe et ouvre une PR</text>
+      <text x="76" y="728" fill="#e7b568">5 · Les agents et l’équipe relisent et font corriger</text>
+      <text x="76" y="864" fill="#e7b568">6 · L’équipe décide du merge</text>
+    </g>
+    <g fill="#eaf0ff" font-size="23">
+      <text x="76" y="224">Ticket Jira, epic, tickets liés et prérequis ; documentation Confluence.</text>
+      <text x="76" y="360">Dépôt, composants disponibles et environnement Databricks de développement.</text>
+      <text x="76" y="496">Besoin métier, réutilisation des composants et intégration au projet.</text>
+      <text x="76" y="632">YAML, SQL, dlt / DuckDB, builds dbt, requêtes en dev et logs CloudWatch.</text>
+      <text x="76" y="768">Retours examinés → corrections proposées → nouvelle revue.</text>
+      <text x="76" y="904">Elle examine les changements et les vérifications avant de les accepter.</text>
+    </g>
+    <text x="48" y="991" fill="#eaf0ff" font-size="25" font-weight="700">Après les défauts rencontrés, nous améliorons le harnais.</text>
+    <text x="48" y="1032" fill="#adc1df" font-size="22">Conventions · skills partagées · hooks de pré-exécution et de post-exécution</text>
+  </g>
+</svg>

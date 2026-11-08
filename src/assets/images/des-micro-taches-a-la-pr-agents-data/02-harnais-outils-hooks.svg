@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Du modèle à l’outil : le rôle du harnais</title>
+  <desc id="desc">Exemple simplifié d’un appel réussi dans Claude Code, avec des hooks synchrones configurés. Le harnais fournit le contexte au modèle. PreToolUse intervient avant l’outil, PostToolUse après sa réussite, puis le résultat revient au modèle. Les refus, erreurs, demandes de permission et hooks asynchrones ne sont pas représentés.</desc>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="#80a8f5" stroke-width="1.5"/></marker></defs>
+  <rect width="1200" height="760" rx="20" fill="#0a1220"/>
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <text x="48" y="56" fill="#e7b568" font-size="22" font-weight="700">CLAUDE CODE · EXEMPLE SIMPLIFIÉ D’UN APPEL RÉUSSI</text>
+    <text x="48" y="108" fill="#eaf0ff" font-size="34" font-weight="700">Du modèle à l’outil, puis retour au modèle</text>
+    <rect x="48" y="150" width="1104" height="100" rx="16" fill="#111f35" stroke="#35547f" stroke-width="2"/>
+    <text x="72" y="190" fill="#eaf0ff" font-size="26" font-weight="600">Contexte fourni au modèle</text>
+    <text x="72" y="226" fill="#adc1df" font-size="23">Instructions et éléments chargés : skills, documentation, résultats précédents.</text>
+    <g fill="#111f35" stroke-width="2">
+      <rect x="48" y="330" width="240" height="210" rx="16" stroke="#35547f"/>
+      <rect x="336" y="330" width="240" height="210" rx="16" stroke="#e7b568"/>
+      <rect x="624" y="330" width="240" height="210" rx="16" stroke="#35547f"/>
+      <rect x="912" y="330" width="240" height="210" rx="16" stroke="#e7b568"/>
+    </g>
+    <g fill="none" stroke="#80a8f5" stroke-width="3" marker-end="url(#arrow)">
+      <path d="M168 250V314"/>
+      <path d="M294 435H322"/><path d="M582 435H610"/><path d="M870 435H898"/>
+      <path d="M1032 548V625H168V556"/>
+    </g>
+    <g font-size="26" font-weight="600">
+      <text x="72" y="376" fill="#eaf0ff">Modèle</text>
+      <text x="360" y="376" fill="#e7b568">PreToolUse</text>
+      <text x="648" y="376" fill="#eaf0ff">Outil</text>
+      <text x="936" y="376" fill="#e7b568">PostToolUse</text>
+    </g>
+    <g fill="#adc1df" font-size="23">
+      <text x="72" y="424">Demande un appel</text><text x="72" y="459">avec ses</text><text x="72" y="494">paramètres.</text>
+      <text x="360" y="424">Appliquent les</text><text x="360" y="459">contrôles prévus</text><text x="360" y="494">avant l’action.</text>
+      <text x="648" y="424">Exécute l’appel</text><text x="648" y="459">et produit</text><text x="648" y="494">un résultat.</text>
+      <text x="936" y="424">Déclenchent les</text><text x="936" y="459">actions prévues</text><text x="936" y="494">après réussite.</text>
+    </g>
+    <rect x="360" y="601" width="480" height="46" rx="12" fill="#0a1220"/>
+    <text x="600" y="631" text-anchor="middle" fill="#eaf0ff" font-size="24">Le harnais renvoie le résultat.</text>
+    <text x="48" y="700" fill="#adc1df" font-size="22">Parcours avec hooks synchrones configurés pour cet outil.</text>
+    <text x="48" y="733" fill="#adc1df" font-size="22">Non représentés : refus, erreurs, demandes de permission et hooks asynchrones.</text>
+  </g>
+</svg>
