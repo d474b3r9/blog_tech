@@ -116,7 +116,7 @@ export const employers: Employer[] = [
         role: 'Senior Data Architect',
         period: 'Juin 2024 – aujourd’hui',
         project:
-          'Conception et mise en place d’une data stack as code, augmentée par l’IA à chaque étape pour accélérer le delivery de l’équipe data et en améliorer la qualité.',
+          'Conception et mise en place d’une data stack as code. Intégration de l’IA sur toute la chaîne pour accélérer le delivery de l’équipe data et améliorer la qualité des livrables.',
         achievements: [
           'Création des 4 repos Terraform, containers, Airflow et dbt.',
           'Mise en place de la CI/CD et des 3 environnements AWS + Databricks.',
