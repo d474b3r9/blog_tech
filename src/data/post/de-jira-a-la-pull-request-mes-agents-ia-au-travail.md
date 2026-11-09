@@ -1,9 +1,9 @@
 ---
-publishDate: 2026-11-08T00:00:00.000Z
+publishDate: 2026-11-09T00:00:00.000Z
 title: 'De Jira à la pull request : mes agents IA au travail'
-excerpt: 'Comment notre équipe data est passée des premières reviews IA au développement assisté : les skills, les contrôles, les gains de qualité et la fatigue du travail en parallèle.'
+excerpt: 'Comment notre équipe data est passée des premières reviews IA au développement assisté : les skills, les contrôles et les gains de qualité.'
 draft: false
-image: ~/assets/images/des-micro-taches-a-la-pr-agents-data/article-cover.png
+image: ~/assets/images/de-jira-a-la-pull-request-mes-agents-ia-au-travail/article-cover.png
 imageAlt: 'Mes agents au travail : des cartes de tâches et de code convergent vers un symbole de fusion ambré qu’une main ajuste, sur fond bleu nuit.'
 category: Data
 tags:
@@ -24,7 +24,7 @@ Chez un client, nous avons commencé par des agents de review. Aujourd’hui, no
 
 - **Commencer par une tâche vérifiable** : nos premières reviews IA accompagnaient la formation des collègues et le renforcement des tests.
 - **Relier les étapes** : nous partageons des skills pour passer de la demande au plan, au code et à la PR.
-- **Améliorer la qualité et garder la décision dans l’équipe** : nous observons moins de retours de recette, mais le suivi des développements en parallèle exige une attention humaine soutenue.
+- **Améliorer la qualité et garder la décision dans l’équipe** : nous observons moins de retours de recette et l’équipe garde la décision de merge.
 
 </div>
 
@@ -42,7 +42,7 @@ Cette première étape permettait d’observer les résultats. Nous pouvions lir
 
 Un agent qui doit ajouter une source de données a besoin de comprendre le projet. Où se trouve le connecteur ? Comment déclare-t-on une ingestion ? Quels modèles dépendent de cette source ? Quels tests faut-il prévoir ?
 
-Dans la plateforme présentée lors de notre conférence à Nantes, nous décrivons l’infrastructure avec Terraform et Helm. Nous déclarons les pipelines en YAML et écrivons les transformations en SQL avec dbt. Nous conservons aussi les conventions et les décisions dans la documentation du projet.
+Dans la data platform présentée lors de notre conférence à Nantes, j’ai décrit une approche « data platform as code ». Nous décrivons l’infrastructure avec Terraform et Helm, déclarons les pipelines en YAML et écrivons les transformations en SQL avec dbt. Nous conservons aussi les conventions et les décisions dans la documentation du projet.
 
 Le parcours des données suit plusieurs étapes : nous les collectons depuis les systèmes sources avec dlt, conservons le brut en bronze, puis préparons les données en silver et les modèles destinés aux usages en gold. Airflow orchestre ces traitements. Pour les sources prises en charge par nos composants, les déclarations réutilisent la mécanique d’orchestration existante.
 
@@ -58,7 +58,7 @@ Si des éléments manquent, l’utilisateur peut décider de lui faire publier u
 
 Pour une nouvelle source, connaître son nom ne suffit pas. Il faut comprendre ce que le métier veut en faire et ce que la plateforme doit produire. Une demande incomplète peut conduire à un développement cohérent avec une mauvaise interprétation du besoin.
 
-L’agent examine ensuite l’existant. Dans notre fonctionnement, il peut se connecter à l’environnement Databricks de développement pour vérifier l’état de la stack : la source attendue est-elle présente ? Les composants nécessaires existent-ils ? Ce qu’il trouve doit permettre de préparer un plan adapté au projet.
+Pendant qu’il lit le ticket et recherche les éléments existants nécessaires à sa réalisation, une skill lui permet de requêter l’environnement Databricks de développement. Il peut vérifier l’état de la stack : la source attendue est-elle présente ? Les composants nécessaires existent-ils ? Ces vérifications l’aident à préparer un plan adapté au projet.
 
 Nous retravaillons ce plan ensemble. C’est l’un des moments où mon expérience du projet intervient le plus.
 
@@ -78,17 +78,19 @@ Je vérifie donc le besoin et la manière de l’intégrer à ce que nous mainte
 
 À partir du plan retravaillé, l’agent prépare le développement. Pour une nouvelle source, cela peut comprendre les déclarations YAML, les transformations SQL et les tests associés. L’étendue du travail dépend de ce que nos composants prennent déjà en charge.
 
-Après le plan, une skill lui permet de requêter l’environnement Databricks de développement.
+![Je prépare le plan, l’agent écrit le code, puis je relis et valide les corrections avant le merge. Avec l’équipe, j’enrichis les conventions, la documentation de modélisation, les skills et les hooks à partir des défauts observés.](../../assets/images/de-jira-a-la-pull-request-mes-agents-ia-au-travail/00-du-plan-au-merge.png)
+
+_Je prépare le plan, l’agent développe et je garde la décision de merge. Les relectures nous aident à améliorer le cadre de travail._
 
 Pour les nouvelles données, une skill dlt lui permet de lancer une extraction de test dans DuckDB : vérifier les types attendus, rechercher une clé primaire ou composite et identifier un curseur pour un chargement incrémental en mode `merge`, par exemple. L’équipe valide ces choix au regard du sens métier et des cas que les données de test ne couvrent pas.
 
-Pendant l’implémentation, l’agent peut aussi lancer des builds dbt de test et consulter les logs des exécutions dans CloudWatch. Il dispose ainsi de résultats d’exécution pour poursuivre le développement et préparer les corrections.
+Pendant l’implémentation, l’agent peut lancer des builds dbt de test pour vérifier les modèles concernés et leurs dépendances, afin de repérer une régression ailleurs dans le projet. Il peut aussi consulter les logs des exécutions dans CloudWatch. Ces résultats l’aident à poursuivre le développement et à préparer les corrections.
 
 L’agent rédige aussi les messages de commit et ouvre la pull request. Nous retrouvons dans GitHub le code proposé et les échanges nécessaires à sa revue.
 
 La PR constitue un point de passage utile pour l’équipe : nous pouvons examiner les modifications et suivre les corrections dans le même contexte. L’ouverture de la PR ne suffit pas pour accepter le développement. Nous devons encore vérifier le comportement du code et sa cohérence avec le projet.
 
-![L’agent lit la demande et vérifie l’existant. Le data engineer retravaille le plan avec lui. L’agent développe et ouvre une PR, puis les agents et l’équipe relisent. Les corrections repassent en revue avant la décision humaine de merge.](../../assets/images/des-micro-taches-a-la-pr-agents-data/01-cycle-demande-pr.png)
+![L’agent lit la demande et vérifie l’existant. Le data engineer retravaille le plan avec lui. L’agent développe et ouvre une PR, puis les agents et l’équipe relisent. Les corrections repassent en revue avant la décision humaine de merge.](../../assets/images/de-jira-a-la-pull-request-mes-agents-ia-au-travail/01-cycle-demande-pr.png)
 
 _Le cycle comprend des échanges et des reprises. Nous pouvons revenir au plan si la revue révèle un problème de conception._
 
@@ -99,6 +101,8 @@ D’autres agents interviennent sur la pull request. Ils apportent leurs remarqu
 Je tiens à cette vérification. Une remarque de review peut mal interpréter le contexte. Modifier le code pour satisfaire tous les commentaires sans les examiner déplacerait le problème. L’équipe doit pouvoir comprendre le désaccord et choisir la correction à retenir.
 
 Le cycle alterne donc revue et corrections. Nous relisons le résultat, demandons les ajustements nécessaires et décidons du merge. L’accord entre plusieurs agents reste un élément de la revue ; nous gardons la responsabilité d’accepter le changement.
+
+Après le merge et le déploiement en développement, l’agent peut effectuer une sorte de pré-recette dans Databricks : vérifier que les objets créés correspondent à la demande initiale et repérer d’éventuels bugs qui n’étaient pas anticipés.
 
 Les tests font partie de ce travail. Nous devons regarder ce qu’ils couvrent et ce qu’ils laissent de côté. Dans mon quotidien, certains développements vont de l’ingestion bronze à la modélisation gold, avec les tests de bout en bout et le déploiement sur les environnements. Pour juger le résultat, je dois conserver cette vue du parcours complet.
 
@@ -113,7 +117,7 @@ Dans notre équipe, elles couvrent plusieurs tâches du cycle :
 | Jira                        | Lire le ticket, son epic et les tickets liés, repérer les prérequis. Si des informations manquent, publier sur décision de l’utilisateur un commentaire qui les liste et mentionne le PO avec @.                         |
 | Confluence                  | Consulter ou enrichir la documentation.                                                                                                                                                                                  |
 | Sources de données          | Créer une source à partir des spécifications et des user stories.                                                                                                                                                        |
-| Databricks de développement | Requêter la dev dans la phase qui suit le plan.                                                                                                                                                                          |
+| Databricks de développement | Requêter l’environnement pendant la lecture du ticket et la recherche des éléments existants ; après le merge et le déploiement en développement, effectuer une sorte de pré-recette.                                    |
 | dlt                         | Extraire les nouvelles données dans DuckDB pour les tester : vérifier les types attendus, rechercher une clé primaire ou composite et identifier un curseur pour un chargement incrémental en mode `merge`, par exemple. |
 | dbt                         | Lancer des builds de test pendant les implémentations.                                                                                                                                                                   |
 | CloudWatch                  | Lire les logs des exécutions.                                                                                                                                                                                            |
@@ -128,11 +132,11 @@ Cette couche logicielle fournit le contexte au modèle, exécute ses appels d’
 
 Nous configurons ce harnais avec nos instructions, nos skills et des hooks de pré-exécution et de post-exécution. Ces hooks interviennent avant ou après les opérations concernées, pour appliquer les contrôles et les actions prévus. La documentation et les conventions fournissent le contexte et les règles que l’agent doit suivre.
 
-![Exemple simplifié dans Claude Code : contexte fourni au modèle, PreToolUse, outil, PostToolUse après réussite, puis retour du résultat. Le schéma suppose des hooks synchrones configurés et omet les refus, erreurs et demandes de permission.](../../assets/images/des-micro-taches-a-la-pr-agents-data/02-harnais-outils-hooks.png)
+![Exemple simplifié dans Claude Code : contexte fourni au modèle, PreToolUse, outil, PostToolUse après réussite, puis retour du résultat. Le schéma suppose des hooks synchrones configurés et omet les refus, erreurs et demandes de permission.](../../assets/images/de-jira-a-la-pull-request-mes-agents-ia-au-travail/02-harnais-outils-hooks.png)
 
 _Ce schéma illustre un appel réussi dans Claude Code. `PreToolUse` peut empêcher l’appel ; `PostToolUse` intervient après sa réussite et n’annule pas l’action effectuée. En cas d’échec, Claude Code déclenche `PostToolUseFailure`. [Référence officielle des hooks](https://code.claude.com/docs/en/hooks#hook-lifecycle)._
 
-Git nous a fourni un exemple concret. Le comportement non déterministe de l’agent se voyait dans sa manière de nommer les branches, de committer ou d’ouvrir les PR : il pouvait changer de procédure d’une exécution à l’autre. Il tentait aussi des push directs sur `main`. GitHub les bloquait, mais il lui arrivait de réessayer. Nous perdions du temps et des tokens sur une action qui allait échouer.
+Git nous a fourni un exemple concret. Le comportement non déterministe de l’agent se voyait dans sa manière de nommer les branches, d’effectuer un commit ou d’ouvrir les PR : il pouvait changer de procédure d’une exécution à l’autre. Il tentait aussi des push directs sur `main`. GitHub les bloquait, mais il lui arrivait de réessayer. Nous perdions du temps et des tokens sur une action qui allait échouer.
 
 Nous avons ajouté des skills, des règles et des hooks pour guider ces opérations et bloquer certaines actions avant leur exécution. Nous procédons de la même façon pour les défauts de code qui reviennent : préciser une convention, documenter un choix de modélisation ou ajouter un contrôle.
 

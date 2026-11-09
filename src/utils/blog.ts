@@ -48,6 +48,7 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
   const {
     publishDate: rawPublishDate = new Date(),
     updateDate: rawUpdateDate,
+    slug: rawSlug,
     title,
     excerpt,
     image,
@@ -61,7 +62,7 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     metadata = {},
   } = data;
 
-  const slug = cleanSlug(id);
+  const slug = cleanSlug(rawSlug ?? id);
   const publishDate = new Date(rawPublishDate);
   const updateDate = rawUpdateDate ? new Date(rawUpdateDate) : undefined;
 
@@ -122,7 +123,7 @@ const load = async function (): Promise<Array<Post>> {
 
   const results = (await Promise.all(normalizedPosts))
     .sort((a, b) => b.publishDate.valueOf() - a.publishDate.valueOf())
-    .filter((post) => !post.draft && isPublished(post));
+    .filter((post) => isPublished(post));
 
   return results;
 };

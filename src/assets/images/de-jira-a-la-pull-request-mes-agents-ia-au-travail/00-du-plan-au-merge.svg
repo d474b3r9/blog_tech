@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+<title id="title">Du plan au merge : mon travail avec les agents</title>
+<desc id="desc">Je prépare le plan, l'agent écrit tout le code, puis je relis et fais corriger avant le merge. Avec l'équipe, j'enrichis les conventions, la documentation de modélisation, les skills et les hooks à partir des défauts observés.</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 1 L8 5 L0 9" fill="none" stroke="#80a8f5" stroke-width="2"/></marker></defs>
+<rect width="1200" height="630" rx="22" fill="#0a1220"/>
+<g font-family="Segoe UI, Arial, sans-serif">
+<text x="48" y="62" fill="#e7b568" font-size="22" font-weight="700">MON QUOTIDIEN D’AI DATA ENGINEER</text>
+<text x="48" y="118" fill="#eaf0ff" font-size="36" font-weight="700">Du plan au merge, je garde la main</text>
+<rect x="48" y="172" width="344" height="210" rx="18" fill="#111f35" stroke="#e7b568" stroke-width="2"/>
+<rect x="428" y="172" width="344" height="210" rx="18" fill="#111f35" stroke="#35547f" stroke-width="2"/>
+<rect x="808" y="172" width="344" height="210" rx="18" fill="#111f35" stroke="#e7b568" stroke-width="2"/>
+<path d="M395 278 H421" stroke="#80a8f5" stroke-width="3" marker-end="url(#arrow)"/><path d="M775 278 H801" stroke="#80a8f5" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="72" y="216" fill="#e7b568" font-size="24" font-weight="700">JE PRÉPARE LE PLAN</text>
+<text x="72" y="270" fill="#eaf0ff" font-size="24">Ce qu’on va construire</text>
+<text x="72" y="310" fill="#adc1df" font-size="22">Données et modélisation</text>
+<text x="72" y="346" fill="#adc1df" font-size="22">Conventions à respecter</text>
+<text x="452" y="216" fill="#80a8f5" font-size="24" font-weight="700">L’AGENT ÉCRIT</text>
+<text x="452" y="270" fill="#eaf0ff" font-size="24">Le code du développement</text>
+<text x="452" y="310" fill="#adc1df" font-size="22">Avec les instructions</text>
+<text x="452" y="346" fill="#adc1df" font-size="22">et les outils disponibles</text>
+<text x="832" y="216" fill="#e7b568" font-size="24" font-weight="700">JE RELIS ET VALIDE</text>
+<text x="832" y="270" fill="#eaf0ff" font-size="24">Je fais corriger le code</text>
+<text x="832" y="310" fill="#adc1df" font-size="22">Cohérence avec l’existant</text>
+<text x="832" y="346" fill="#adc1df" font-size="22">Décision avant le merge</text>
+<rect x="48" y="426" width="1104" height="142" rx="18" fill="#111f35" stroke="#35547f" stroke-width="2"/>
+<text x="72" y="469" fill="#eaf0ff" font-size="27" font-weight="700">Avec l’équipe, j’enrichis le harnais après les relectures</text>
+<text x="72" y="512" fill="#adc1df" font-size="24">Conventions et documentation de modélisation · Skills · Hooks</text>
+<text x="72" y="547" fill="#adc1df" font-size="22">On transforme les défauts observés en consignes et en contrôles.</text>
+</g></svg>

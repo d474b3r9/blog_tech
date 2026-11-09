@@ -22,7 +22,7 @@ if (Number.isNaN(now.getTime())) {
 }
 
 const REQUIRED = ['publishDate', 'title', 'excerpt', 'image', 'imageAlt', 'category', 'tags', 'author'];
-const OPTIONAL = ['draft', 'updateDate', 'canonical', 'metadata', 'unlisted', 'annexOf'];
+const OPTIONAL = ['draft', 'updateDate', 'canonical', 'metadata', 'unlisted', 'annexOf', 'slug'];
 const KNOWN = new Set([...REQUIRED, ...OPTIONAL]);
 const DAYS = 'lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche';
 const MONTHS =

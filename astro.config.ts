@@ -35,7 +35,7 @@ for (const file of fs.existsSync(POST_DIR) ? fs.readdirSync(POST_DIR) : []) {
   const data = readFrontmatterData(fs.readFileSync(path.join(POST_DIR, file), 'utf8'));
   const read = (key: string) => (data && data !== 'invalid' ? (data[key] as string | undefined) : undefined);
   const date = new Date(read('updateDate') ?? read('publishDate') ?? '');
-  if (!Number.isNaN(date.getTime())) postLastmod.set(file.replace(/\.mdx?$/, ''), date.toISOString());
+  if (!Number.isNaN(date.getTime())) postLastmod.set(read('slug') ?? file.replace(/\.mdx?$/, ''), date.toISOString());
 }
 
 export default defineConfig({

@@ -59,6 +59,8 @@ const postCollection = defineCollection({
     annexOf: z.string().optional(),
 
     title: z.string(),
+    /** Adresse indépendante du nom de fichier, pour numéroter les brouillons. */
+    slug: z.string().optional(),
     excerpt: z.string().optional(),
     image: z.string().optional(),
     /** Alternative text for the cover image. Leave empty for decorative stock photos. */
