@@ -115,7 +115,8 @@ export const employers: Employer[] = [
         client: 'AS24',
         role: 'Senior Data Architect',
         period: 'Juin 2024 – aujourd’hui',
-        project: 'Architecture data, mise en place de la data stack de bout en bout.',
+        project:
+          'Conception et mise en place d’une data stack as code, augmentée par l’IA à chaque étape pour accélérer le delivery de l’équipe data et en améliorer la qualité.',
         achievements: [
           'Création des 4 repos Terraform, containers, Airflow et dbt.',
           'Mise en place de la CI/CD et des 3 environnements AWS + Databricks.',
@@ -132,6 +133,7 @@ export const employers: Employer[] = [
         ],
         stack: [
           'AWS',
+          'Amazon Bedrock',
           'Databricks',
           'Elementary',
           'OpenMetadata',
