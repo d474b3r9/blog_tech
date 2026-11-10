@@ -32,6 +32,7 @@ Autres commandes :
 npm run build    # sortie dans dist/
 npm run preview  # sert dist/ en local (après build)
 npm run check    # astro check + eslint + prettier
+npm run check:seo # après build : indexation, canonical, sitemap et articles publiés
 npm run fix      # corrige eslint + prettier
 ```
 
