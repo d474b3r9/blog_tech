@@ -16,7 +16,7 @@ author: Jonathan Cattelain
 
 - **Qui écrit ici** : Jonathan Cattelain, Staff Engineer Data chez SFEIR à Nantes, plus de 15 ans d'expérience sur les data platforms de bout en bout et l'IA agentique.
 - **Ce que vous y lirez** : des retours d'expériences et de la veille sur la data, le cloud et les agents IA, avec ce qui a marché, ce qui a cassé et ce que ça a coûté.
-- **Où retrouver le reste** : dix articles publiés sur sfeir.dev depuis février 2025, classés par thème plus bas. Le prochain portera sur Orca.
+- **Où retrouver le reste** : dix articles publiés sur sfeir.dev depuis février 2025, classés par thème plus bas.
 
 </div>
 Un blog de plus, me direz-vous. Sans doute. Voici au moins ce qu'il contient, qui l'écrit, et où retrouver ce que j'ai déjà publié ailleurs.
@@ -48,8 +48,6 @@ Depuis février 2025, j'ai publié dix articles sur sfeir.dev. Ils restent en li
 La liste complète est sur ma [page auteur](https://www.sfeir.dev/author/jonathan/).
 
 ## La suite
-
-Le prochain article portera sur Orca, un outil open source pour piloter plusieurs agents de code en parallèle.
 
 Pour me contacter, le bouton LinkedIn est en haut de page. Le flux RSS est juste à côté.
 

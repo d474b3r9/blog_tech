@@ -26,7 +26,7 @@ J'ai plusieurs fois parlé d'IA en local avec des collègues, sans que personne 
 
 </div>
 
-Le protocole détaillé des mesures, la justesse et les chiffres de code déclarés sont dans [l'article de méthode](/ia-locale-12go-methode-tests). Celui-ci donne le tutoriel, les vitesses et mon choix.
+Le protocole détaillé des mesures, la justesse et les chiffres de code déclarés sont dans [l'article de méthode](/ia-locale-12go-methode-tests/). Celui-ci donne le tutoriel, les vitesses et mon choix.
 
 ## Entre collègues, on échangeait des impressions, pas des chiffres
 
@@ -277,7 +277,7 @@ Quand le modèle ne tient pas dans la VRAM, Ollama laisse une partie du modèle 
 
 ## Et la justesse ?
 
-Un modèle qui répond à 124 tokens par seconde peut aussi répondre faux à 124 tokens par seconde. J'ai mesuré la justesse de deux façons : un test maison de 280 questions MMLU-Pro en réponse directe sur mes quantifications (douze modèles sur treize), et GPQA Diamond d'Epoch AI, un benchmark indépendant qui ne couvre que cinq de mes modèles. Avec 280 questions, l'écart-type de chaque score est d'environ 3 points (intervalle à 95 % d'environ ± 6 points). Pour comparer deux modèles, il faut plus d'environ 6 à 8 points d'écart : en dessous, je ne classe pas. Mes scores ne sont pas comparables aux scores publiés, car je n'ai pas laissé les modèles raisonner. Le protocole, les tableaux complets et les précautions sont dans [l'article de méthode](/ia-locale-12go-methode-tests).
+Un modèle qui répond à 124 tokens par seconde peut aussi répondre faux à 124 tokens par seconde. J'ai mesuré la justesse de deux façons : un test maison de 280 questions MMLU-Pro en réponse directe sur mes quantifications (douze modèles sur treize), et GPQA Diamond d'Epoch AI, un benchmark indépendant qui ne couvre que cinq de mes modèles. Avec 280 questions, l'écart-type de chaque score est d'environ 3 points (intervalle à 95 % d'environ ± 6 points). Pour comparer deux modèles, il faut plus d'environ 6 à 8 points d'écart : en dessous, je ne classe pas. Mes scores ne sont pas comparables aux scores publiés, car je n'ai pas laissé les modèles raisonner. Le protocole, les tableaux complets et les précautions sont dans [l'article de méthode](/ia-locale-12go-methode-tests/).
 
 Les deux mesures ne classent pas pareil. Chez Epoch, Qwen3.5 9B (79,0 %) devance largement Mistral Small 3.2 (49,1 %). Chez moi, en réponse directe, ils sont à égalité à 53,6 %. Je n'explique pas cet écart. Mon hypothèse, que le raisonnement avantage Qwen3.5, je ne l'ai pas testée.
 
@@ -287,7 +287,7 @@ classement de treize modèles par vitesse, justesse et contexte
 
 Pour choisir, voici ce que disent ces critères ensemble :
 
-**Le plus rapide, tout en VRAM.** Gemma 4 12B : 123,9 tokens par seconde sur 64 tokens, 262 144 tokens de contexte presque entièrement en VRAM, et 57,9 % sur mon test, sans écart net avec les modèles qui le suivent (moins de 6 à 8 points ; tableau complet dans [l'article de méthode](/ia-locale-12go-methode-tests)).
+**Le plus rapide, tout en VRAM.** Gemma 4 12B : 123,9 tokens par seconde sur 64 tokens, 262 144 tokens de contexte presque entièrement en VRAM, et 57,9 % sur mon test, sans écart net avec les modèles qui le suivent (moins de 6 à 8 points ; tableau complet dans [l'article de méthode](/ia-locale-12go-methode-tests/)).
 
 **Le plus de justesse avec raisonnement.** Qwen3.6 35B-A3B : 83,8 % chez Epoch, 61,4 % chez moi, 44,5 tokens par seconde à 4 096 de contexte, 262 144 tokens à 37,1 tokens par seconde. Il pèse 23 Go : 58 à 64 % de la mémoire côté CPU, 17 Go de RAM à 262 144.
 
@@ -299,7 +299,7 @@ Pour choisir, voici ce que disent ces critères ensemble :
 
 ## Mon top 3, pour le code et pour le multimodal
 
-Deux précisions avant de classer. Pour le multimodal, je n'ai testé aucune image ni aucun son : je m'appuie sur les capacités que chaque modèle déclare dans `ollama show` (`vision`, `audio`), croisées avec mes mesures de vitesse et de mémoire. Pour le code, je n'ai pas de test maison non plus : je m'appuie sur les chiffres que les éditeurs déclarent dans leurs fiches (détail dans [l'article de méthode](/ia-locale-12go-methode-tests)), **non indépendants**. C'est donc un choix de lecture, pas un résultat mesuré. Ce top 3 est personnel : il traduit mes préférences et mon interprétation des chiffres, sur mon propre matériel (une carte de 12 Go). Avec une autre machine ou d'autres priorités, le vôtre sera différent. Au fond, le meilleur modèle est celui avec lequel vous aurez le plus de plaisir à travailler.
+Deux précisions avant de classer. Pour le multimodal, je n'ai testé aucune image ni aucun son : je m'appuie sur les capacités que chaque modèle déclare dans `ollama show` (`vision`, `audio`), croisées avec mes mesures de vitesse et de mémoire. Pour le code, je n'ai pas de test maison non plus : je m'appuie sur les chiffres que les éditeurs déclarent dans leurs fiches (détail dans [l'article de méthode](/ia-locale-12go-methode-tests/)), **non indépendants**. C'est donc un choix de lecture, pas un résultat mesuré. Ce top 3 est personnel : il traduit mes préférences et mon interprétation des chiffres, sur mon propre matériel (une carte de 12 Go). Avec une autre machine ou d'autres priorités, le vôtre sera différent. Au fond, le meilleur modèle est celui avec lequel vous aurez le plus de plaisir à travailler.
 
 **Pour le code**
 
@@ -321,7 +321,7 @@ Huit de mes treize modèles déclarent `vision` : les trois ci-dessus, plus Qwen
 
 ## Ce que je n'ai pas mesuré
 
-Un seul passage par palier de contexte, un seul jeu de 280 questions, ni qualité de la vision et du son, ni qualité du code produit sur mes quantifications. GLM-4.7-Flash manque à mon test de justesse, faute de mémoire. Le détail de ces limites est dans [l'article de méthode](/ia-locale-12go-methode-tests).
+Un seul passage par palier de contexte, un seul jeu de 280 questions, ni qualité de la vision et du son, ni qualité du code produit sur mes quantifications. GLM-4.7-Flash manque à mon test de justesse, faute de mémoire. Le détail de ces limites est dans [l'article de méthode](/ia-locale-12go-methode-tests/).
 
 ## Ce que je retiens
 
@@ -333,7 +333,7 @@ Un seul passage par palier de contexte, un seul jeu de 280 questions, ni qualit�
 
 **Se méfier du contexte maximal annoncé.** Gemma garde 262 144 tokens presque entièrement en VRAM. D'autres sortent du GPU pur à 32 K ou 65 K, et Qwen3-Coder tient 262 144 en mémoire mais plus en vitesse : 5,9 tokens par seconde (mesuré sur 33 tokens générés seulement) contre 24,1 à 131 072.
 
-**Ne pas chercher à augmenter les threads.** 8 threads donnent le même résultat que 12 ou 16 (43 tokens par seconde dans les trois cas sur Qwen3.6) ; 4 threads est plus lent (40 contre environ 43). Détail dans [l'article de méthode](/ia-locale-12go-methode-tests)).
+**Ne pas chercher à augmenter les threads.** 8 threads donnent le même résultat que 12 ou 16 (43 tokens par seconde dans les trois cas sur Qwen3.6) ; 4 threads est plus lent (40 contre environ 43). Détail dans [l'article de méthode](/ia-locale-12go-methode-tests/).
 
 **Publier ses chiffres avec sa configuration.** Un chiffre sans tag, sans contexte ni machine ne sert à personne.
 
@@ -364,13 +364,13 @@ configuration pour limiter Ollama vers l'extérieur, à retirer le temps d'un pu
 
 Résultat de mon test (Windows 11, Ollama 0.40.13, règles créées dans une console administrateur puis supprimées) : avec les trois règles, `ollama list`, `ollama run` et l'API locale répondent normalement, à 103,8 tokens par seconde en génération. `ollama pull` échoue en moins d'une seconde avec « An established connection was aborted by the software in your host machine ». Une fois les règles supprimées, le `pull` refonctionne. Le blocage laisse donc passer le trafic local vers 127.0.0.1 et coupe la sortie vers Internet.
 
-Deux limites, distinctes. La première : le blocage borne Ollama, pas la machine. La règle ne vise que trois programmes ; Ollama ne fait que produire du texte, mais l'agent branché dessus exécute des commandes avec vos droits, et `curl`, PowerShell, Python ou le navigateur ne sont pas concernés. La seconde, indépendante de la première : la nature du risque. Simon Willison le résume en trois conditions réunies : l'accès à vos données privées, l'exposition à du contenu non fiable et la capacité de communiquer vers l'extérieur. Son seul remède : ne jamais réunir les trois. Couper la sortie retire la troisième, à condition de la couper pour tout ce que l'agent peut lancer : l'isolation doit porter sur son environnement d'exécution, dans un conteneur sans route vers l'extérieur par exemple. Je n'ai testé ni cette isolation, ni `OLLAMA_NO_CLOUD`, ni ce qu'un modèle en train d'agir peut tenter. La raison de cette précaution, les biais des modèles et les poids empoisonnés, fera l'objet d'un article prochainement.
+Deux limites, distinctes. La première : le blocage borne Ollama, pas la machine. La règle ne vise que trois programmes ; Ollama ne fait que produire du texte, mais l'agent branché dessus exécute des commandes avec vos droits, et `curl`, PowerShell, Python ou le navigateur ne sont pas concernés. La seconde, indépendante de la première : la nature du risque. Simon Willison le résume en trois conditions réunies : l'accès à vos données privées, l'exposition à du contenu non fiable et la capacité de communiquer vers l'extérieur. Son seul remède : ne jamais réunir les trois. Couper la sortie retire la troisième, à condition de la couper pour tout ce que l'agent peut lancer : l'isolation doit porter sur son environnement d'exécution, dans un conteneur sans route vers l'extérieur par exemple. Je n'ai testé ni cette isolation, ni `OLLAMA_NO_CLOUD`, ni ce qu'un modèle en train d'agir peut tenter. Je détaille les biais des modèles et les poids empoisonnés dans [mon article sur les risques d’un modèle local](/ia-locale-biais-open-weight/#un-poids-nexécute-rien-il-instruit).
 
 ## Sources
 
 - [Ollama, bibliothèque Gemma 4](https://ollama.com/library/gemma4/tags) et [FAQ Ollama](https://docs.ollama.com/faq)
 - [Ollama, bibliothèque de modèles](https://ollama.com/library) (tailles et contextes maximaux des tags testés)
-- [Méthode, benchmarks et fiches des éditeurs : l'article de méthode](/ia-locale-12go-methode-tests)
+- [Méthode, benchmarks et fiches des éditeurs : l'article de méthode](/ia-locale-12go-methode-tests/)
 - [Epoch AI, GPQA Diamond](https://epoch.ai/benchmarks/gpqa-diamond) et [données ouvertes d'Epoch AI](https://epoch.ai/data), licence CC BY 4.0
 - [NIST CAISI, Evaluation of DeepSeek AI Models](https://www.nist.gov/news-events/news/2025/09/caisi-evaluation-deepseek-ai-models-finds-shortcomings-and-risks)
 - [CrowdStrike, Hidden Vulnerabilities in AI-Coded Software](https://www.crowdstrike.com/en-us/blog/crowdstrike-researchers-identify-hidden-vulnerabilities-ai-coded-software/)

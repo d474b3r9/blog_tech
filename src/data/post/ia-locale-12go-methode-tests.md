@@ -15,7 +15,7 @@ imageAlt: 'Une barre de mémoire de 12 288 Mio en pointillés, remplie en bleu p
 author: Jonathan Cattelain
 ---
 
-Cet article est la suite détaillée de [Un LLM local de 262 144 tokens sur une carte de 12 Go](/ia-locale-deployer-optimiser-12go). Celui-ci donne le tutoriel, les vitesses mesurées et mon top 3. Ici, je détaille comment j'ai mesuré, ce que valent les benchmarks de justesse et de code, et ce que mes mesures ne disent pas. Les définitions de base (token, contexte, quantification, MoE) sont dans l'article principal.
+Cet article est la suite détaillée de [Un LLM local de 262 144 tokens sur une carte de 12 Go](/ia-locale-deployer-optimiser-12go/). Celui-ci donne le tutoriel, les vitesses mesurées et mon top 3. Ici, je détaille comment j'ai mesuré, ce que valent les benchmarks de justesse et de code, et ce que mes mesures ne disent pas. Les définitions de base (token, contexte, quantification, MoE) sont dans l'article principal.
 
 ## Protocole des mesures de vitesse
 
@@ -129,7 +129,7 @@ D'abord, ces deux benchmarks de justesse mesurent des connaissances et du raison
 - **Le rôle du modèle assistant.** Ollama charge un second modèle avec Gemma. Je n'ai pas vérifié ce qu'il apporte en vitesse.
 - **Les architectures des autres modèles.** Je constate leur sortie du GPU pur à 32 K ou 65 K, je n'ai pas mesuré la taille de leur cache par token.
 
-Retour à [l'article principal](/ia-locale-deployer-optimiser-12go) pour le tutoriel, les vitesses et mon top 3.
+Retour à [l'article principal](/ia-locale-deployer-optimiser-12go/) pour le tutoriel, les vitesses et mon top 3.
 
 ## Sources
 

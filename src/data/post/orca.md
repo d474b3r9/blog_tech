@@ -179,7 +179,7 @@ Orca, lui, n'a pas de débogueur ni de refactorings d'un IDE dédié. Un [retour
 
 - **Dépendances dupliquées** : un worktree, c'est une copie des fichiers suivis, plus l'environnement à recréer. Le disque et la mémoire montent avec le nombre d'agents. Le retour d'usage cité plus haut le signale aussi, et c'est exactement ce que le Resource Manager et l'hibernation cherchent à contenir.
 - **Plusieurs fonctions sont expérimentales** : l'Agent Dashboard, l'hibernation et la vue chat native sont à activer dans Settings → Experimental, et la documentation dit elle-même qu'elles évoluent.
-- **Plus d'agents, plus à relire** : plus de diffs, plus de tokens consommés. Orca ne règle pas ça, il le rend visible.
+- **Plus d'agents, plus à relire** : plus de diffs, plus de tokens consommés. Orca ne règle pas ça, il le rend visible. Je décris cette charge dans [mon bilan de trois développements en parallèle](/de-jira-a-la-pull-request-mes-agents-ia-au-travail/#trois-développements-en-parallèle-et-je-finis-sur-les-rotules).
 - **Un projet jeune et rapide** : première release le 21 mars 2026, version 1.4.243 le 28 octobre 2026, soit plusieurs versions par jour en moyenne. Environ 4 100 issues ouvertes, et autant de PR (API GitHub, 28 octobre 2026). Surveillez la stabilité après chaque mise à jour.
 - **Télémétrie** : des événements d'usage anonymes, désactivables.
 

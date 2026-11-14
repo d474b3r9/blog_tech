@@ -152,7 +152,7 @@ Les composants réutilisables, les conventions, les tests et l’accompagnement 
 
 ## Trois développements en parallèle, et je finis sur les rotules
 
-Avec les worktrees d’Orca, je mène maintenant plusieurs développements en parallèle, chacun dans son espace de travail. Je peux avancer sur une autre demande pendant qu’un agent exécute une tâche. Cela me permet d’augmenter encore le volume de travail traité.
+Avec les [worktrees d’Orca](/orca/#killer-feature-1-un-worktree-par-tâche-et-les-agents-arrêtent-de-se-marcher-dessus), je mène maintenant plusieurs développements en parallèle, chacun dans son espace de travail. Je peux avancer sur une autre demande pendant qu’un agent exécute une tâche. Cela me permet d’augmenter encore le volume de travail traité.
 
 <aside class="definition" aria-label="Limite humaine du travail en parallèle">
 

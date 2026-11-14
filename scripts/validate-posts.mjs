@@ -5,7 +5,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
-import { isDraftValue } from '../src/utils/publication.mjs';
+import { isDraftValue, isPublishedFlags } from '../src/utils/publication.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
@@ -75,7 +75,6 @@ for (const file of files) {
 }
 
 const dateOf = (p) => (p.data.publishDate ? new Date(p.data.publishDate) : null);
-const iso = (p) => dateOf(p)?.toISOString();
 
 // chemin d'image du site -> chemin disque (src/assets/...)
 const toDisk = (ref, mdDir) => {
@@ -186,9 +185,14 @@ for (const p of posts.values()) {
       if (slug === '' || PAGES.has(slug.split('/')[0])) continue;
       const t = posts.get(slug);
       if (!t) E(n, `lien interne vers un article inexistant : ${m[1]}`);
-      else if (t.data.draft === true) E(n, `lien interne vers un brouillon : ${m[1]}`);
-      else if (!p.data.annexOf && dateOf(t) && dateOf(p) && dateOf(t) > dateOf(p)) {
-        E(n, `lien interne vers un article publié plus tard (${iso(t)} après ${iso(p)}) : ${m[1]}`);
+      else if (isDraftValue(t.data.draft)) E(n, `lien interne vers un brouillon : ${m[1]}`);
+      else {
+        // Une révision peut citer un article paru depuis la publication initiale.
+        // Pour un article planifié, vérifier les liens à sa date de publication.
+        const linkDate = dateOf(p) > now ? dateOf(p) : now;
+        if (!isPublishedFlags({ publishDate: t.data.publishDate }, linkDate)) {
+          E(n, `lien interne vers un article non publié à la date de contrôle : ${m[1]}`);
+        }
       }
     }
     if (/<div class="tldr">/.test(raw)) {
