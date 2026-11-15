@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="820" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
+<title id="title">Après une erreur, choisir où corriger</title>
+<desc id="desc">L’équipe examine un défaut avant de modifier le système. Si un composant est introuvable, elle documente son emplacement. Si l’agent tente une action interdite, les développeurs examinent les droits et les contrôles. Si la règle métier manque, le responsable métier tranche. L’équipe rejoue ensuite les cas concernés pour décider de la suite. Plusieurs corrections peuvent être nécessaires.</desc>
+<defs><marker id="a" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#80a8f5" stroke-width="2"/></marker></defs>
+<rect width="1200" height="820" rx="22" fill="#0a1220"/>
+<g font-family="Segoe UI,Arial,sans-serif">
+<text x="48" y="60" fill="#e7b568" font-size="22" font-weight="700">MAINTENIR LES CONSIGNES ET LES CONTRÔLES</text>
+<text x="48" y="114" fill="#eaf0ff" font-size="36" font-weight="700">Après une erreur, choisir où corriger</text>
+<rect x="260" y="156" width="680" height="100" rx="16" fill="#111f35" stroke="#e7b568" stroke-width="2"/>
+<text x="600" y="197" text-anchor="middle" fill="#e7b568" font-size="25" font-weight="700">L’ÉQUIPE EXAMINE LE DÉFAUT</text>
+<text x="600" y="233" text-anchor="middle" fill="#adc1df" font-size="22">Contexte, consignes reçues et actions exécutées</text>
+<path d="M600 260 V286 H220 V322" fill="none" stroke="#80a8f5" stroke-width="3" marker-end="url(#a)"/>
+<path d="M600 286 V322" fill="none" stroke="#80a8f5" stroke-width="3" marker-end="url(#a)"/>
+<path d="M600 286 H980 V322" fill="none" stroke="#80a8f5" stroke-width="3" marker-end="url(#a)"/>
+<rect x="48" y="336" width="344" height="238" rx="16" fill="#111f35" stroke="#35547f"/>
+<rect x="428" y="336" width="344" height="238" rx="16" fill="#111f35" stroke="#35547f"/>
+<rect x="808" y="336" width="344" height="238" rx="16" fill="#111f35" stroke="#35547f"/>
+<text x="72" y="378" fill="#80a8f5" font-size="21" font-weight="700">COMPOSANT INTROUVABLE</text>
+<text x="72" y="424" fill="#eaf0ff" font-size="24">L’équipe documente</text>
+<text x="72" y="460" fill="#eaf0ff" font-size="24">où chercher l’existant.</text>
+<text x="72" y="514" fill="#adc1df" font-size="22">Elle précise la procédure</text>
+<text x="72" y="546" fill="#adc1df" font-size="22">de préparation du plan.</text>
+<text x="452" y="378" fill="#80a8f5" font-size="21" font-weight="700">ACTION INTERDITE TENTÉE</text>
+<text x="452" y="424" fill="#eaf0ff" font-size="24">Les développeurs</text>
+<text x="452" y="460" fill="#eaf0ff" font-size="24">examinent les contrôles.</text>
+<text x="452" y="514" fill="#adc1df" font-size="22">Droits côté services</text>
+<text x="452" y="546" fill="#adc1df" font-size="22">et blocages avant l’action</text>
+<text x="832" y="378" fill="#80a8f5" font-size="21" font-weight="700">RÈGLE MÉTIER MANQUANTE</text>
+<text x="832" y="424" fill="#eaf0ff" font-size="24">Le responsable métier</text>
+<text x="832" y="460" fill="#eaf0ff" font-size="24">prend une décision.</text>
+<text x="832" y="514" fill="#adc1df" font-size="22">L’équipe la traduit en règle</text>
+<text x="832" y="546" fill="#adc1df" font-size="22">et en comportement attendu.</text>
+<path d="M220 578 V606 H980 V578 M600 606 V634" fill="none" stroke="#80a8f5" stroke-width="3" marker-end="url(#a)"/>
+<path d="M600 578 V606" fill="none" stroke="#80a8f5" stroke-width="3"/>
+<rect x="160" y="648" width="880" height="100" rx="16" fill="#111f35" stroke="#e7b568" stroke-width="2"/>
+<text x="600" y="689" text-anchor="middle" fill="#e7b568" font-size="25" font-weight="700">L’ÉQUIPE REJOUE LES CAS CONCERNÉS</text>
+<text x="600" y="725" text-anchor="middle" fill="#adc1df" font-size="22">Elle compare le résultat attendu aux actions et aux réponses observées.</text>
+<text x="48" y="790" fill="#adc1df" font-size="20">Exemples de diagnostic : plusieurs causes et plusieurs corrections peuvent se combiner.</text>
+</g></svg>

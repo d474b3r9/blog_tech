@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" viewBox="0 0 1200 780" role="img" aria-labelledby="title desc">
+<title id="title">Relier une consigne à son contrôle</title>
+<desc id="desc">Scénario fictif de réponse client. L’équipe écrit la règle. Les développeurs contrôlent les droits du compte et l’approbation du message dans les services. Pour la conservation des réserves, l’équipe évalue le contenu produit sur des cas représentatifs. Ces vérifications portent sur des propriétés différentes.</desc>
+<defs><marker id="a" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#80a8f5" stroke-width="2"/></marker></defs>
+<rect width="1200" height="780" rx="22" fill="#0a1220"/>
+<g font-family="Segoe UI,Arial,sans-serif">
+<text x="48" y="60" fill="#e7b568" font-size="22" font-weight="700">SCÉNARIO FICTIF · PRÉPARER UNE RÉPONSE CLIENT</text>
+<text x="48" y="114" fill="#eaf0ff" font-size="36" font-weight="700">À chaque règle, une vérification adaptée</text>
+<text x="72" y="171" fill="#adc1df" font-size="22">CE QUE L’ÉQUIPE DEMANDE</text>
+<text x="556" y="171" fill="#adc1df" font-size="22">QUI CONTRÔLE, ET QUOI ?</text>
+<rect x="48" y="196" width="430" height="136" rx="16" fill="#111f35" stroke="#35547f"/>
+<rect x="532" y="196" width="620" height="136" rx="16" fill="#111f35" stroke="#e7b568"/>
+<path d="M482 264 H522" stroke="#80a8f5" stroke-width="3" marker-end="url(#a)"/>
+<text x="72" y="246" fill="#eaf0ff" font-size="26">« Consulter les données</text>
+<text x="72" y="284" fill="#eaf0ff" font-size="26">du bon compte. »</text>
+<text x="556" y="238" fill="#e7b568" font-size="24" font-weight="700">LE SERVICE VÉRIFIE LES DROITS</text>
+<text x="556" y="279" fill="#eaf0ff" font-size="24">Identité et compte autorisé</text>
+<text x="556" y="311" fill="#adc1df" font-size="20">Il refuse l’accès hors du périmètre prévu.</text>
+<rect x="48" y="356" width="430" height="136" rx="16" fill="#111f35" stroke="#35547f"/>
+<rect x="532" y="356" width="620" height="136" rx="16" fill="#111f35" stroke="#e7b568"/>
+<path d="M482 424 H522" stroke="#80a8f5" stroke-width="3" marker-end="url(#a)"/>
+<text x="72" y="406" fill="#eaf0ff" font-size="26">« Faire valider le message</text>
+<text x="72" y="444" fill="#eaf0ff" font-size="26">avant l’envoi. »</text>
+<text x="556" y="398" fill="#e7b568" font-size="24" font-weight="700">LE SERVICE EXIGE L’APPROBATION</text>
+<text x="556" y="439" fill="#eaf0ff" font-size="24">Pour ce contenu et ce destinataire</text>
+<text x="556" y="471" fill="#adc1df" font-size="20">Il bloque l’envoi sans validation valable.</text>
+<rect x="48" y="516" width="430" height="136" rx="16" fill="#111f35" stroke="#35547f"/>
+<rect x="532" y="516" width="620" height="136" rx="16" fill="#111f35" stroke="#80a8f5"/>
+<path d="M482 584 H522" stroke="#80a8f5" stroke-width="3" marker-end="url(#a)"/>
+<text x="72" y="566" fill="#eaf0ff" font-size="26">« Conserver les réserves</text>
+<text x="72" y="604" fill="#eaf0ff" font-size="26">dans la réponse. »</text>
+<text x="556" y="558" fill="#80a8f5" font-size="24" font-weight="700">L’ÉQUIPE ÉVALUE LE CONTENU</text>
+<text x="556" y="599" fill="#eaf0ff" font-size="24">Cas représentatifs et relecture</text>
+<text x="556" y="631" fill="#adc1df" font-size="20">Elle recherche les omissions et les reformulations fausses.</text>
+<text x="48" y="712" fill="#eaf0ff" font-size="24">Les développeurs doivent implémenter et tester les contrôles des services.</text>
+<text x="48" y="748" fill="#adc1df" font-size="20">L’équipe doit encore examiner la justesse de la réponse, même si l’envoi est autorisé.</text>
+</g></svg>

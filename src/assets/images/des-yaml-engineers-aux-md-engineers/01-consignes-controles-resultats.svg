@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="730" viewBox="0 0 1200 730" role="img" aria-labelledby="title desc">
+<title id="title">Des consignes aux résultats : qui fait quoi ?</title>
+<desc id="desc">L’équipe décrit le travail dans ses fichiers Markdown. L’agent propose une action. Les outils contrôlent les droits et l’approbation, puis autorisent ou refusent l’action. L’équipe examine les résultats, y compris les refus, et corrige les consignes ou les contrôles.</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 1 L8 5 L0 9" fill="none" stroke="#80a8f5" stroke-width="2"/></marker></defs>
+<rect width="1200" height="730" rx="22" fill="#0a1220"/>
+<g font-family="Segoe UI, Arial, sans-serif">
+<text x="48" y="62" fill="#e7b568" font-size="22" font-weight="700">DES YAML ENGINEERS AUX MD ENGINEERS</text>
+<text x="48" y="116" fill="#eaf0ff" font-size="34" font-weight="700">Décrire le travail, contrôler l’action, évaluer le résultat</text>
+<rect x="48" y="170" width="344" height="255" rx="18" fill="#111f35" stroke="#35547f" stroke-width="2"/>
+<rect x="428" y="170" width="344" height="255" rx="18" fill="#111f35" stroke="#35547f" stroke-width="2"/>
+<rect x="808" y="170" width="344" height="255" rx="18" fill="#111f35" stroke="#e7b568" stroke-width="2"/>
+<path d="M395 290 H419" stroke="#80a8f5" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M775 290 H799" stroke="#80a8f5" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="72" y="216" fill="#e7b568" font-size="24" font-weight="700">L’ÉQUIPE DÉCRIT</text>
+<text x="72" y="266" fill="#eaf0ff" font-size="24">Consignes Markdown</text>
+<text x="72" y="310" fill="#adc1df" font-size="22">Contexte et composants</text>
+<text x="72" y="347" fill="#adc1df" font-size="22">Procédure et exceptions</text>
+<text x="72" y="392" fill="#adc1df" font-size="20">Ce qu’on demande à l’agent</text>
+<text x="452" y="216" fill="#80a8f5" font-size="24" font-weight="700">L’AGENT PROPOSE</text>
+<text x="452" y="266" fill="#eaf0ff" font-size="24">Interprétation du contexte</text>
+<text x="452" y="310" fill="#adc1df" font-size="22">Plan et appel d’un outil</text>
+<text x="452" y="347" fill="#adc1df" font-size="22">Paramètres de l’action</text>
+<text x="452" y="392" fill="#adc1df" font-size="20">À confronter aux règles</text>
+<text x="832" y="216" fill="#e7b568" font-size="24" font-weight="700">LES OUTILS CONTRÔLENT</text>
+<text x="832" y="266" fill="#eaf0ff" font-size="24">Droits et approbation</text>
+<text x="832" y="310" fill="#adc1df" font-size="22">Autoriser ou refuser</text>
+<text x="832" y="347" fill="#adc1df" font-size="22">Exécuter si autorisé</text>
+<text x="832" y="392" fill="#adc1df" font-size="20">Conserver l’état de l’opération</text>
+<path d="M980 428 V473" stroke="#80a8f5" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="48" y="486" width="1104" height="152" rx="18" fill="#111f35" stroke="#e7b568" stroke-width="2"/>
+<text x="72" y="530" fill="#e7b568" font-size="26" font-weight="700">L’ÉQUIPE EXAMINE LE RÉSULTAT ET LES REFUS</text>
+<text x="72" y="574" fill="#eaf0ff" font-size="24">Cas attendus · Relecture · Corrections des consignes ou des contrôles</text>
+<text x="72" y="612" fill="#adc1df" font-size="22">Une action autorisée peut encore produire un résultat erroné.</text>
+<text x="48" y="690" fill="#adc1df" font-size="20">Exemple de conception : l’équipe doit implémenter et tester les contrôles représentés.</text>
+</g></svg>
