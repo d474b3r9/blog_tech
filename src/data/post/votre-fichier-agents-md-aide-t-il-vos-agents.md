@@ -2,9 +2,10 @@
 title: 'Votre fichier AGENTS.md aide-t-il vos agents ?'
 excerpt: 'Deux études ont comparé les correctifs produits avec et sans consignes dans le dépôt. Quels tickets les agents résolvent-ils, avec quel modèle et à quel coût ?'
 publishDate: 2026-11-23T03:00:00Z
+updateDate: 2026-11-23T05:50:35Z
 draft: false
 image: ~/assets/images/votre-fichier-agents-md-aide-t-il-vos-agents/agents-md.png
-imageAlt: 'Essais réussis sans puis avec consignes : Claude Code passe de 24 à 25 sur 45, Codex CLI de 30 à 29 sur 51.'
+imageAlt: 'Sur fond bleu nuit, un fantôme jaune en pixels entre deux crochets accompagne le titre « Le fantôme de ma config » et le badge [CAVEMAN].'
 category: Data
 tags: [agents, data-engineering, context-engineering]
 author: Jonathan Cattelain
@@ -53,6 +54,6 @@ L’équipe d’Organized AI transpose cette idée au dépôt. Au prochain chang
 
 Pour mon connecteur, je repartirais du dépôt tel qu’il était avant ma revue. Même ticket, même modèle, une conversation neuve à chaque essai. Je lui demanderais plusieurs fois un plan, avec puis sans la phrase « Cherche un connecteur existant avant d’en créer un ». À la relecture, je regarderais s’il nomme le bon connecteur et s’il explique en quoi celui-ci convient à la source. Je glisserais aussi un ticket où le connecteur existant ne convient pas. Si ma règle évite un doublon mais pousse l’agent à réutiliser le mauvais composant, j’aimerais le savoir avant de la laisser dans mon `AGENTS.md`.
 
-Sur ce point-là, je suis loin d’être un exemple. Je trouve mon harnais plutôt bien fichu. J’avais activé Caveman en avril 2026 et cet été, il tournait encore. À force de le bidouiller, j’obtenais des réponses tout à fait correctes, jusque dans les commentaires sur GitHub. À les lire, j’aurais eu du mal à deviner que Caveman était derrière. J’avais pourtant `[CAVEMAN]` sous les yeux dans la [ligne de statut de Claude Code](https://github.com/JuliusBrussee/caveman/blob/56875e883fe1a5a855f790e566f8a780efc93f09/hooks/caveman-statusline.sh). Et ça faisait belle lurette qu’il ne me servait plus à rien.
+Sur ce point-là, je suis loin d’être un exemple. Je trouve mon harnais plutôt bien fichu. J’avais activé Caveman en avril 2026 et cet été, il tournait encore. À force de le bidouiller, j’obtenais des réponses tout à fait correctes, jusque dans les commentaires sur GitHub. À les lire, j’aurais eu du mal à deviner que Caveman était derrière. J’avais pourtant `[CAVEMAN]` en énorme et en jaune sous les yeux à chaque prompt, dans la [ligne de statut de Claude Code](https://github.com/JuliusBrussee/caveman/blob/56875e883fe1a5a855f790e566f8a780efc93f09/hooks/caveman-statusline.sh). Et ça faisait belle lurette qu’il ne me servait plus à rien.
 
 On a tous des fantômes dans nos placards. Le mien s’appelait Caveman. Et vous, quel vieux réglage traîne encore dans le vôtre ?
